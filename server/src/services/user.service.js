@@ -7,7 +7,7 @@ import { generateToken } from "../utils/JWT.js"
 export const register = async(data)=>{
     const userExist = await findUserByEmail(data.email) 
     if(userExist){
-        throw new ApiError( "Email already exists")
+        throw new ApiError(409, "Email already exists")
     }
     const hashedPassword = await bcrypt.hash(data.password,10)
     const newUser =  repo.createUser(
