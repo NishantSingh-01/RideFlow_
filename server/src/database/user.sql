@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS users (
       DEFAULT 'rider',
     profile_photo TEXT DEFAULT '',
     socket_id VARCHAR(255),
-    created_at TIMESTAMP NOW() ,
-    updated_at TIMESTAMP NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
 )

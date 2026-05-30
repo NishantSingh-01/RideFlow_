@@ -1,15 +1,22 @@
 import { z } from "zod"
 
+import { z } from "zod"
+
 const registerSchema = z.object({
     firstname: z
         .string()
+        .trim()
         .min(3, "Firstname must be at least 3 characters"),
 
     lastname: z
         .string()
-        .min(3, "Lastname must be at least 3 characters"),
+        .trim()
+        .optional(),
 
     email: z
+        .string()
+        .trim()
+        .toLowerCase()
         .email("Invalid email address"),
 
     password: z
@@ -17,8 +24,8 @@ const registerSchema = z.object({
         .min(6, "Password must be at least 6 characters"),
 
     role: z
-        .enum(["user", "admin"])
-        .default("user")
+        .enum(["rider", "driver", "admin"])
+        .default("rider")
 })
 
 const loginSchema = z.object({
