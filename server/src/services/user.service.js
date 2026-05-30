@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/JWT.js"
 
 
-const register = async(data)=>{
+export const register = async(data)=>{
     const userExist = await findUserByEmail(data.email) 
     if(userExist){
         throw new ApiError( "Email already exists")
@@ -17,10 +17,48 @@ const register = async(data)=>{
       hashedPassword,
       data.role
     )
-    const token = generateToken({}) //TODO
+    const token = generateToken({
+        id: user.id,
+        email: user.email,
+        role: user.role
+    })
+     return {
+        user: {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            role: user.role
+        },
+        token
+    }
+}
+export const login = async (email, password) => {
+    const user = await findUserByEmail(email)
+    if (!user) {
+        throw new ApiError(401, "Invalid email or password")
+    }
 
+    const isPasswordValid = await bcrypt.compare(
+        password,
+        user.password
+    )
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid email or password")
+    }
+    const token = generateToken({
+        id: user.id,
+        email: user.email,
+        role: user.role
+    })
     return {
-    user: newUser,
-    token,
-  }
+        user: {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            role: user.role
+        },
+        token
+    }
 }
