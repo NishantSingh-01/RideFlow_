@@ -1,6 +1,5 @@
 import express, { Router } from 'express'
 const router = Router() 
-import {body} from 'express-validator'
 
 router.post('/register',[
     body('email').isEmail().withMessage('Invalid Email'),
