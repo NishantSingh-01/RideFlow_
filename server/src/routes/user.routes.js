@@ -1,11 +1,18 @@
 import express, { Router } from 'express'
+import validate from '../middleware/validate.middleware.js'
+import { loginSchema, registerSchema } from '../validators/user.validator.js'
+import { login, register } from '../controllers/user.controller.js'
 const router = Router() 
 
-router.post('/register',[
-    body('email').isEmail().withMessage('Invalid Email'),
-    body('fullname.firstname').isLength({min :3}).withMessage('First name must be 3 character long'),
-    body('password').isLength({min :6}).withMessage('Passsword  must be 6 character long'),
-
-])
+router.post(
+    "/register",
+    validate(registerSchema),
+    register
+)
+router.post(
+    "/login",
+    validate(loginSchema),
+    login
+)
 
 export default router
