@@ -2,9 +2,11 @@ import dotenv from 'dotenv'
 import app from '../src/app.js'
 dotenv.config()
 import {pool,connectDB} from './config/db.js'
+import createUsersTable from './database/Initdb.js'
 
 connectDB()
 
+createUsersTable()
 app.listen(process.env.PORT,()=>{
     console.log(`The Server is Running ${process.env.PORT}`)
 })

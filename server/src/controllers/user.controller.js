@@ -1,5 +1,5 @@
 import asyncHandler from "../utils/asyncHandler.js"
-import * as authService from "../services/auth.service.js"
+import * as authService from '../services/user.service.js'
 import ApiResponse from "../utils/apiresponse.js"
 
 const register = asyncHandler(async (req, res) => {
@@ -23,4 +23,5 @@ const login = asyncHandler(async (req, res) => {
         )
     )
 })
+
 export {register,login}

@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { z } from "zod"
-
 const registerSchema = z.object({
     firstname: z
         .string()
