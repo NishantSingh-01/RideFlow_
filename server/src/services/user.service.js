@@ -3,26 +3,27 @@ import ApiError from "../utils/apierror.js"
 import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/JWT.js"
 import * as repo from '../repositories/user.repositories.js'
+import { pool } from "../config/db.js"
 
-export const register = async(data)=>{
-    const user = await findUserByEmail(data.email) 
-    if(user){
+export const register = async (data) => {
+    const user = await findUserByEmail(data.email)
+    if (user) {
         throw new ApiError(409, "Email already exists")
     }
-    const hashedPassword = await bcrypt.hash(data.password,10)
+    const hashedPassword = await bcrypt.hash(data.password, 10)
     const newUser = await repo.createUser(
-      data.firstname,
-      data.lastname,
-      data.email, 
-      hashedPassword,
-      data.role
+        data.firstname,
+        data.lastname,
+        data.email,
+        hashedPassword,
+        data.role
     )
     const token = generateToken({
         id: newUser.id,
         email: newUser.email,
         role: newUser.role
     })
-     return {
+    return {
         user: {
             id: newUser.id,
             firstname: newUser.firstname,
@@ -61,4 +62,19 @@ export const login = async (data) => {
         },
         token
     }
+}
+export const getUser = async (userId) => {
+    const result = await pool.query(
+        `
+        SELECT id, firstname, lastname, email, role, profile_photo, created_at
+        FROM users
+        WHERE id = $1
+        `,
+        [userId]
+    )
+    const user = result.rows[0]
+    if (!user) {
+        throw new ApiError(404, "User not found")
+    }
+    return user
 }
