@@ -16,7 +16,6 @@ const createUsersTable = async () => {
         )
     `)
 
-    console.log("Users table ready")
+    // console.log("Users table ready")
 }
-
 export default createUsersTable

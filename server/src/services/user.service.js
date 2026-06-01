@@ -37,7 +37,6 @@ export const login = async (data) => {
     if (!user) {
         throw new ApiError(401, "Invalid email or password")
     }
-    console.log(user.password)
     const isPasswordValid = await bcrypt.compare(
         data.password,
         user.password

@@ -1,4 +1,8 @@
-CREATE TABLE IF NOT EXISTS captains (
+import { pool } from "../config/db.js"
+
+const createCaptainsTable = async () => {
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS captains (
     id SERIAL PRIMARY KEY,
 
     firstname VARCHAR(100) NOT NULL,
@@ -26,3 +30,9 @@ CREATE TABLE IF NOT EXISTS captains (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
+    `)
+
+    // console.log("captian table ready")
+}
+
+export default createCaptainsTable
