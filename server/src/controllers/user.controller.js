@@ -4,6 +4,12 @@ import ApiResponse from "../utils/apiresponse.js"
 
 const register = asyncHandler(async (req, res) => {
     const result = await authService.register(req.body)
+    const token = result.token
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    })
     return res.status(201).json(
         new ApiResponse(
             201,
@@ -15,10 +21,17 @@ const register = asyncHandler(async (req, res) => {
 const login = asyncHandler(async (req, res) => {
     const result = await authService.login(req.body)
 
+    const token = result.token
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    })
+
     return res.status(200).json(
         new ApiResponse(
             200,
-            result,
+            result.user,
             "User logged in successfully"
         )
     )
@@ -36,5 +49,13 @@ const getUser = asyncHandler(async (req, res) => {
         )
     )
 })
-
-export {register,login,getUser}
+const logout = asyncHandler(async (req, res) => {
+   res.clearCookie("token")
+   return res.status(200).json(
+        new ApiResponse(
+            200,
+            "User Logout successfully"
+        )
+    )
+})
+export { register, login, getUser,logout }

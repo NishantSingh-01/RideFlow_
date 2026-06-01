@@ -5,8 +5,7 @@ import { pool } from "../config/db.js"
 
 
  const verifyJWT =  asyncHandler(async(req,res,next)=>{
-       const token = req.cookies?.accesstoken || req.header("Authorization")?.replace("Bearer ", "")
-       console.log(token)
+       const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "")
        if(!token){
         throw new ApiError(401,"Unauthorized request" )
        }
