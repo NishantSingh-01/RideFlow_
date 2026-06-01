@@ -16,12 +16,10 @@ export const register = async (data) => {
         data.lastname,
         data.email,
         hashedPassword,
-        data.role
     )
     const token = generateToken({
         id: newUser.id,
-        email: newUser.email,
-        role: newUser.role
+        email: newUser.email
     })
     return {
         user: {
@@ -29,7 +27,7 @@ export const register = async (data) => {
             firstname: newUser.firstname,
             lastname: newUser.lastname,
             email: newUser.email,
-            role: newUser.role
+           
         },
         token
     }
@@ -49,8 +47,7 @@ export const login = async (data) => {
     }
     const token = generateToken({
         id: user.id,
-        email: user.email,
-        role: user.role
+        email: user.email
     })
    
     return {
@@ -59,7 +56,6 @@ export const login = async (data) => {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
-            role: user.role
         },
         token
     }
@@ -67,7 +63,7 @@ export const login = async (data) => {
 export const getUser = async (userId) => {
     const result = await pool.query(
         `
-        SELECT id, firstname, lastname, email, role, profile_photo, created_at
+        SELECT id, firstname, lastname, email, profile_photo, created_at
         FROM users
         WHERE id = $1
         `,

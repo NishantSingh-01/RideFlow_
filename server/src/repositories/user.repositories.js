@@ -1,14 +1,14 @@
 import { pool } from "../config/db.js"
 
 
-const createUser = async (firstname, lastname, email, password,role) => {
+const createUser = async (firstname, lastname, email, password) => {
     const result = await pool.query(
         `
-         INSERT INTO users(firstname,lastname,email,password,role)
-         VALUES($1,$2,$3,$4,$5)
-         RETURNING id, firstname, lastname, email, role, created_at
+         INSERT INTO users(firstname,lastname,email,password)
+         VALUES($1,$2,$3,$4)
+         RETURNING id, firstname, lastname, email, created_at
          `
-        , [firstname, lastname, email, password,role])
+        , [firstname, lastname, email, password])
 
     return result.rows[0]
 }
