@@ -4,7 +4,7 @@ import ApiError from "../utils/apierror.js"
 import { pool } from "../config/db.js"
 
 
- const verifyJWT =  asyncHandler(async(req,res,next)=>{
+ const verifyUserJWT  =  asyncHandler(async(req,res,next)=>{
        const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "")
        if(!token){
         throw new ApiError(401,"Unauthorized request" )
@@ -12,7 +12,7 @@ import { pool } from "../config/db.js"
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         const result = await pool.query(
-            `SELECT id, firstname, lastname, email
+            `SELECT id, firstname, lastname, email,socket_id ,created_at
              FROM users
              WHERE id = $1`,
             [decoded.id]
@@ -25,4 +25,4 @@ import { pool } from "../config/db.js"
         next()
  })
 
-export default verifyJWT
+export default verifyUserJWT 

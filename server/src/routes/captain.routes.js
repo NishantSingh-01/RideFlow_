@@ -1,7 +1,6 @@
 import express, { Router } from 'express'
 import validate from '../middleware/validate.middleware.js'
 
-import verifyJWT from '../middleware/auth.middleware.js'
 const router = Router() 
 
 // router.post(
