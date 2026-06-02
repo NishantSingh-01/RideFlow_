@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 const app = express() 
 import userRouter from '../src/routes/user.routes.js'
+import captainRouter from './routes/captain.routes.js'
 app.use(cors({
     origin: "*"
 }))
@@ -18,6 +19,6 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 app.use('/api/v1/auth',userRouter)
-
+app.use('/api/v1/captain',captainRouter)
 
 export default app

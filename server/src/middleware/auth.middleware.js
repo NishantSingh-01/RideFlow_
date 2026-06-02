@@ -12,7 +12,7 @@ import { pool } from "../config/db.js"
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         const result = await pool.query(
-            `SELECT id, firstname, lastname, email, role
+            `SELECT id, firstname, lastname, email
              FROM users
              WHERE id = $1`,
             [decoded.id]

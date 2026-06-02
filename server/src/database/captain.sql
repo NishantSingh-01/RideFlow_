@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS captains (
 
     status VARCHAR(20)
         CHECK (status IN ('active', 'inactive'))
-        DEFAULT 'active',
+        DEFAULT 'inactive',
 
     color VARCHAR(50) NOT NULL,
     plate VARCHAR(20) UNIQUE NOT NULL,
