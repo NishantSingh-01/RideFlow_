@@ -2,7 +2,7 @@ import bcrypt from "bcrypt"
 import ApiError from "../utils/apierror.js"
 import { generateToken } from "../utils/JWT.js"
 import { pool } from "../config/db.js"
-import { createCaptain, findCaptainByEmail } from "../repositories/captain.repositories.js"
+import { createCaptain, findCaptainByEmail, findCaptainById } from "../repositories/captain.repositories.js"
 
 
 export const register = async (data) => {
@@ -26,7 +26,7 @@ export const register = async (data) => {
         email: newUser.email
     })
     return {
-    user: {
+    captain: {
         id: newUser.id,
         firstname: newUser.firstname,
         lastname: newUser.lastname,
@@ -41,33 +41,43 @@ export const register = async (data) => {
 }
 
 export const login = async (data) => {
-    const user = await findCaptainByEmail(data.email)
-    if (!user) {
+    const captain = await findCaptainByEmail(data.email)
+    if (!captain) {
         throw new ApiError(401, "Invalid email or password")
     }
     const isPasswordValid = await bcrypt.compare(
         data.password,
-        user.password
+        captain.password
     )
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid email or password")
     }
     const token = generateToken({
-        id: user.id,
-        email: user.email
+        id: captain.id,
+        email: captain.email
     })
 
     return {
-        user: {
-            id: user.id,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email,
-            vehicle_color: user.color,
-            vehicle_plate: user.plate,
-            vehicle_capacity: user.capacity,
-            vehicle_type: user.vehicle_type
+        captain: {
+            id: captain.id,
+            firstname: captain.firstname,
+            lastname: captain.lastname,
+            email: captain.email,
+            vehicle_color: captain.color,
+            vehicle_plate: captain.plate,
+            vehicle_capacity: captain.capacity,
+            vehicle_type: captain.vehicle_type
         },
         token
     }
+}
+
+export const getCaptain = async (captainId) => {
+    const captain = await findCaptainById(captainId)
+
+    if (!captain) {
+        throw new ApiError(404, "Captain not found")
+    }
+
+    return captain
 }
