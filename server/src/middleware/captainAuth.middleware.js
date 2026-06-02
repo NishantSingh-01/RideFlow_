@@ -24,9 +24,9 @@ const verifyCaptainJWT = asyncHandler(async (req, res, next) => {
             plate,
             capacity,
             vehicle_type,
-            status
+            status,
             latitude,
-            longitude,
+            longitude
         FROM captains
         WHERE id = $1
         `,

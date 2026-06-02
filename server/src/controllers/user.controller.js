@@ -1,9 +1,9 @@
 import asyncHandler from "../utils/asyncHandler.js"
-import * as CaptainService from '../services/captian.service.js'
+import * as authService from '../services/user.service.js'
 import ApiResponse from "../utils/apiresponse.js"
 
 const register = asyncHandler(async (req, res) => {
-    const result = await CaptainService.register(req.body)
+    const result = await authService.register(req.body)
     const token = result.token
     res.cookie("token", token, {
         httpOnly: true,
@@ -14,12 +14,12 @@ const register = asyncHandler(async (req, res) => {
         new ApiResponse(
             201,
             result,
-            "Captain registered successfully"
+            "User registered successfully"
         )
     )
 })
 const login = asyncHandler(async (req, res) => {
-    const result = await CaptainService.login(req.body)
+    const result = await authService.login(req.body)
 
     const token = result.token
     res.cookie("token", token, {
@@ -32,13 +32,14 @@ const login = asyncHandler(async (req, res) => {
         new ApiResponse(
             200,
             result.user,
-            "Captain logged in successfully"
+            "User logged in successfully"
         )
     )
 })
 const getUser = asyncHandler(async (req, res) => {
     const userId = req.user.id
-    const user = await CaptainService.getUser(userId)
+
+    const user = await authService.getUser(userId)
 
     return res.status(200).json(
         new ApiResponse(
