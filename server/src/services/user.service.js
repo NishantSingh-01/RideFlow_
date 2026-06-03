@@ -27,7 +27,7 @@ export const register = async (data) => {
             firstname: newUser.firstname,
             lastname: newUser.lastname,
             email: newUser.email,
-           
+
         },
         token
     }
@@ -48,7 +48,7 @@ export const login = async (data) => {
         id: user.id,
         email: user.email
     })
-   
+
     return {
         user: {
             id: user.id,
@@ -60,15 +60,8 @@ export const login = async (data) => {
     }
 }
 export const getUser = async (userId) => {
-    const result = await pool.query(
-        `
-        SELECT id, firstname, lastname, email, profile_photo, created_at
-        FROM users
-        WHERE id = $1
-        `,
-        [userId]
-    )
-    const user = result.rows[0]
+
+    const user = await repo.findUserById(userId)
     if (!user) {
         throw new ApiError(404, "User not found")
     }

@@ -27,19 +27,7 @@ const findCaptainById = async (id) => {
     const result = await pool.query(
         `
         SELECT
-            id,
-            firstname,
-            lastname,
-            email,
-            color,
-            plate,
-            capacity,
-            vehicle_type,
-            status,
-            latitude,
-            longitude,
-            created_at,
-            updated_at
+            id, firstname,  lastname, email,color,plate, capacity,vehicle_type,status,latitude,longitude,created_at,updated_at
         FROM captains
         WHERE id = $1
         `,
@@ -49,4 +37,4 @@ const findCaptainById = async (id) => {
     return result.rows[0]
 }
 
-export { createCaptain, findCaptainByEmail,findCaptainById }
+export { createCaptain, findCaptainByEmail, findCaptainById }
