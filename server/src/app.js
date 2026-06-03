@@ -5,9 +5,9 @@ const app = express()
 import userRouter from '../src/routes/user.routes.js'
 import captainRouter from './routes/captain.routes.js'
 app.use(cors({
-    origin: "*"
+    origin: process.env.CORS
 }))
-
+console.log(process.env.CORS)
 app.use(express.json({
     limit: "16kb"
 }))
