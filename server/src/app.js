@@ -21,4 +21,13 @@ app.use(cookieParser())
 app.use('/api/v1/auth',userRouter)
 app.use('/api/v1/captain',captainRouter)
 
+
+//global error handler 
+app.use((err, req, res, next) => {
+  console.error(err)
+  return res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error"
+  })
+})
 export default app

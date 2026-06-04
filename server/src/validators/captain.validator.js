@@ -62,7 +62,7 @@ const loginCaptainSchema = z.object({
 
     password: z
         .string()
-        .min(1, "Password is required")
+        .min(6, "Password length must e 6 character")
 })
 
 export {

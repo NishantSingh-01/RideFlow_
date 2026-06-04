@@ -3,7 +3,7 @@ import React from 'react'
 const Navbar = () => {
     return (
         <div className='h-16 pl-10 pr-15 fixed top-0 left-0 text-white w-screen flex justify-between items-center bg-black '>
-            <div className='flex pl-15 gap-5 items-center'>
+            <div className='flex pl-15 gap-6 items-center'>
                 <div className="text-white text-xl font-medium flex items-center ">
                     RideFlow
                 </div>

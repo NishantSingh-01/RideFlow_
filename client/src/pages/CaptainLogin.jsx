@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -12,21 +13,27 @@ const CaptainLogin = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     setLoading(true)
-
+    const data = {
+      email,
+      password,
+    }
     try {
-      navigate('/')
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/captain/login`, data)
+      console.log(response.data)
 
-      toast.success('Login successful!')
-      console.log("login successful")
-
-
+      toast.success('Registration successful!')
       setEmail("")
       setPassword("")
+
+      navigate('/')
     } catch (error) {
-      toast.error('Login failed')
+      console.error(error)
+      toast.error(
+        error.response?.data?.message || "captain login failed"
+      )
     }
     finally {
-      setLoading(true)
+      setLoading(false)
     }
 
 
@@ -49,6 +56,8 @@ const CaptainLogin = () => {
         <input
           id="email" required
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="example@gmail.com"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
         />
@@ -60,6 +69,8 @@ const CaptainLogin = () => {
         <input
           id="password" required
           type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Your Password"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
         />

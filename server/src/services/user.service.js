@@ -35,14 +35,14 @@ export const register = async (data) => {
 export const login = async (data) => {
     const user = await findUserByEmail(data.email)
     if (!user) {
-        throw new ApiError(401, "Invalid email or password")
+        throw new ApiError(401, "Invalid email ")
     }
     const isPasswordValid = await bcrypt.compare(
         data.password,
         user.password
     )
     if (!isPasswordValid) {
-        throw new ApiError(401, "Invalid email or password")
+        throw new ApiError(401, "Invalid  password")
     }
     const token = generateToken({
         id: user.id,

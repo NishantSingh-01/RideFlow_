@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -7,18 +8,32 @@ const UserLogin = () => {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const submitHandler = async(e) => {
-     e.preventDefault()
-     try {
-       navigate('/')
-       toast.success('Login successful!')
-       console.log("login succesfull")
-         setEmail("")
-    setPassword("") 
-     } catch (error) {
-      
-     }
-  
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    const data = {
+      email,
+      password,
+    }
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, data)
+      console.log(response.data)
+
+      toast.success('Registration successful!')
+      setEmail("")
+      setPassword("")
+
+      navigate('/')
+    } catch (error) {
+      console.error(error)
+      toast.error(
+        error.response?.data?.message || "login failed"
+      )
+    }
+    finally {
+      setLoading(false)
+    }
+
   }
   return (
     <div className="h-screen w-screen flex justify-center ">
@@ -34,6 +49,8 @@ const UserLogin = () => {
         <input
           id="email" required
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="example@gmail.com"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
         />
@@ -45,6 +62,8 @@ const UserLogin = () => {
         <input
           id="password" required
           type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Your Password"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
         />
@@ -53,7 +72,7 @@ const UserLogin = () => {
           type="submit"
           className="bg-black mt-6 text-white p-3 rounded-md hover:bg-gray-900"
         >
-          Login
+          {loading ? "Loging......." : "Login"}
         </button>
         <p className='pl-2'>Create Account as User <Link to='/register' className='underline text-blue-400'>Sign up</Link></p>
 

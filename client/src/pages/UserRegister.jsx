@@ -1,28 +1,32 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import axios from "axios"
+
 
 const UserRegister = () => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const submitHandler = async (e) => {
     e.preventDefault()
-
+    setLoading(true)
+    const data = {
+      firstname: firstName,
+      lastname: lastName,
+      email,
+      password,
+    }
     try {
-      console.log({
-        firstName,
-        lastName,
-        email,
-        password
-      })
+
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, data)
+      console.log(response.data)
 
       toast.success('Registration successful!')
-
       setFirstName("")
       setLastName("")
       setEmail("")
@@ -30,12 +34,17 @@ const UserRegister = () => {
 
       navigate('/')
     } catch (error) {
-      toast.error('Registration failed')
+      console.error(error)
+      toast.error(
+        error.response?.data?.message || "Registration failed"
+      )
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <div className="h-screen w-screen flex justify-center mt-8">
+    <div className="h-screen w-screen flex justify-center mt-3">
       <form
         onSubmit={submitHandler}
         className="p-8 rounded-lg shadow-md flex flex-col gap-4 w-[450px]"
@@ -68,7 +77,7 @@ const UserRegister = () => {
           </div>
         </div>
 
-        <label  htmlFor="email" className="font-medium">
+        <label htmlFor="email" className="font-medium">
           Enter your Email
         </label>
 
@@ -100,7 +109,7 @@ const UserRegister = () => {
           type="submit"
           className="bg-black mt-4 text-white p-3 rounded-md hover:bg-gray-900"
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <p className="text-center">
@@ -112,6 +121,11 @@ const UserRegister = () => {
             Login
           </Link>
         </p>
+        <div className="fixed bottom-0 left-0 w-full bg-black text-white p-4 text-center">
+          <p className="text-sm">
+            By proceeding, you agree to RideFlow's Terms of Service and Privacy Policy.
+          </p>
+        </div>
       </form>
     </div>
   )
