@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const UserLogin = () => {
@@ -13,11 +13,12 @@ const UserLogin = () => {
        navigate('/')
        toast.success('Login successful!')
        console.log("login succesfull")
+         setEmail("")
+    setPassword("") 
      } catch (error) {
       
      }
-    setEmail("")
-    setPassword("") 
+  
   }
   return (
     <div className="h-screen w-screen flex justify-center ">
@@ -31,7 +32,7 @@ const UserLogin = () => {
         </label>
 
         <input
-          id="email"
+          id="email" required
           type="email"
           placeholder="example@gmail.com"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
@@ -42,7 +43,7 @@ const UserLogin = () => {
         </label>
 
         <input
-          id="password"
+          id="password" required
           type="password"
           placeholder="Your Password"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
@@ -54,11 +55,13 @@ const UserLogin = () => {
         >
           Login
         </button>
+        <p className='pl-2'>Create Account as User <Link to='/register' className='underline text-blue-400'>Sign up</Link></p>
+
         <div className="mt-auto mb-3">
           <button
             type="button"
             onClick={() => { navigate('/captain-login') }}
-            className="w-full bg-green-600 text-white p-3 rounded-md"
+            className="w-full bg-orange-600 text-white p-3 rounded-md"
           >
             Login as Captain
           </button>

@@ -37,7 +37,7 @@ const Home = () => {
           <img
             src="https://plus.unsplash.com/premium_vector-1725948286385-960183060815?q=80&w=2064&auto=format&fit=crop"
             alt="RideFlow"
-            className="w-[350px] md:w-[500px] rounded-2xl shadow-xl"
+            className="w-[350px] md:w-[600px] rounded-2xl shadow-xl"
           />
         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const CaptainLogin = () => {
@@ -43,11 +43,11 @@ const CaptainLogin = () => {
         </div>
 
         <label htmlFor="email" className="font-medium">
-          Enter your Email
+          Enter Captain's Email
         </label>
 
         <input
-          id="email"
+          id="email" required
           type="email"
           placeholder="example@gmail.com"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
@@ -58,7 +58,7 @@ const CaptainLogin = () => {
         </label>
 
         <input
-          id="password"
+          id="password" required
           type="password"
           placeholder="Your Password"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
@@ -70,6 +70,7 @@ const CaptainLogin = () => {
         >
           Login
         </button>
+        <p className='pl-2'>Create Account as Captain's <Link to='/captain-register' className='underline text-blue-400'>Sign up</Link></p>
 
         <div className="mt-auto mb-3">
           <button
