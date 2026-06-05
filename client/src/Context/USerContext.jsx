@@ -8,7 +8,8 @@ const UserContext = ({ children }) => {
     const [loading, setLoading] = useState(true)
     const value = {
         user,
-        setUser
+        setUser,
+        loading
     }
     useEffect(() => {
         const fetchUser = async () => {

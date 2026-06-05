@@ -19,13 +19,14 @@ const CaptainLogin = () => {
     }
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/captain/login`, data)
-      console.log(response.data)
-
+      // console.log(response.data.data.token)
+      
+      localStorage.setItem("Captaintoken", response.data.data.token)
       toast.success('Registration successful!')
       setEmail("")
       setPassword("")
 
-      navigate('/')
+      navigate('/captain-home')
     } catch (error) {
       console.error(error)
       toast.error(

@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navigate } from 'react-router-dom'
+import { AppContext } from '../Context/USerContext'
+import Loader from '../components/Loader'
 
 const UserProtectedWrapper = ({ children }) => {
-    const token = localStorage.getItem("token")
 
-    if (!token) {
-        return <Navigate to="/login"  />
+    const { user, loading } = useContext(AppContext)
+
+    if (loading) {
+        return <Loader />
+    }
+
+    if (!user) {
+        return <Navigate to="/login" replace />
     }
 
     return children

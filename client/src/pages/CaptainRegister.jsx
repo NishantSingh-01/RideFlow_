@@ -5,7 +5,7 @@ import axios from "axios"
 
 
 const CaptainRegister = () => {
-    const [firstName, setFirstName] = useState("")
+  const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -24,8 +24,9 @@ const CaptainRegister = () => {
     try {
 
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, data)
-      console.log(response.data)
+      // console.log(response.data)
 
+      localStorage.setItem("Captaintoken", response.data.data.token)
       toast.success('Registration successful!')
       setFirstName("")
       setLastName("")

@@ -8,6 +8,8 @@ import CaptainLogin from './pages/CaptainLogin'
 import CaptainRegister from './pages/CaptainRegister'
 import { ToastContainer } from "react-toastify";
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
+import CaptainHome from './pages/CaptainHome'
+import CaptainProtectedWrapper from './pages/CaptainProtectedWrapper'
 
 
 
@@ -15,7 +17,7 @@ function App() {
 
   return (
     <div>
-       <ToastContainer />
+      <ToastContainer />
 
       <Routes>
         <Route path='/' element={<UserProtectedWrapper><Home /></UserProtectedWrapper>} />
@@ -23,6 +25,9 @@ function App() {
         <Route path='/register' element={<UserRegister />} />
         <Route path='/captain-login' element={<CaptainLogin />} />
         <Route path='/captain-register' element={<CaptainRegister />} />
+        <Route path='/captain-home' element={<CaptainProtectedWrapper>
+          <CaptainHome />
+        </CaptainProtectedWrapper>} />
 
 
       </Routes>
