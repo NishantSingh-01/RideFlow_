@@ -2,7 +2,7 @@ import ApiError from "../utils/apierror.js"
 
 const validate = (schema) => {
     return (req, res, next) => {
-        console.log("Schema:", schema)
+        // console.log("Schema:", schema)
 
         const result = schema.safeParse(req.body)
 

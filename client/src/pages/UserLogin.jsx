@@ -1,9 +1,12 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { AppContext } from '../Context/USerContext'
 
 const UserLogin = () => {
+  const { user, setUser } = useContext(AppContext)
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -17,13 +20,17 @@ const UserLogin = () => {
     }
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, data)
-      console.log(response.data)
-
+    
+      // console.log("User:", response.data.data.token)
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.data.token)
+        setUser(response.data.data.user)
+        navigate('/')
+      }
       toast.success('Registration successful!')
       setEmail("")
       setPassword("")
 
-      navigate('/')
     } catch (error) {
       console.error(error)
       toast.error(

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from "axios"
+import { AppContext } from '../Context/USerContext'
 
 
 const UserRegister = () => {
@@ -11,6 +12,8 @@ const UserRegister = () => {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+
+  const { user, setUser } = useContext(AppContext)
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -24,7 +27,13 @@ const UserRegister = () => {
     try {
 
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, data)
-      console.log(response.data)
+      // console.log(response.data.data.user)
+      
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.data.token)
+        setUser(response.data.data.user)
+        navigate('/')
+      }
 
       toast.success('Registration successful!')
       setFirstName("")
@@ -32,7 +41,6 @@ const UserRegister = () => {
       setEmail("")
       setPassword("")
 
-      navigate('/')
     } catch (error) {
       console.error(error)
       toast.error(
@@ -44,7 +52,7 @@ const UserRegister = () => {
   }
 
   return (
-    <div className="h-screen w-screen flex justify-center mt-3">
+    <div className="h-screen w-screen scroll-auto flex justify-center mt-3">
       <form
         onSubmit={submitHandler}
         className="p-8 rounded-lg shadow-md flex flex-col gap-4 w-[450px]"

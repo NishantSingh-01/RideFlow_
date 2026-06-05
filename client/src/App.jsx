@@ -7,6 +7,7 @@ import UserRegister from './pages/UserRegister'
 import CaptainLogin from './pages/CaptainLogin'
 import CaptainRegister from './pages/CaptainRegister'
 import { ToastContainer } from "react-toastify";
+import UserProtectedWrapper from './pages/UserProtectedWrapper'
 
 
 
@@ -17,7 +18,7 @@ function App() {
        <ToastContainer />
 
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<UserProtectedWrapper><Home /></UserProtectedWrapper>} />
         <Route path='/login' element={<UserLogin />} />
         <Route path='/register' element={<UserRegister />} />
         <Route path='/captain-login' element={<CaptainLogin />} />
