@@ -10,6 +10,7 @@ const Navbar = () => {
                 <div>Ride</div>
                 <div>Drive</div>
                 <div>About</div>
+                <div>Service</div>
             </div>
             <div className='flex gap-5 items-center'>
                 <button>Help</button>
