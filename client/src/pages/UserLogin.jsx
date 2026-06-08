@@ -21,7 +21,7 @@ const UserLogin = () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, data)
     
-      // console.log("User:", response.data.data.token)
+      // console.log("User:", response.data.data.user)
       if (response.status === 200) {
         localStorage.setItem("token", response.data.data.token)
         setUser(response.data.data.user)

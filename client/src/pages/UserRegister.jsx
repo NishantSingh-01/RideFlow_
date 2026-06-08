@@ -27,9 +27,9 @@ const UserRegister = () => {
     try {
 
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, data)
-      // console.log(response.data.data.user)
+      console.log(response.data.data.user)
       
-      if (response.status === 200) {
+      if (response.status === 201) {
         localStorage.setItem("token", response.data.data.token)
         setUser(response.data.data.user)
         navigate('/')

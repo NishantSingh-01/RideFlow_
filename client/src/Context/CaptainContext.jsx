@@ -10,7 +10,7 @@ const CaptainProvider = ({ children }) => {
     useEffect(() => {
         const fetchCaptain = async () => {
             const token = localStorage.getItem("Captaintoken")
-            console.log(token)
+            // console.log(token)
             if (!token) {
                 setLoading(false)
                 return
@@ -24,7 +24,7 @@ const CaptainProvider = ({ children }) => {
                         }
                     }
                 )
-                console.log(response.data)
+                // console.log(response.data)
                 setCaptain(response.data.data)
             } catch (error) {
                 console.log(error)

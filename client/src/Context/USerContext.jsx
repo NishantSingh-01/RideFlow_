@@ -28,8 +28,8 @@ const UserContext = ({ children }) => {
                         }
                     }
                 )
-                // console.log(response)
-                setUser(response.data.data.user)
+                // console.log("contex ",response.data.data)
+                setUser(response.data.data)
             } catch (error) {
                 console.log(error)
                 localStorage.removeItem("token")
