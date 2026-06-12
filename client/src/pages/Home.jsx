@@ -1,6 +1,6 @@
 // import React from 'react'
 // import { useNavigate } from 'react-router-dom'
-// import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar'
 
 // const Home = () => {
 //   const navigate = useNavigate()
@@ -256,27 +256,35 @@ const HOme = () => {
       </div>
 
       {/* dt*/}
-      {/* Desktop Map */}
-      <div className="hidden md:block md:flex md:justify-between">
-        <div>
-           <SearchBox
-          pickup={pickup}
-          setPickup={setPickup}
-          destination={destination}
-          setDestination={setDestination}
-          filteredSuggestions={filteredSuggestions}
-          selectLocation={selectLocation}
-        />
-        </div>
-        <div className='border-3 border-green-300 shadow-2xl w-[700px] h-[90vh]'>
-          <img
-          src='https://imgs.search.brave.com/DJ1k0AgwYRvX3AYkw8FBKMt-CtTIwMXvsMUd-voablQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5iaWtlbWFwLm5l/dC9yb3V0ZXMvMTgw/MjA4ODYvc3RhdGlj/bWFwcy9pbl80YzRi/ZmRmNi05NTUwLTQy/YTktYTk0Yi05NmQ2/MDIxOTU4ZTBfNjk0/eDQwMF9iaWtlbWFw/LTIwMjEtM0Qtc3Rh/dGljLnBuZw'
-          alt="map"
-          className=" object-fill"
-        />
-        </div>
-      </div>
+
     
+ <div className='max:hidden'><Navbar/></div>
+
+
+       <div className="min-h-screen flex flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
+         <div className="max-w-xl text-center md:text-left">
+           <h1 className="text-3xl md:text-6xl font-bold ">
+          <i className="fa-solid fa-location-dot text-5xl"></i>Go anywhere with      
+           </h1>
+           <h1 className='text-6xl font-bold pl-10 mt-4 max-md:text-5xl'>RideFlow</h1>
+           <div>
+             <form className='flex flex-col justify-center items-' >
+               <input className='p-5 cursor-pointer border-2 border-t-4  border-l-4 rounded-xl mt-10 w-100 max-md:w-70 max-md:p-4'  type="text"  placeholder='Pick up Location'/>
+               <input className='p-5 cursor-pointer border-2 border-t-4 border-l-4  rounded-xl mt-5 w-100 max-md:w-70 max-md:p-4' type="text"  placeholder='Dropoff Loaction'/>
+             </form>
+           </div>
+         </div>
+
+         <div className="mb-0 md:mb-0">
+         <img
+             src="https://plus.unsplash.com/premium_vector-1725948286385-960183060815?q=80&w=2064&auto=format&fit=crop"
+             alt="RideFlow"
+             className=" md:w-[700px]  shadow-2xl"
+           />
+         </div>
+
+       </div>
+
     </div>
   )
 }
