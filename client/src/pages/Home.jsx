@@ -201,7 +201,7 @@ const HOme = () => {
 
         <div className="p-5">
           <h1 className="text-3xl font-semibold mb-4">
-            Where to go ..
+           Find a trip
           </h1>
 
           <div className="bg-gray-100 rounded-xl p-4 mb-3 flex items-center gap-3">
@@ -256,34 +256,33 @@ const HOme = () => {
       </div>
 
       {/* dt*/}
-
-    
- <div className='max:hidden'><Navbar/></div>
+      <Navbar />
 
 
-       <div className="min-h-screen flex flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
-         <div className="max-w-xl text-center md:text-left">
-           <h1 className="text-3xl md:text-6xl font-bold ">
-          <i className="fa-solid fa-location-dot text-5xl"></i>Go anywhere with      
-           </h1>
-           <h1 className='text-6xl font-bold pl-10 mt-4 max-md:text-5xl'>RideFlow</h1>
-           <div>
-             <form className='flex flex-col justify-center items-' >
-               <input className='p-5 cursor-pointer border-2 border-t-4  border-l-4 rounded-xl mt-10 w-100 max-md:w-70 max-md:p-4'  type="text"  placeholder='Pick up Location'/>
-               <input className='p-5 cursor-pointer border-2 border-t-4 border-l-4  rounded-xl mt-5 w-100 max-md:w-70 max-md:p-4' type="text"  placeholder='Dropoff Loaction'/>
-             </form>
-           </div>
-         </div>
 
-         <div className="mb-0 md:mb-0">
-         <img
-             src="https://plus.unsplash.com/premium_vector-1725948286385-960183060815?q=80&w=2064&auto=format&fit=crop"
-             alt="RideFlow"
-             className=" md:w-[700px]  shadow-2xl"
-           />
-         </div>
+      <div className="min-h-screen flex flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
+        <div className="max-w-xl text-center md:text-left">
+          <h1 className="text-3xl md:text-6xl font-bold ">
+            <i className="fa-solid fa-location-dot text-5xl"></i>Go anywhere with
+          </h1>
+          <h1 className='text-6xl font-bold pl-10 mt-4 max-md:text-5xl'>RideFlow</h1>
+          <div>
+            <form className='flex flex-col justify-center items-' >
+              <input className='p-5 cursor-pointer border-2 border-t-4  border-l-4 rounded-xl mt-10 w-100 max-md:w-70 max-md:p-4' type="text" placeholder='Pick up Location' />
+              <input className='p-5 cursor-pointer border-2 border-t-4 border-l-4  rounded-xl mt-5 w-100 max-md:w-70 max-md:p-4' type="text" placeholder='Dropoff Loaction' />
+            </form>
+          </div>
+        </div>
 
-       </div>
+        <div className="mb-0 md:mb-0">
+          <img
+            src="https://plus.unsplash.com/premium_vector-1725948286385-960183060815?q=80&w=2064&auto=format&fit=crop"
+            alt="RideFlow"
+            className=" md:w-[700px]  shadow-2xl"
+          />
+        </div>
+
+      </div>
 
     </div>
   )
