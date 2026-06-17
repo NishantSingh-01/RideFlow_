@@ -147,6 +147,9 @@ import Navbar from '../components/Navbar'
 import React, { useState } from 'react'
 import SearchBox from '../components/SearchBox';
 import LocationSearch from '../components/LoacationSearch';
+import Footer from '../components/Footer';
+import Map from '../components/Map';
+
 
 const HOme = () => {
   const [pickup, setPickup] = useState("Live Location")
@@ -154,50 +157,46 @@ const HOme = () => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isSuggestion, setSuggestion] = useState(false)
 
-  const suggestions = [
-    "Delhi",
-    "Noida",
-    "Gurgaon",
-    "Lucknow",
-    "Kanpur",
-    "Varanasi",
-    "Prayagraj",
-    "Dehradun",
-    "Dwarka",
-  ];
+  // const suggestions = [
+  //   "Delhi",
+  //   "Noida",
+  //   "Gurgaon",
+  //   "Lucknow",
+  //   "Kanpur",
+  //   "Varanasi",
+  //   "Prayagraj",
+  //   "Dehradun",
+  //   "Dwarka",
+  // ];
 
-  const filteredSuggestions = suggestions.filter((location) =>
-    location.toLowerCase().includes(destination.toLowerCase())
-  );
+  // const filteredSuggestions = suggestions.filter((location) =>
+  //   location.toLowerCase().includes(destination.toLowerCase())
+  // );
 
   const selectLocation = (location) => {
     setDestination(location)
     setIsExpanded(false)
   }
   return (
-    <div className="relative h-screen overflow-hidden">
-      <div className='absolute top-3 left-3 text-2xl font-bold font-mono '>RideFlow</div>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* <div className='absolute top-3 left-3 text-2xl font-bold font-mono '>RideFlow</div> */}
 
       {/* mb */}
-      <div className="md:hidden h-[70vh]">
-        <img
-          src="https://imgs.search.brave.com/DJ1k0AgwYRvX3AYkw8FBKMt-CtTIwMXvsMUd-voablQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5iaWtlbWFwLm5l/dC9yb3V0ZXMvMTgw/MjA4ODYvc3RhdGlj/bWFwcy9pbl80YzRi/ZmRmNi05NTUwLTQy/YTktYTk0Yi05NmQ2/MDIxOTU4ZTBfNjk0/eDQwMF9iaWtlbWFw/LTIwMjEtM0Qtc3Rh/dGljLnBuZw"
-          alt="map"
-          className="w-full h-full object-cover"
-        />
+      <div className="absolute inset-0 z-0 md:hidden">
+        <Map />
       </div>
       <div
         className={`
-          md:hidden
+          md:hidden 
           absolute bottom-0 left-0 right-0
           bg-white rounded-t-2xl
           transition-all duration-250
-          ${isExpanded ? "h-[70vh]" : "h-[35vh]"}
+          ${isExpanded ? "h-[75vh]" : "h-[35vh]"}
         `}
       >
         <div
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-14 h-1.5 bg-gray-300 rounded-full mx-auto mt-3 cursor-pointer"
+          className="w-14 h-1.5 bg-gray-400 rounded-full mx-auto mt-3 cursor-pointer"
         />
 
         <div className="p-5">
@@ -258,10 +257,13 @@ const HOme = () => {
             </div>
           )} */}
           {isSuggestion && (
-            <LocationSearch
-              setDestination={setDestination}
-              setSuggestion={setSuggestion}
-            />
+            <div className="mt-3 max-h-[250px] overflow-y-auto rounded-xl bg-white shadow-md pb-18">
+              <LocationSearch
+                setDestination={setDestination}
+                setSuggestion={setSuggestion}
+                setIsExpanded={setIsExpanded}
+              />
+            </div>
           )}
 
         </div>
@@ -269,8 +271,7 @@ const HOme = () => {
 
       {/* dt*/}
       <Navbar />
-
-      <div className="min-h-screen flex flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
+      <div className="hidden md:flex min-h-screen flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
         <div className="max-w-xl text-center md:text-left">
           <h1 className="text-3xl md:text-6xl font-bold ">
             <i className="fa-solid fa-location-dot text-5xl"></i>Go anywhere with
@@ -317,27 +318,12 @@ const HOme = () => {
                 Search Ride
               </button>
 
-              {/* {isExpanded && destination && (
-            <div className="mt-4 bg-white rounded-xl shadow overflow-hidden">
-              {filteredSuggestions.map((location) => (
-                <div
-                  key={location}
-                  onClick={() => selectLocation(location)}
-                  className="p-4 border-b cursor-pointer hover:bg-gray-100"
-                >
-                  {location}
-                </div>
-              ))}
-            </div>
-          )} */}
               {isSuggestion && (
                 <LocationSearch
                   setDestination={setDestination}
                   setSuggestion={setSuggestion}
                 />
               )}
-
-
             </div>
           </div>
         </div>

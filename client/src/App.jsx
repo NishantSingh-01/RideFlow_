@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import 'leaflet/dist/leaflet.css';
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import UserLogin from './pages/UserLogin'
@@ -10,6 +11,8 @@ import { ToastContainer } from "react-toastify";
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import CaptainHome from './pages/CaptainHome'
 import CaptainProtectedWrapper from './pages/CaptainProtectedWrapper'
+import UserHome from './pages/UserHome'
+import HOme from './pages/Home';
 
 
 
@@ -20,7 +23,7 @@ function App() {
       <ToastContainer />
 
       <Routes>
-        <Route path='/' element={<UserProtectedWrapper><Home /></UserProtectedWrapper>} />
+        <Route path='/' element={<HOme/>} />
         <Route path='/login' element={<UserLogin />} />
         <Route path='/register' element={<UserRegister />} />
         <Route path='/captain-login' element={<CaptainLogin />} />
@@ -34,6 +37,7 @@ function App() {
       <Route path="/drive" element={<h1>Drive Page</h1>} />
       <Route path="/about" element={<h1>About Page</h1>} />
       <Route path="/service" element={<h1>Service Page</h1>} />
+      <Route path="/help" element={<h1>Help Page</h1>} />
       <Route path="/help" element={<h1>Help Page</h1>} />
 
 
