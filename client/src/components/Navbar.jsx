@@ -6,8 +6,8 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const navLinks = [
-        { name: 'Ride', path: '/ride' },
-        { name: 'Drive', path: '/drive' },
+        { name: 'Ride', path: '/' },
+        { name: 'Drive', path: '/captain-register' },
         { name: 'About', path: '/about' },
         // { name: 'Service', path: '/service' }
     ]

@@ -149,6 +149,8 @@ import SearchBox from '../components/SearchBox';
 import LocationSearch from '../components/LoacationSearch';
 import Footer from '../components/Footer';
 import Map from '../components/Map';
+import HomeMobile from '../components/HomeMobile';
+import HomeDekstop from '../components/HomeDekstop';
 
 
 const HOme = () => {
@@ -156,22 +158,6 @@ const HOme = () => {
   const [destination, setDestination] = useState("")
   const [isExpanded, setIsExpanded] = useState(false)
   const [isSuggestion, setSuggestion] = useState(false)
-
-  // const suggestions = [
-  //   "Delhi",
-  //   "Noida",
-  //   "Gurgaon",
-  //   "Lucknow",
-  //   "Kanpur",
-  //   "Varanasi",
-  //   "Prayagraj",
-  //   "Dehradun",
-  //   "Dwarka",
-  // ];
-
-  // const filteredSuggestions = suggestions.filter((location) =>
-  //   location.toLowerCase().includes(destination.toLowerCase())
-  // );
 
   const selectLocation = (location) => {
     setDestination(location)
@@ -181,162 +167,29 @@ const HOme = () => {
     <div className="relative min-h-screen overflow-hidden">
       {/* <div className='absolute top-3 left-3 text-2xl font-bold font-mono '>RideFlow</div> */}
 
-      {/* mb */}
-      <div className="absolute inset-0 z-0 md:hidden">
-        <Map />
-      </div>
-      <div
-        className={`
-          md:hidden 
-          absolute bottom-0 left-0 right-0
-          bg-white rounded-t-2xl
-          transition-all duration-250
-          ${isExpanded ? "h-[75vh]" : "h-[35vh]"}
-        `}
-      >
-        <div
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-14 h-1.5 bg-gray-400 rounded-full mx-auto mt-3 cursor-pointer"
-        />
+      {/* <div className='max:hidden h-[90px] border-4 rounded-2xl border-l-gray-900 w-0 absolute bottom-69 left-24 ' ></div> */}
 
-        <div className="p-5">
-          <h1 className="text-3xl font-semibold mb-4">
-            Find a trip
-          </h1>
-
-          <div className="bg-gray-100 rounded-xl p-4 mb-3 flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-blue-600"></div>
-
-            <input
-              type="text"
-              value={pickup}
-              onFocus={() => setIsExpanded(true)}
-              onChange={(e) => setPickup(e.target.value)}
-              className="w-full bg-transparent outline-none"
-              placeholder="Pickup"
-            />
-          </div>
-
-          <div className="bg-gray-100 rounded-xl p-4 flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-
-            <input
-              type="text"
-              value={destination}
-              onFocus={() => {
-                setIsExpanded(true);
-                setSuggestion(true);
-              }}
-              onChange={(e) => {
-                setDestination(e.target.value)
-                setIsExpanded(true)
-                setSuggestion(true);
-              }}
-              className="w-full bg-transparent outline-none"
-              placeholder="Where are you going?"
-            />
-          </div>
-          {isExpanded && (
-            <button
-              className="w-full mt-4 bg-gray-900 text-white rounded-xl py-3 font-medium hover:bg-black transition"
-            >
-              Search Ride
-            </button>
-          )}
-          {/* {isExpanded && destination && (
-            <div className="mt-4 bg-white rounded-xl shadow overflow-hidden">
-              {filteredSuggestions.map((location) => (
-                <div
-                  key={location}
-                  onClick={() => selectLocation(location)}
-                  className="p-4 border-b cursor-pointer hover:bg-gray-100"
-                >
-                  {location}
-                </div>
-              ))}
-            </div>
-          )} */}
-          {isSuggestion && (
-            <div className="mt-3 max-h-[250px] overflow-y-auto rounded-xl bg-white shadow-md pb-18">
-              <LocationSearch
-                setDestination={setDestination}
-                setSuggestion={setSuggestion}
-                setIsExpanded={setIsExpanded}
-              />
-            </div>
-          )}
-
-        </div>
-      </div>
-
-      {/* dt*/}
       <Navbar />
-      <div className="hidden md:flex min-h-screen flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
-        <div className="max-w-xl text-center md:text-left">
-          <h1 className="text-3xl md:text-6xl font-bold ">
-            <i className="fa-solid fa-location-dot text-5xl"></i>Go anywhere with
-          </h1>
-          <h1 className='text-6xl font-bold pl-16 mt-3 max-md:text-5xl'>RideFlow</h1>
-          <div>
-            <div className="p-5 mt-10">
+      <HomeMobile
+        pickup={pickup}
+        setPickup={setPickup}
+        destination={destination}
+        setDestination={setDestination}
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+        isSuggestion={isSuggestion}
+        setSuggestion={setSuggestion}
+      />
 
-              <div className="bg-gray-100 rounded-xl p-4 mb-3 flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+      <HomeDekstop
+        pickup={pickup}
+        setPickup={setPickup}
+        destination={destination}
+        setDestination={setDestination}
+        isSuggestion={isSuggestion}
+        setSuggestion={setSuggestion}
+      />
 
-                <input
-                  type="text"
-                  value={pickup}
-                  onFocus={() => setIsExpanded(true)}
-                  onChange={(e) => setPickup(e.target.value)}
-                  className="w-full bg-transparent outline-none"
-                  placeholder="Pickup"
-                />
-              </div>
-
-              <div className="bg-gray-100 rounded-xl p-4 flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-
-                <input
-                  type="text"
-                  value={destination}
-                  onFocus={() => {
-                    setIsExpanded(true);
-                    setSuggestion(true);
-                  }}
-                  onChange={(e) => {
-                    setDestination(e.target.value)
-                    setIsExpanded(true);
-                    setSuggestion(true);
-                  }}
-                  className="w-full bg-transparent outline-none"
-                  placeholder="Where are you going?"
-                />
-              </div>
-              <button
-                className="w-full mt-4 bg-gray-900 text-white rounded-xl py-3 font-medium hover:bg-black transition"
-              >
-                Search Ride
-              </button>
-
-              {isSuggestion && (
-                <LocationSearch
-                  setDestination={setDestination}
-                  setSuggestion={setSuggestion}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="mb-0 md:mb-0">
-          <img
-            src="https://plus.unsplash.com/premium_vector-1725948286385-960183060815?q=80&w=2064&auto=format&fit=crop"
-            alt="RideFlow"
-            className=" md:w-[700px]  shadow-2xl"
-          />
-        </div>
-
-      </div>
 
     </div>
   )

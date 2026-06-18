@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 export default function Map() {
     return (
         <MapContainer
+            className="w-full h-full z-0"
             center={[25.3176, 82.9739]} // Varanasi
             zoom={13}
             style={{ height: '500px', width: '100%' }}
