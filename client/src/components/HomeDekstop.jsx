@@ -2,6 +2,7 @@ import React from 'react'
 import LocationSearch from '../components/LoacationSearch'
 import Map from '../components/Map'
 import Footer from './Footer'
+import BusinessSection from './BusinessSection'
 
 const HomeDesktop = ({
     pickup,
@@ -13,6 +14,7 @@ const HomeDesktop = ({
 }) => {
     return (
         <>
+         <div className='max:hidden h-[95px] border-4 rounded-2xl border-l-gray-900 w-0 absolute top-90 left-145 ' ></div>
             <div className="hidden md:flex min-h-screen flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
                 <div className="max-w-xl text-center md:text-left">
                     <h1 className="text-3xl md:text-6xl pl-5 font-bold font-mono ">
@@ -75,6 +77,8 @@ const HomeDesktop = ({
 
 
             </div>
+                      <hr className="my-14 border-gray-100" />
+            <BusinessSection/>
             <Footer showOnMobile={false} />
         </>
     )

@@ -166,9 +166,7 @@ const HOme = () => {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* <div className='absolute top-3 left-3 text-2xl font-bold font-mono '>RideFlow</div> */}
-
-      {/* <div className='max:hidden h-[90px] border-4 rounded-2xl border-l-gray-900 w-0 absolute bottom-69 left-24 ' ></div> */}
-
+     
       <Navbar />
       <HomeMobile
         pickup={pickup}
@@ -189,7 +187,6 @@ const HOme = () => {
         isSuggestion={isSuggestion}
         setSuggestion={setSuggestion}
       />
-
 
     </div>
   )

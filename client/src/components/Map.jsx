@@ -4,7 +4,7 @@ export default function Map() {
     return (
         <MapContainer
             className="w-full h-full z-0"
-            center={[25.3176, 82.9739]} // Varanasi
+            center={[25.3176, 82.9739]} 
             zoom={13}
             style={{ height: '500px', width: '100%' }}
         >

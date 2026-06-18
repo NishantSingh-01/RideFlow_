@@ -19,7 +19,6 @@ const Footer = ({ showOnMobile = true }) => {
             </p>
           </div>
 
-          {/* Company */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Company</h3>
 
@@ -50,7 +49,6 @@ const Footer = ({ showOnMobile = true }) => {
             </ul>
           </div>
 
-          {/* Services */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Services</h3>
 
@@ -62,7 +60,6 @@ const Footer = ({ showOnMobile = true }) => {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
 
