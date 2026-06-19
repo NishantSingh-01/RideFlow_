@@ -18,3 +18,18 @@ export const getAddressCoordinates = asyncHandler(async (req, res) => {
         )
     )
 })
+
+export const getDistanceTime = asyncHandler(async(req,res)=>{
+    const { origin, destination } = req.query
+    const data = await MapServices.getDistanceTime(
+        origin,
+        destination
+    )
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            data,
+            "Distance and duration fetched successfully"
+        )
+    )
+})
