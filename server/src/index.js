@@ -3,6 +3,8 @@ import app from '../src/app.js'
 dotenv.config()
 import {pool,connectDB} from './config/db.js'
 import initDB from './database/initdDB.js'
+import { getAddressCoordinates } from './services/map.service.js'
+
 
 await connectDB()
 await initDB()
@@ -17,6 +19,7 @@ app.get("/check", async (req, res) => {
         res.send(
             `The Database name is :: ${result.rows[0].current_database}`
         )
+
 
     } catch (error) {
         console.log(error.message)
