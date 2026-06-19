@@ -33,3 +33,19 @@ export const getDistanceTime = asyncHandler(async(req,res)=>{
         )
     )
 })
+
+export const getRoute = asyncHandler(async (req, res) => {
+    const { origin, destination } = req.query
+
+    const route = await MapServices.getRoute(
+        origin,
+        destination
+    )
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            route,
+            "Route fetched successfully"
+        )
+    )
+})

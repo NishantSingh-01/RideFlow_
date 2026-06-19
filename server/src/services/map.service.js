@@ -28,7 +28,7 @@ export const getAddressCoordinates = async (address) => {
     }
 }
 
-export const getDistanceTime = async (origin, destination)=>{
+export const getDistanceTime = async (origin, destination) => {
     if (!origin || !destination) {
         throw new ApiError(
             400,
@@ -67,3 +67,37 @@ export const getDistanceTime = async (origin, destination)=>{
     };
 }
 
+export const getRoute = async (origin, destination) => {
+    if (!origin || !destination) {
+        throw new ApiError(
+            400,
+            "Origin and destination are required"
+        );
+    }
+
+    const pickup = await getAddressCoordinates(origin)
+    const drop = await getAddressCoordinates(destination)
+
+    const response = await axios.get(
+        `https://router.project-osrm.org/route/v1/driving/${pickup.lng},${pickup.lat};${drop.lng},${drop.lat}`,
+        {
+            params: {
+                overview: "full",
+                geometries: "geojson",
+            },
+        }
+    )
+    if (!response.data.routes || response.data.routes.length === 0) {
+        throw new ApiError(
+            404,
+            "Route not found"
+        )
+    }
+    const route = response.data.routes[0]
+    return {
+        distance: route.distance,
+        duration: route.duration,
+        geometry:
+            route.geometry.coordinates,
+    }
+}
