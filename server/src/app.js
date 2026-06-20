@@ -5,6 +5,7 @@ const app = express()
 import userRouter from '../src/routes/user.routes.js'
 import captainRouter from './routes/captain.routes.js'
 import mapRouter from "./routes/map.routes.js"
+import rideRouter from '../src/routes/ride.routes.js'
 app.use(cors({
     origin: process.env.CORS
 }))
@@ -22,6 +23,7 @@ app.use(cookieParser())
 app.use('/api/v1/auth',userRouter)
 app.use('/api/v1/captain',captainRouter)
 app.use("/api/v1/maps", mapRouter)
+app.use('/api/v1/ride',rideRouter)
 
 //global error handler 
 app.use((err, req, res, next) => {
