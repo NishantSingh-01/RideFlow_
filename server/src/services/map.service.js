@@ -101,3 +101,26 @@ export const getRoute = async (origin, destination) => {
             route.geometry.coordinates,
     }
 }
+
+export const getSuggestions = async (query) => {
+
+    const response = await axios.get(
+        "https://photon.komoot.io/api",
+        {
+            params: {
+                q: query,
+                limit: 6,
+                osm_tag: "place",
+                countrycode: "IN"
+            },
+        }
+    )
+    return response.data.features.map((place) => ({
+        name: place.properties.name,
+        city: place.properties.city,
+        state: place.properties.state,
+        // country: place.properties.country,
+        // latitude: place.geometry.coordinates[1],
+        // longitude: place.geometry.coordinates[0],
+    }))
+} 

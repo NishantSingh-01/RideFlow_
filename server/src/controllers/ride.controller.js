@@ -34,3 +34,8 @@ export const calculateFare = asyncHandler(async (req, res) => {
         )
     )
 })
+
+export const createRide = asyncHandler(async(req,res)=>{
+     const {userId,pickup,destination,vehicle_type} = req.body
+     
+})

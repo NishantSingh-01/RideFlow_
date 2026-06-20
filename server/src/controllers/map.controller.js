@@ -19,7 +19,7 @@ export const getAddressCoordinates = asyncHandler(async (req, res) => {
     )
 })
 
-export const getDistanceTime = asyncHandler(async(req,res)=>{
+export const getDistanceTime = asyncHandler(async (req, res) => {
     const { origin, destination } = req.query
     const data = await MapServices.getDistanceTime(
         origin,
@@ -46,6 +46,19 @@ export const getRoute = asyncHandler(async (req, res) => {
             200,
             route,
             "Route fetched successfully"
+        )
+    )
+})
+
+export const getSuggestions = asyncHandler(async(req, res) => {
+    const { input } = req.query
+
+    const suggestions = await MapServices.getSuggestions(input)
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            suggestions,
+            "Suggestion fetched successfully"
         )
     )
 })
