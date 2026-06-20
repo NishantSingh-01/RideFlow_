@@ -1,4 +1,7 @@
-CREATE TABLE rides (
+import { pool } from "../config/db.js"
+
+const createRide = async()=>{
+    await pool.query( `CREATE TABLE rides (
     id SERIAL PRIMARY KEY,
 
     user_id INTEGER NOT NULL
@@ -57,4 +60,6 @@ CREATE TABLE rides (
     accepted_at TIMESTAMP,
     started_at TIMESTAMP,
     completed_at TIMESTAMP
-)
+)`)
+}
+ export default createRide

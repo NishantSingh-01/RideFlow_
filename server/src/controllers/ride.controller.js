@@ -24,10 +24,10 @@ export const calculateFare = asyncHandler(async (req, res) => {
         new ApiResponse(
             200,
             {
-                distanceTime: {
-                    distance: distanceTime.distance,
-                    duration: distanceTime.duration,
-                },
+                // distanceTime: {
+                //     distance: distanceTime.distance,
+                //     duration: distanceTime.duration,
+                // },
                 Price: fares
             },
             "Fare calculated successfully"
@@ -35,7 +35,24 @@ export const calculateFare = asyncHandler(async (req, res) => {
     )
 })
 
-export const createRide = asyncHandler(async(req,res)=>{
-     const {userId,pickup,destination,vehicle_type} = req.body
-     
+export const createRide = asyncHandler(async (req, res) => {
+    const { pickup, destination, vehicleType } = req.body
+
+    if (!pickup || !destination || !vehicleType) {
+        throw new ApiError(
+            400,
+            "Pickup, destination and vehicle type are required"
+        )
+    }
+    const ride = await RideService.createRide({
+        userId: req.user.id,
+        pickup,
+        destination,
+        vehicleType,
+    })
+
+    return res.status(201).json(
+        new ApiResponse(201, ride, "Ride created successfully")
+    )
+
 })

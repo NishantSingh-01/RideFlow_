@@ -1,3 +1,5 @@
+import * as MapServices from '..//services/map.service.js'
+import * as RideRepository from '../repositories/ride.repositories.js'
 
 export const calculateFare = (distance, duration) => {
     const baseFare = {
@@ -37,3 +39,25 @@ export const calculateFare = (distance, duration) => {
     }
 }
 
+export const createRide = async({userId,pickup,destination,vehicleType})=>{
+    const distanceTime = await MapServices.getDistanceTime(
+        pickup,
+        destination
+    )
+    const fares = calculateFare(
+        distanceTime.distance,
+        distanceTime.duration
+    )
+    const fare = fares[vehicleType]
+     if (!fare) {
+        throw new ApiError(400, "Invalid vehicle type");
+    }
+     return await RideRepository.createRide({
+        userId,
+        pickup,
+        destination,
+        vehicleType,
+        fare,
+    })
+    
+}
