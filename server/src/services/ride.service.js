@@ -1,7 +1,7 @@
 import * as MapServices from '..//services/map.service.js'
 import * as RideRepository from '../repositories/ride.repositories.js'
 
-export const calculateFare = (distance, duration) => {
+export const calculateFare = (distance, duration, precision = 0) => {
     const baseFare = {
         auto: 30,
         bike: 20,
@@ -18,20 +18,22 @@ export const calculateFare = (distance, duration) => {
         car: 3,
     }
 
+    const round = (num) => (precision === 0 ? Math.round(num) : Number(num.toFixed(precision)))
+
     return {
-        auto: Math.round(
+        auto: round(
             baseFare.auto +
             (distance / 1000) * perKmRate.auto +
             (duration / 60) * perMinuteRate.auto
         ),
 
-        bike: Math.round(
+        bike: round(
             baseFare.bike +
             (distance / 1000) * perKmRate.bike +
             (duration / 60) * perMinuteRate.bike
         ),
 
-        car: Math.round(
+        car: round(
             baseFare.car +
             (distance / 1000) * perKmRate.car +
             (duration / 60) * perMinuteRate.car
@@ -39,7 +41,7 @@ export const calculateFare = (distance, duration) => {
     }
 }
 
-export const createRide = async({userId,pickup,destination,vehicleType})=>{
+export const createRide = async ({ userId, pickup, destination, vehicleType }) => {
     const distanceTime = await MapServices.getDistanceTime(
         pickup,
         destination
@@ -49,15 +51,17 @@ export const createRide = async({userId,pickup,destination,vehicleType})=>{
         distanceTime.duration
     )
     const fare = fares[vehicleType]
-     if (!fare) {
+    if (!fare) {
         throw new ApiError(400, "Invalid vehicle type");
     }
-     return await RideRepository.createRide({
+    return await RideRepository.createRide({
         userId,
         pickup,
         destination,
         vehicleType,
         fare,
+        distance: distanceTime.distance,
+        duration: distanceTime.duration,
     })
-    
+
 }

@@ -54,12 +54,12 @@ export const getDistanceTime = async (origin, destination) => {
     }
     const route = response.data.routes[0]
     return {
-        distance: route.distance,
-        duration: route.duration,
+        distance: Math.round(route.distance),
+        duration: Math.round(route.duration),
 
-        distanceText: `${(
+        distanceText: `${Math.round(
             route.distance / 1000
-        ).toFixed(2)} km`,
+        )} km`,
 
         durationText: `${Math.ceil(
             route.duration / 60
