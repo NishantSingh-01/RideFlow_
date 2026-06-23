@@ -6,13 +6,16 @@ import App from './App.jsx'
 import { BrowserRouter } from "react-router-dom"
 import UserContext from './Context/USerContext.jsx'
 import CaptainProvider from './Context/CaptainContext.jsx'
+import { RideProvider } from './Context/RideContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <UserContext>
         <CaptainProvider>
-          <App />
+          <RideProvider>
+            <App />
+          </RideProvider>
         </CaptainProvider>
       </UserContext>
     </BrowserRouter>

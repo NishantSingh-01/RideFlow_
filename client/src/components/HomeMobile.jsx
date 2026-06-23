@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import Map from '../components/Map'
 import LocationSearch from '../components/LoacationSearch'
-
+import RideContext from '../Context/RideContext'
 const HomeMobile = ({
   pickup,
   setPickup,
@@ -12,6 +14,18 @@ const HomeMobile = ({
   isSuggestion,
   setSuggestion,
 }) => {
+  const { rideData, setRideData } = useContext(RideContext)
+  const navigate = useNavigate()
+
+  const handleSubmit = () => {
+    navigate(
+      `/select-vehicle?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}`
+    )
+    setPickup('')
+    setDestination('')
+  }
+
+
   return (
     <>
       <div className="absolute inset-0 z-0 md:hidden">
@@ -42,9 +56,17 @@ const HomeMobile = ({
 
             <input
               type="text"
+              required
               value={pickup}
               onFocus={() => setIsExpanded(true)}
-              onChange={(e) => setPickup(e.target.value)}
+              onChange={(e) => {
+                setPickup(e.target.value),
+                  setRideData({
+                    ...rideData,
+                    pickup: e.target.value,
+                  })
+              }
+              }
               className="w-full bg-transparent outline-none"
               placeholder="Pickup"
             />
@@ -55,12 +77,17 @@ const HomeMobile = ({
 
             <input
               type="text"
+              required
               value={destination}
               onFocus={() => {
                 setIsExpanded(true)
                 setSuggestion(true)
               }}
               onChange={(e) => {
+                setRideData({
+                  ...rideData,
+                  destination: e.target.value,
+                })
                 setDestination(e.target.value)
                 setIsExpanded(true)
                 setSuggestion(true)
@@ -71,7 +98,9 @@ const HomeMobile = ({
           </div>
 
           {isExpanded && (
-            <button className="w-full mt-4 bg-gray-900 text-white rounded-xl py-3">
+            <button
+              onClick={handleSubmit}
+              className="w-full mt-4 bg-gray-900 text-white rounded-xl py-3">
               Search Ride
             </button>
           )}
@@ -82,6 +111,7 @@ const HomeMobile = ({
                 setDestination={setDestination}
                 setSuggestion={setSuggestion}
                 setIsExpanded={setIsExpanded}
+                setRideData={setRideData}
               />
             </div>
           )}

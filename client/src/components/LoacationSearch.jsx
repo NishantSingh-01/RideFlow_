@@ -1,6 +1,8 @@
 import React from "react";
 
-const LocationSearch = ({ setDestination, setSuggestion,setIsExpanded }) => {
+const LocationSearch = ({ setDestination, setRideData, setSuggestion, setIsExpanded }) => {
+ 
+ 
   const suggestions = [
     {
       id: 1,
@@ -22,7 +24,7 @@ const LocationSearch = ({ setDestination, setSuggestion,setIsExpanded }) => {
       title: "birbhanpur",
       address: " Varanasi, Uttar Pradesh",
     },
-  ];
+  ]
 
   return (
     <div className="p-4 scroll ">
@@ -30,9 +32,13 @@ const LocationSearch = ({ setDestination, setSuggestion,setIsExpanded }) => {
         <div
           key={location.id}
           onClick={() => {
-            setDestination(location.title);
-            setSuggestion(false);
-             setIsExpanded(false) //there for down
+            setDestination(location.title)
+            setSuggestion(false)
+            setRideData(prev => ({
+              ...prev,
+              destination: location.title,
+            }))
+            //  setIsExpanded(false) //there for down
           }}
           className="flex items-center gap-x-1.5 p-3 mt-2 ml-0 cursor-pointer border-1 border-b-gray-400 rounded-2xl hover:bg-gray-100"
         >

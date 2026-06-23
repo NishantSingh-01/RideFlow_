@@ -144,17 +144,18 @@ import Navbar from '../components/Navbar'
 // }
 
 // export default Home
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchBox from '../components/SearchBox';
 import LocationSearch from '../components/LoacationSearch';
 import Footer from '../components/Footer';
 import Map from '../components/Map';
 import HomeMobile from '../components/HomeMobile';
 import HomeDekstop from '../components/HomeDekstop';
+import axios from 'axios';
 
 
 const HOme = () => {
-  const [pickup, setPickup] = useState("Live Location")
+  const [pickup, setPickup] = useState("")
   const [destination, setDestination] = useState("")
   const [isExpanded, setIsExpanded] = useState(false)
   const [isSuggestion, setSuggestion] = useState(false)
@@ -163,10 +164,22 @@ const HOme = () => {
     setDestination(location)
     setIsExpanded(false)
   }
+  const getRoute = () => {
+    const fetchRoute = async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/maps/route`,
+        {
+          params: { pickup, destination },
+        }
+      )
+      console.log(res)
+    }
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* <div className='absolute top-3 left-3 text-2xl font-bold font-mono '>RideFlow</div> */}
-     
+
       <Navbar />
       <HomeMobile
         pickup={pickup}
@@ -178,7 +191,6 @@ const HOme = () => {
         isSuggestion={isSuggestion}
         setSuggestion={setSuggestion}
       />
-
       <HomeDekstop
         pickup={pickup}
         setPickup={setPickup}
@@ -186,6 +198,8 @@ const HOme = () => {
         setDestination={setDestination}
         isSuggestion={isSuggestion}
         setSuggestion={setSuggestion}
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
       />
 
     </div>

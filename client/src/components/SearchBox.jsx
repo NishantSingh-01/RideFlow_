@@ -22,7 +22,7 @@ const SearchBox = ({
     >
       <h1 className="text-4xl font-bold mb-6">Where to?</h1>
 
-      {/* Pickup */}
+
       <div className="bg-gray-100 rounded-xl p-4 mb-3 flex items-center gap-3">
         <div className="w-3 h-3 rounded-full bg-blue-500"></div>
 

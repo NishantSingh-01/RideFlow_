@@ -6,7 +6,7 @@ const router = Router()
 
 router.post("/coordinates", verifyUserJWT, getAddressCoordinates)
 router.get("/distance-time", verifyUserJWT, getDistanceTime)
-router.get("/route", verifyUserJWT, getRoute)
+router.get("/route", getRoute) // verifyjwt 
 router.get("/get-suggestion", getSuggestions)
 
 export default router

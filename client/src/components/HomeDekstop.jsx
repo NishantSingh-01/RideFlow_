@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import LocationSearch from '../components/LoacationSearch'
 import Map from '../components/Map'
 import Footer from './Footer'
 import BusinessSection from './BusinessSection'
+import { useNavigate } from 'react-router-dom'
+import RideContext from '../Context/RideContext'
 
 const HomeDesktop = ({
     pickup,
@@ -11,10 +13,20 @@ const HomeDesktop = ({
     setDestination,
     isSuggestion,
     setSuggestion,
+    setIsExpanded
 }) => {
+    const navigate = useNavigate()
+    const { rideData, setRideData } = useContext(RideContext)
+    const handleSubmit = () => {
+        navigate(
+            `/select-vehicle?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}`
+        )
+        setPickup('')
+        setDestination('')
+    }
     return (
         <>
-         <div className='max:hidden h-[95px] border-4 rounded-2xl border-l-gray-900 w-0 absolute top-90 left-145 ' ></div>
+            <div className='max:hidden h-[95px] border-4 rounded-2xl border-l-gray-900 w-0 absolute top-90 left-145 ' ></div>
             <div className="hidden md:flex min-h-screen flex-col-reverse md:gap-2 md:flex-row md:justify-between items-start px-8 md:px-20 pt-32 max-md:pt-25">
                 <div className="max-w-xl text-center md:text-left">
                     <h1 className="text-3xl md:text-6xl pl-5 font-bold font-mono ">
@@ -29,9 +41,18 @@ const HomeDesktop = ({
 
                                 <input
                                     type="text"
+                                    required
                                     value={pickup}
                                     onFocus={() => setIsExpanded(true)}
-                                    onChange={(e) => setPickup(e.target.value)}
+                                    onChange={(e) => {
+                                        setPickup(e.target.value);
+                                        setRideData({
+                                            ...rideData,
+                                            pickup: e.target.value,
+                                        })
+                                    }
+
+                                    }
                                     className="w-full bg-transparent outline-none"
                                     placeholder="Pickup"
                                 />
@@ -42,6 +63,7 @@ const HomeDesktop = ({
 
                                 <input
                                     type="text"
+                                    required
                                     value={destination}
                                     onFocus={() => {
                                         setIsExpanded(true);
@@ -51,23 +73,33 @@ const HomeDesktop = ({
                                         setDestination(e.target.value)
                                         setIsExpanded(true);
                                         setSuggestion(true);
+                                        setRideData({
+                                            ...rideData,
+                                            destination: e.target.value,
+                                        })
                                     }}
                                     className="w-full bg-transparent outline-none"
                                     placeholder="Where are you going?"
                                 />
                             </div>
                             <button
+                                onClick={handleSubmit}
                                 className="w-full mt-5 bg-gray-900 text-white rounded-xl py-4 font-medium hover:bg-black transition"
                             >
                                 Search Ride
                             </button>
 
-                            {/* {isSuggestion && (
-                            <LocationSearch
-                                setDestination={setDestination}
-                                setSuggestion={setSuggestion}
-                            />
-                        )} */}
+                            <div
+                                className='relative'>
+                                {isSuggestion && destination.trim() && (
+                                    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-200 z-50 max-h-72 overflow-y-auto">
+                                        <LocationSearch
+                                            setDestination={setDestination}
+                                            setSuggestion={setSuggestion}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,8 +109,8 @@ const HomeDesktop = ({
 
 
             </div>
-                      <hr className="my-14 border-gray-100" />
-            <BusinessSection/>
+            <hr className="my-14 border-gray-100" />
+            <BusinessSection />
             <Footer showOnMobile={false} />
         </>
     )

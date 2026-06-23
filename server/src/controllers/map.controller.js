@@ -35,10 +35,10 @@ export const getDistanceTime = asyncHandler(async (req, res) => {
 })
 
 export const getRoute = asyncHandler(async (req, res) => {
-    const { origin, destination } = req.query
+    const { pickup, destination } = req.query
 
     const route = await MapServices.getRoute(
-        origin,
+        pickup,
         destination
     )
     return res.status(200).json(
