@@ -6,6 +6,7 @@ import RideContext from '../Context/RideContext'
 import axios from 'axios'
 import Loader from '../components/Loader'
 import { toast } from 'react-toastify'
+import RideMap from '../components/RideMap'
 
 const VehicleSelect = () => {
     const vehicles = [
@@ -48,7 +49,7 @@ const VehicleSelect = () => {
             try {
                 setLoading(true)
                 const token = localStorage.getItem('token')
-                console.log(token)
+                // console.log(token)
                 const response = await axios.get(
                     `${import.meta.env.VITE_API_URL}/ride/fare`,
                     {
@@ -63,7 +64,7 @@ const VehicleSelect = () => {
                 )
                 const data = response.data.data
                 // console.log(response)
-                console.log(response.data.data.Price)
+                // console.log(response.data.data.Price)
                 setRideData(prev => ({
                     ...prev,
                     pickup,
@@ -103,7 +104,7 @@ const VehicleSelect = () => {
                 <Map />
             </div> */}
                 <div className='border-2  border-amber-100 rounded-e-lg h-[490px] overflow-hidden  relative z-0" w-[750px]'>
-                    <Map />
+                    <RideMap pickup={rideData.pickup} destination={rideData.destination} />
                 </div>
 
                 <div className="md:w-[400px]  p-4 rounded-t-3xl md:rounded-none  overflow-y-auto">

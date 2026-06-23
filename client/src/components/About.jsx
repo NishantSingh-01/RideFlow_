@@ -54,7 +54,7 @@ const About = () => {
                     <div className="grid md:grid-cols-3 gap-8">
 
                         <div className="p-8 rounded-3xl shadow-lg border">
-                            <div className="text-4xl mb-4">🚗</div>
+                            <div className="text-4xl mb-4"><img className='h-13' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0_Q5Up1RhNWb2d40QBPHLsSzqWJLc73eBun8h118f9Q&s" alt="" /></div>
                             <h3 className="text-2xl font-semibold mb-3">
                                 Easy Booking
                             </h3>
@@ -64,7 +64,7 @@ const About = () => {
                         </div>
 
                         <div className="p-6 rounded-3xl shadow-lg border">
-                            <div className="text-4xl mb-4">🛡️</div>
+                            <div className="text-4xl mb-4"><img className='h-13' src="https://png.pngtree.com/png-vector/20191024/ourmid/pngtree-military-shield-icon-simple-style-png-image_1852722.jpg" alt="" /></div>
                             <h3 className="text-2xl font-semibold mb-3">
                                 Safe Travel
                             </h3>
@@ -74,7 +74,7 @@ const About = () => {
                         </div>
 
                         <div className="p-6 rounded-3xl shadow-lg border">
-                            <div className="text-4xl mb-4">⚡</div>
+                            <div className="text-4xl mb-4"><img className='h-13' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAU_vaMsYPbm34FQkQ8Kew4aPzjh6U-o5Qa4EfnSER7A&s" alt="" /></div>
                             <h3 className="text-2xl font-semibold mb-3">
                                 Fast & Reliable
                             </h3>

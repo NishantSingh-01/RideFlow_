@@ -164,17 +164,7 @@ const HOme = () => {
     setDestination(location)
     setIsExpanded(false)
   }
-  const getRoute = () => {
-    const fetchRoute = async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/maps/route`,
-        {
-          params: { pickup, destination },
-        }
-      )
-      console.log(res)
-    }
-  }
+
 
   return (
     <div className="relative min-h-screen overflow-hidden">

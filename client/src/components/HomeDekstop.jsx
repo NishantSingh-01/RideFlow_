@@ -5,6 +5,7 @@ import Footer from './Footer'
 import BusinessSection from './BusinessSection'
 import { useNavigate } from 'react-router-dom'
 import RideContext from '../Context/RideContext'
+import { toast } from 'react-toastify'
 
 const HomeDesktop = ({
     pickup,
@@ -17,7 +18,42 @@ const HomeDesktop = ({
 }) => {
     const navigate = useNavigate()
     const { rideData, setRideData } = useContext(RideContext)
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        if (!pickup.trim()) {
+            toast.error("Please enter pickup location")
+            return
+        }
+
+        if (!destination.trim()) {
+            toast.error("Please enter destination location")
+            return
+        }
+
+        // try {
+        //     const token = localStorage.getItem("token")
+        //     if(!token){
+        //          toast.error("Please Login first")
+        //          return
+        //     }
+        //     await axios.get(
+        //         `${import.meta.env.VITE_API_URL}/maps/route`,
+        //         {
+        //             params: {
+        //                 pickup,
+        //                 destination,
+        //             },
+        //             headers: {
+        //                 Authorization: `Bearer ${token}`,
+        //             },
+        //         }
+        //     )
+
+        //     navigate(
+        //         `/select-vehicle?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}`
+        //     )
+        // } catch (error) {
+        //     toast.error("Please enter valid locations")
+        // }
         navigate(
             `/select-vehicle?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}`
         )
@@ -103,7 +139,7 @@ const HomeDesktop = ({
                         </div>
                     </div>
                 </div>
-                <div className='border-2  border-amber-100 rounded-e-lg h-[490px] overflow-hidden  relative z-0" w-[750px]'>
+                <div className='border-2 shadow-xl border-gray-100 rounded-lg h-[490px] overflow-hidden  relative z-0" w-[770px]'>
                     <Map />
                 </div>
 

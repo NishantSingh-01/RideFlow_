@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Map from '../components/Map'
 import LocationSearch from '../components/LoacationSearch'
 import RideContext from '../Context/RideContext'
+import { toast } from 'react-toastify'
 const HomeMobile = ({
   pickup,
   setPickup,
@@ -17,10 +18,45 @@ const HomeMobile = ({
   const { rideData, setRideData } = useContext(RideContext)
   const navigate = useNavigate()
 
-  const handleSubmit = () => {
-    navigate(
-      `/select-vehicle?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}`
-    )
+  const handleSubmit = async () => {
+    if (!pickup.trim()) {
+      toast.error("Please enter pickup location")
+      return
+    }
+
+    if (!destination.trim()) {
+      toast.error("Please enter destination location")
+      return
+    }
+    // try {
+    //   const token = localStorage.getItem("token")
+    //   if (!token) {
+    //     toast.error("Please Login first")
+    //     return
+    //   }
+    //   await axios.get(
+    //     `${import.meta.env.VITE_API_URL}/maps/route`,
+    //     {
+    //       params: {
+    //         pickup,
+    //         destination,
+    //       },
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   )
+
+    //   navigate(
+    //     `/select-vehicle?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}`
+    //   )
+    // } catch (error) {
+    //   toast.error("Please enter valid locations")
+    // }
+
+      navigate(
+        `/select-vehicle?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}`
+      )
     setPickup('')
     setDestination('')
   }
