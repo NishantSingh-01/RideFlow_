@@ -30,7 +30,8 @@ function App() {
         <Route path='/register' element={<UserRegister />} />
         <Route path='/captain-login' element={<CaptainLogin />} />
         <Route path='/captain-register' element={<CaptainRegister />} />
-      <Route path="/select-vehicle" element={<UserProtectedWrapper><VehicleSelect/></UserProtectedWrapper>} />
+      {/* <Route path="/select-vehicle" element={ <UserProtectedWrapper><VehicleSelect/></UserProtectedWrapper>} />  */}
+      <Route path="/select-vehicle" element={ <VehicleSelect/>} /> 
         <Route path='/captain-home' element={<CaptainProtectedWrapper>
           <CaptainHome />
         </CaptainProtectedWrapper>} />
