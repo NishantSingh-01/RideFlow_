@@ -15,6 +15,7 @@ import UserHome from './pages/UserHome'
 import HOme from './pages/Home';
 import About from './components/About';
 import VehicleSelect from './pages/VehicleSelect';
+import RequestRide from './pages/RequestRide';
 
 
 
@@ -25,23 +26,23 @@ function App() {
       <ToastContainer />
 
       <Routes>
-        <Route path='/' element={<UserProtectedWrapper><HOme/></UserProtectedWrapper>} />
+        <Route path='/' element={<UserProtectedWrapper><HOme /></UserProtectedWrapper>} />
         <Route path='/login' element={<UserLogin />} />
         <Route path='/register' element={<UserRegister />} />
         <Route path='/captain-login' element={<CaptainLogin />} />
         <Route path='/captain-register' element={<CaptainRegister />} />
-      {/* <Route path="/select-vehicle" element={ <UserProtectedWrapper><VehicleSelect/></UserProtectedWrapper>} />  */}
-      <Route path="/select-vehicle" element={ <VehicleSelect/>} /> 
-        <Route path='/captain-home' element={<CaptainProtectedWrapper>
-          <CaptainHome />
-        </CaptainProtectedWrapper>} />
+        <Route path="/select-vehicle" element={<UserProtectedWrapper><VehicleSelect /></UserProtectedWrapper>} />
+        <Route path="/request-ride" element={<RequestRide />} />
+        <Route path='/captain-home' element={<CaptainProtectedWrapper><CaptainHome />        </CaptainProtectedWrapper>} />
+        <Route path="/about" element={<About />} />
 
 
-         <Route path="/ride" element={<h1>Ride Page</h1>} />
-      <Route path="/drive" element={<h1>Drive Page</h1>} />
-      <Route path="/about" element={<About/>} />
-      <Route path="/service" element={<h1>Service Page</h1>} />
-      <Route path="/help" element={<h1>Help Page</h1>} />
+
+        <Route path="/ride" element={<h1>Ride Page</h1>} />
+        <Route path="/drive" element={<h1>Drive Page</h1>} />
+
+        <Route path="/service" element={<h1>Service Page</h1>} />
+        <Route path="/help" element={<h1>Help Page</h1>} />
 
       </Routes>
     </div>
