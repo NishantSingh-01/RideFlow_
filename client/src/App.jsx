@@ -12,7 +12,7 @@ import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import CaptainHome from './pages/CaptainHome'
 import CaptainProtectedWrapper from './pages/CaptainProtectedWrapper'
 import UserHome from './pages/UserHome'
-import HOme from './pages/Home';
+// import HOme from './pages/Home';
 import About from './components/About';
 import VehicleSelect from './pages/VehicleSelect';
 import RequestRide from './pages/RequestRide';
@@ -26,7 +26,7 @@ function App() {
       <ToastContainer />
 
       <Routes>
-        <Route path='/' element={<UserProtectedWrapper><HOme /></UserProtectedWrapper>} />
+        <Route path='/' element={<UserProtectedWrapper><Home /></UserProtectedWrapper>} />
         <Route path='/login' element={<UserLogin />} />
         <Route path='/register' element={<UserRegister />} />
         <Route path='/captain-login' element={<CaptainLogin />} />
