@@ -6,6 +6,8 @@ import { AppContext } from '../Context/USerContext'
 
 
 const UserRegister = () => {
+  const socket  = useContext(SocketContext)
+
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -32,6 +34,11 @@ const UserRegister = () => {
       if (response.status === 201) {
         localStorage.setItem("token", response.data.data.token)
         setUser(response.data.data.user)
+        
+        socket.emit("join", {
+          userId: response.data.data.user.id,
+          userType: "user"
+        })
         navigate('/')
       }
 
