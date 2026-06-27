@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom"
 import UserContext from './Context/USerContext.jsx'
 import CaptainProvider from './Context/CaptainContext.jsx'
 import { RideProvider } from './Context/RideContext.jsx'
+import SocketProvider from './Context/SocketContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,7 +15,9 @@ createRoot(document.getElementById('root')).render(
       <UserContext>
         <CaptainProvider>
           <RideProvider>
-            <App />
+            <SocketProvider>
+              <App />
+            </SocketProvider>
           </RideProvider>
         </CaptainProvider>
       </UserContext>

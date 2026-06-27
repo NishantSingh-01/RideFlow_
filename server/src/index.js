@@ -4,11 +4,19 @@ dotenv.config()
 import {pool,connectDB} from './config/db.js'
 import initDB from './database/initdDB.js'
 import { getAddressCoordinates } from './services/map.service.js'
+import http from  'http'
+import { Server } from 'socket.io'
+import { initSocket } from './socket/socket.js'
 
 
 await connectDB()
 await initDB()
-app.listen(process.env.PORT,()=>{
+
+const server = http.createServer(app)
+initSocket(server)
+
+
+server.listen(process.env.PORT,()=>{
     console.log(`The Server is Running ${process.env.PORT}`)
 })
 app.get("/check", async (req, res) => {
