@@ -29,8 +29,8 @@ const CaptainProvider = ({ children }) => {
                 )
                 // console.log(response.data.data.id)
                 setCaptain(response.data.data)
-                // socket.emit('join', {
-                //     id: req.captain.id,
+                // socket.emit("join", {
+                //     userId: response.data.data.captain.id,
                 //     userType: "captain"
                 // })
             } catch (error) {
@@ -46,15 +46,15 @@ const CaptainProvider = ({ children }) => {
         fetchCaptain()
     }, [])
     useEffect(() => {
-    if (!captain) return
+        if (!captain) return
 
-    if (socket.connected) {
-        socket.emit("join", {
-            id: captain.id,
-            userType: "captain",
-        })
-    }
-}, [captain, socket])
+        if (socket.connected) {
+            socket.emit("join", {
+                id: captain.id,
+                userType: "captain",
+            })
+        }
+    }, [captain, socket])
 
     const value = {
         captain,

@@ -1,9 +1,12 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { SocketContext } from '../Context/SocketContext'
 
 const CaptainLogin = () => {
+  const socket = useContext(SocketContext)
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -19,14 +22,18 @@ const CaptainLogin = () => {
     }
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/captain/login`, data)
-      // console.log(response.data.data.token)
-      
+      if (response.status == 200) {
+        // console.log("jv")
+      }
       localStorage.setItem("Captaintoken", response.data.data.token)
-      toast.success('Registration successful!')
+      toast.success('Captain Login successful!')
+      socket.emit("join", {
+        userId: response.data.data.captain.id,
+        userType: "captain"
+      })
+      navigate('/captain-home')
       setEmail("")
       setPassword("")
-
-      navigate('/captain-home')
     } catch (error) {
       console.error(error)
       toast.error(
