@@ -5,13 +5,13 @@ import { toast } from 'react-toastify'
 import { SocketContext } from '../Context/SocketContext'
 
 const CaptainLogin = () => {
-  const socket = useContext(SocketContext)
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
+  const socket = useContext(SocketContext)
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -23,22 +23,34 @@ const CaptainLogin = () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/captain/login`, data)
       if (response.status == 200) {
-        // console.log("jv")
+
+        localStorage.setItem("Captaintoken", response.data.data.token)
+        // console.log(response.data.data.captain.id)
+        socket.emit("join", {
+          userId: response.data.data.captain.id,
+          userType: "captain"
+        })
+        navigate("/captain-home")
+
+        toast.success('Captain Login successful!')
+
+        setEmail("")
+        setPassword("")
       }
-      localStorage.setItem("Captaintoken", response.data.data.token)
-      toast.success('Captain Login successful!')
-      socket.emit("join", {
-        userId: response.data.data.captain.id,
-        userType: "captain"
-      })
-      navigate('/captain-home')
-      setEmail("")
-      setPassword("")
     } catch (error) {
-      console.error(error)
-      toast.error(
-        error.response?.data?.message || "captain login failed"
-      )
+      console.error("Login Error:", error);
+
+      if (error.response) {
+        console.log("Status:", error.response.status);
+        console.log("Data:", error.response.data);
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        console.log("No response received:", error.request);
+        toast.error("Server is not responding.");
+      } else {
+        console.log("Error:", error.message);
+        toast.error(error.message);
+      }
     }
     finally {
       setLoading(false)

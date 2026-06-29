@@ -6,10 +6,13 @@ import userRouter from '../src/routes/user.routes.js'
 import captainRouter from './routes/captain.routes.js'
 import mapRouter from "./routes/map.routes.js"
 import rideRouter from '../src/routes/ride.routes.js'
+import morgan from 'morgan'
+
 app.use(cors({
     origin: process.env.CORS
 }))
-console.log(process.env.CORS)
+
+app.use(morgan("dev"))
 app.use(express.json({
     limit: "16kb"
 }))
