@@ -152,19 +152,32 @@ import Map from '../components/Map';
 import HomeMobile from '../components/HomeMobile';
 import HomeDekstop from '../components/HomeDekstop';
 import axios from 'axios';
+import { useContext } from 'react';
+import { AppContext } from '../Context/USerContext';
+import { SocketContext } from '../Context/SocketContext';
 
 
 const HOme = () => {
+
+  const { user } = useContext(AppContext)
+  const socket = useContext(SocketContext)
+
   const [pickup, setPickup] = useState("")
   const [destination, setDestination] = useState("")
   const [isExpanded, setIsExpanded] = useState(false)
   const [isSuggestion, setSuggestion] = useState(false)
 
+
   const selectLocation = (location) => {
     setDestination(location)
     setIsExpanded(false)
   }
-
+  useEffect(() => {
+    socket.emit("join", {
+      userId: user.id,
+      userType: "user"
+    })
+  }, [socket])
 
   return (
     <div className="relative min-h-screen overflow-hidden">

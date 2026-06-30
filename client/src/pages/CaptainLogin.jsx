@@ -26,10 +26,7 @@ const CaptainLogin = () => {
 
         localStorage.setItem("Captaintoken", response.data.data.token)
         // console.log(response.data.data.captain.id)
-        socket.emit("join", {
-          userId: response.data.data.captain.id,
-          userType: "captain"
-        })
+     
         navigate("/captain-home")
 
         toast.success('Captain Login successful!')

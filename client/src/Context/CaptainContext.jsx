@@ -1,19 +1,17 @@
 import axios from 'axios'
 import React, { createContext, useEffect, useState } from 'react'
 import { useContext } from 'react'
-import { SocketContext } from './SocketContext'
 
 export const CaptainContext = createContext()
 
 const CaptainProvider = ({ children }) => {
-    const socket = useContext(SocketContext)
     const [captain, setCaptain] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchCaptain = async () => {
             const token = localStorage.getItem("Captaintoken")
-            // console.log(token)
+         
             if (!token) {
                 setLoading(false)
                 return
@@ -27,7 +25,6 @@ const CaptainProvider = ({ children }) => {
                         }
                     }
                 )
-                // console.log(response.data.data.id)
                 setCaptain(response.data.data)
              
             } catch (error) {
@@ -42,16 +39,7 @@ const CaptainProvider = ({ children }) => {
 
         fetchCaptain()
     }, [])
-    useEffect(() => {
-        if (!captain) return
-        //  console.log(captain)
-        if (socket.connected) {
-            socket.emit("join", {
-                userId: captain.id,
-                userType: "captain",
-            })
-        }
-    }, [captain, socket])
+  
 
     const value = {
         captain,

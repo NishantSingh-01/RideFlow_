@@ -1,13 +1,11 @@
 import axios from 'axios'
 import React, { createContext, useEffect, useState } from 'react'
 import { useContext } from 'react'
-import { SocketContext } from './SocketContext'
 
 export const AppContext = createContext()
 
 const UserContext = ({ children }) => {
-    const socket = useContext(SocketContext)
-
+   
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const value = {
@@ -32,9 +30,7 @@ const UserContext = ({ children }) => {
                         }
                     }
                 )
-                console.log(response)
-                // console.log(user)
-
+                
                 setUser(response.data.data)
             } catch (error) {
                 console.log(error)
@@ -47,15 +43,7 @@ const UserContext = ({ children }) => {
 
         fetchUser()
     }, [])
-    useEffect(() => {
-        if (!user || !socket) return
-        if (socket.connected) {
-            socket.emit("join", {
-                userId: user.id,
-                userType: "user",
-            })
-        }
-    }, [user, socket])
+
 
     return (
         <AppContext.Provider value={value}>

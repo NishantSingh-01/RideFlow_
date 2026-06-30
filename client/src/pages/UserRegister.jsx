@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from "axios"
 import { AppContext } from '../Context/USerContext'
+// import { SocketContext } from '../Context/SocketContext'
 
 
 const UserRegister = () => {
-  const socket  = useContext(SocketContext)
+  // const socket  = useContext(SocketContext)
 
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -35,10 +36,10 @@ const UserRegister = () => {
         localStorage.setItem("token", response.data.data.token)
         setUser(response.data.data.user)
         
-        socket.emit("join", {
-          userId: response.data.data.user.id,
-          userType: "user"
-        })
+        // socket.emit("join", {
+        //   userId: response.data.data.user.id,
+        //   userType: "user"
+        // })
         navigate('/')
       }
 

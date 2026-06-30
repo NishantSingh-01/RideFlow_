@@ -3,11 +3,12 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { AppContext } from '../Context/USerContext'
-import { SocketContext } from '../Context/SocketContext'
+// import { SocketContext } from '../Context/SocketContext'
 
 const UserLogin = () => {
   const { user, setUser } = useContext(AppContext)
-  const socket  = useContext(SocketContext)
+  // const socket  = useContext(SocketContext)
+  
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -26,10 +27,10 @@ const UserLogin = () => {
         localStorage.setItem("token", response.data.data.token)
         setUser(response.data.data.user)
 
-        socket.emit("join", {
-          userId: response.data.data.user.id,
-          userType: "user"
-        })
+        // socket.emit("join", {
+        //   userId: response.data.data.user.id,
+        //   userType: "user"
+        // })
         navigate('/')
       }
       toast.success('Registration successful!')
