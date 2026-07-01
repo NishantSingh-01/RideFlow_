@@ -37,4 +37,5 @@ const findCaptainById = async (id) => {
     return result.rows[0]
 }
 
+
 export { createCaptain, findCaptainByEmail, findCaptainById }

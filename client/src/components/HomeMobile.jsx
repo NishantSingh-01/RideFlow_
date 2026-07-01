@@ -143,7 +143,8 @@ const HomeMobile = ({
 
           {isSuggestion && (
             <div className="mt-3 max-h-[250px] overflow-y-auto rounded-xl bg-white shadow-md">
-              <LocationSearch
+              <LocationSearch 
+                // input={pickup,destination}
                 setDestination={setDestination}
                 setSuggestion={setSuggestion}
                 setIsExpanded={setIsExpanded}

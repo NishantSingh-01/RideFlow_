@@ -9,6 +9,26 @@ const CaptainHome = () => {
   const { captain } = useContext(CaptainContext)
 
   useEffect(() => {
+    const watchId = navigator.geolocation.watchPosition(
+      ({ coords }) => {
+        socket.emit('update-captain-location', {
+          captainId: captain.id,
+          latitude: coords.latitude,
+          longitude: coords.longitude
+        })
+      },
+      (err) => console.error('Geolocation error', err),
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 5000
+      }
+    )
+    return () => navigator.geolocation.clearWatch(watchId)
+  }, [])
+
+   console.log(captain)
+  useEffect(() => {
     socket.emit("join", {
       userId: captain.id,
       userType: "captain"
