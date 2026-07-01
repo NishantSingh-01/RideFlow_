@@ -3,7 +3,7 @@ import ApiError from "../utils/apierror.js"
 import { generateToken } from "../utils/JWT.js"
 import { pool } from "../config/db.js"
 import { createCaptain, findCaptainByEmail, findCaptainById } from "../repositories/captain.repositories.js"
-
+import * as captainRepository from '../repositories/captain.repositories.js'
 
 export const register = async (data) => {
     const user = await findCaptainByEmail(data.email)
@@ -26,18 +26,18 @@ export const register = async (data) => {
         email: newUser.email
     })
     return {
-    captain: {
-        id: newUser.id,
-        firstname: newUser.firstname,
-        lastname: newUser.lastname,
-        email: newUser.email,
-        vehicle_color: newUser.color,
-        vehicle_plate: newUser.plate,
-        vehicle_capacity: newUser.capacity,
-        vehicle_type: newUser.vehicle_type
-    },
-    token
-}
+        captain: {
+            id: newUser.id,
+            firstname: newUser.firstname,
+            lastname: newUser.lastname,
+            email: newUser.email,
+            vehicle_color: newUser.color,
+            vehicle_plate: newUser.plate,
+            vehicle_capacity: newUser.capacity,
+            vehicle_type: newUser.vehicle_type
+        },
+        token
+    }
 }
 
 export const login = async (data) => {
@@ -80,4 +80,18 @@ export const getCaptain = async (captainId) => {
     }
 
     return captain
+}
+
+
+export const getNearbyCaptains = async (latitude, longitude, radiusInKm = 3) => {
+    if (!latitude || !longitude) {
+        throw new ApiError(400, "latitude and logitude required")
+    }
+    const captain = captainRepository.findNearbyCaptains(latitude, longitude, radiusInKm)
+    return captain
+}
+
+
+export const updateCaptainLocation = async (captainId, latitude, longitude) => {
+    return captainRepository.updateCaptainLocation(captainId, latitude, longitude)
 }

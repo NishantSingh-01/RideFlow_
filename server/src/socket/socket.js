@@ -1,6 +1,7 @@
 // socket.js
 import { Server } from "socket.io"
 import { pool } from "../config/db.js"
+import { getNearbyCaptains, updateCaptainLocation } from "../services/captian.service.js"
 let io
 
 export function initSocket(server) {
@@ -30,20 +31,23 @@ export function initSocket(server) {
             }
         })
         socket.on('update-captain-location', async ({ captainId, latitude, longitude }) => {
-            console.log("u[st]")
-            if (!captainId || latitude == null || longitude == null) {
-                return console.warn('Incomplete location update payload')
-            }
+            if (!captainId || latitude == null || longitude == null) return
             try {
-                await pool.query(
-                    "UPDATE captains SET latitude = $1, longitude = $2 WHERE id = $3",
-                    [latitude, longitude, captainId]
-                )
-                console.log("Location updated ", captainId)
+                await updateCaptainLocation(captainId, latitude, longitude)
+                console.log("Location Updated",captainId)
             } catch (err) {
                 console.error('Failed to update captain location', err)
             }
         })
+        // socket.on('create-ride', async ({ pickup, destination, ...rideData }) => {
+            // const nearbyCaptains = await getNearbyCaptains(pickupLat, pickupLng, 3)
+        //     nearbyCaptains.forEach(captain => {
+        //         const captainSocketId = captainSocketMap.get(captain.id)
+        //         if (captainSocketId) {
+        //             io.to(captainSocketId).emit('new-ride-request', rideData)
+        //         }
+        //     })
+        // })
 
         socket.on("disconnect", () => {
             console.log("Disconnected:", socket.id)
