@@ -39,7 +39,7 @@ const findCaptainById = async (id) => {
 const findNearbyCaptains = async (latitude, longitude, radiusInKm) => {
     const query = `
     SELECT * FROM (
-      SELECT id, name, vehicle_type, latitude, longitude,
+      SELECT id, firstname,lastname,socket_id, vehicle_type, latitude, longitude,
       ( 6371 * acos(
           cos(radians($1)) * cos(radians(latitude)) *
           cos(radians(longitude) - radians($2)) +

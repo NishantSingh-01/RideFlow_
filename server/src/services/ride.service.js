@@ -1,6 +1,14 @@
 import * as MapServices from '..//services/map.service.js'
 import * as RideRepository from '../repositories/ride.repositories.js'
+import crypto  from 'crypto'
 
+function getOtp(num) {
+    function generateOtp(num) {
+        const otp = crypto.randomInt(Math.pow(10, num - 1), Math.pow(10, num)).toString();
+        return otp;
+    }
+    return generateOtp(num);
+}
 export const calculateFare = (distance, duration, precision = 0) => {
     const baseFare = {
         auto: 30,
@@ -60,6 +68,7 @@ export const createRide = async ({ userId, pickup, destination, vehicleType }) =
         destination,
         vehicleType,
         fare,
+        otp:getOtp(6),
         distance: distanceTime.distance,
         duration: distanceTime.duration,
     })

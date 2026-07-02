@@ -33,7 +33,7 @@ const UserContext = ({ children }) => {
                 
                 setUser(response.data.data)
             } catch (error) {
-                console.log(error)
+                console.log(error.message)
                 localStorage.removeItem("token")
                 setUser(null)
             } finally {

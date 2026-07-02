@@ -15,9 +15,12 @@ const CaptainHome = () => {
 
 
   const [isOnline, setIsOnline] = useState(false)
+  const [data, setdata] = useState(false)
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       ({ coords }) => {
+        // console.log(coords.latitude)
+        // console.log(coords.longitude)
         socket.emit('update-captain-location', {
           captainId: captain.id,
           latitude: coords.latitude,
@@ -66,10 +69,20 @@ const CaptainHome = () => {
     }
   }
   const setAvailabilty = () => {
-
     setIsOnline(prev => !prev)
     toast.success("Toggled")
   }
+
+  useEffect(() => {
+    socket.on("new-ride", (ride) => {
+        console.log("New Ride:", ride)
+        setdata(ride)
+    })
+
+    return () => {
+        socket.off("new-ride")
+    }
+}, [])
 
 
   return (
@@ -95,8 +108,15 @@ const CaptainHome = () => {
               className='bg-red-500 p-3 rounded-3xl cursor-pointer'>Logout</button>
           </div>
         </div>
-
+        <div className='p-10 pt-23 bg-amber-300'>
+          <h1>new RIde</h1>
+          <p>{data.pickup}</p>
+          <p>{data.destination}</p>
+          <p>{data.fare}</p>
+          
+        </div>
       </div>
+     
     </div>
   )
 }

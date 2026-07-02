@@ -1,5 +1,8 @@
 import * as RideService from '..//services/ride.service.js'
-import { getDistanceTime } from '../services/map.service.js'
+import { getNearbyCaptains } from '../services/captian.service.js'
+import { getAddressCoordinates, getDistanceTime } from '../services/map.service.js'
+import { sendMessageToSocketId } from '../socket/socket.js'
+import ApiError from '../utils/apierror.js'
 import ApiResponse from '../utils/apiresponse.js'
 import asyncHandler from '../utils/asyncHandler.js'
 
@@ -7,10 +10,10 @@ export const calculateFare = asyncHandler(async (req, res) => {
     const { pickup, destination } = req.query
 
     if (!pickup || !destination) {
-        return res.status(400).json({
-            success: false,
-            message: "Pickup and destination are required"
-        })
+        throw new ApiError(
+            400,
+            "Pickup, destination  are required"
+        )
     }
     const distanceTime = await getDistanceTime(
         pickup,
@@ -24,10 +27,6 @@ export const calculateFare = asyncHandler(async (req, res) => {
         new ApiResponse(
             200,
             {
-                // distanceTime: {
-                //     distance: distanceTime.distance,
-                //     duration: distanceTime.duration,
-                // },
                 Price: fares
             },
             "Fare calculated successfully"
@@ -39,10 +38,7 @@ export const createRide = asyncHandler(async (req, res) => {
     const { pickup, destination, vehicleType } = req.body
 
     if (!pickup || !destination || !vehicleType) {
-        throw new ApiError(
-            400,
-            "Pickup, destination and vehicle type are required"
-        )
+          new ApiError(400,'Pickup and Destination and Vehicle_Type required')
     }
     const ride = await RideService.createRide({
         userId: req.user.id,
@@ -51,8 +47,31 @@ export const createRide = asyncHandler(async (req, res) => {
         vehicleType,
     })
 
+
+    const { lat, lng } = await getAddressCoordinates(pickup)
+  
+
+    const NearbyCaptain = await getNearbyCaptains( lat, lng ,5)
+   
+    if(!NearbyCaptain || NearbyCaptain.length === 0){
+       throw new ApiError(400,'No Near by Captain are Available')
+  
+    }
+  
+
+    NearbyCaptain.map((captain) => {
+        sendMessageToSocketId(
+            captain.socket_id,
+            "new-ride",
+            ride
+        )
+    })
     return res.status(201).json(
-        new ApiResponse(201, ride, "Ride created successfully")
+        new ApiResponse(
+            201,
+            ride,
+            "Ride created successfully"
+        )
     )
 
 })

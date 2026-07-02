@@ -39,21 +39,19 @@ export function initSocket(server) {
                 console.error('Failed to update captain location', err)
             }
         })
-        // socket.on('create-ride', async ({ pickup, destination, ...rideData }) => {
-            // const nearbyCaptains = await getNearbyCaptains(pickupLat, pickupLng, 3)
-        //     nearbyCaptains.forEach(captain => {
-        //         const captainSocketId = captainSocketMap.get(captain.id)
-        //         if (captainSocketId) {
-        //             io.to(captainSocketId).emit('new-ride-request', rideData)
-        //         }
-        //     })
-        // })
-
+     
         socket.on("disconnect", () => {
             console.log("Disconnected:", socket.id)
         })
     })
 }
+
+export const sendMessageToSocketId = (socketId, event, data) => {
+    if (!io) return
+
+    io.to(socketId).emit(event, data)
+}
+
 
 export { io }
 export default io
