@@ -1,6 +1,6 @@
 import * as MapServices from '..//services/map.service.js'
 import * as RideRepository from '../repositories/ride.repositories.js'
-import crypto  from 'crypto'
+import crypto from 'crypto'
 
 function getOtp(num) {
     function generateOtp(num) {
@@ -68,9 +68,22 @@ export const createRide = async ({ userId, pickup, destination, vehicleType }) =
         destination,
         vehicleType,
         fare,
-        otp:getOtp(6),
+        otp: getOtp(6),
         distance: distanceTime.distance,
         duration: distanceTime.duration,
     })
+
+}
+
+export const confirmRide = async (rideId, status, captainId) => {
+
+    if (!rideId) {
+        throw new ApiError(400, "Ride ID is required")
+    }
+    await RideRepository.updateRideStatus(rideId, status, captainId)
+
+    const ride = await RideRepository.getRideWithUserAndCaptain(rideId)
+
+    return ride
 
 }

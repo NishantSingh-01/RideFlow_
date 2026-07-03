@@ -12,16 +12,15 @@ const CaptainHome = () => {
   const navigate = useNavigate()
   const socket = useContext(SocketContext)
   const { captain } = useContext(CaptainContext)
-
-
   const [isOnline, setIsOnline] = useState(false)
   const [data, setdata] = useState(false)
-  
+  const [RidePopup, setRidePopup] = useState(false)
+
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       ({ coords }) => {
-        console.log(coords.latitude,coords.longitude)
-        
+        console.log(coords.latitude, coords.longitude)
+
         socket.emit('update-captain-location', {
           captainId: captain.id,
           latitude: coords.latitude,
@@ -76,14 +75,25 @@ const CaptainHome = () => {
 
   useEffect(() => {
     socket.on("new-ride", (ride) => {
-        console.log("New Ride:", ride)
-        setdata(ride)
+      console.log("New Ride:", ride)
+      setdata(ride)
+      setRidePopup(true)
     })
-
     return () => {
-        socket.off("new-ride")
+      socket.off("new-ride")
     }
-}, [])
+  }, [])
+
+  const confirmRide = async()=>{
+    socket.emit('confirm-ride',{
+      userId:captain.id,
+      RideId:data.id 
+    })
+    setRidePopup(false) 
+    // todo confirm ride opoop
+
+  }
+
 
 
   return (
@@ -114,10 +124,10 @@ const CaptainHome = () => {
           <p>{data.pickup}</p>
           <p>{data.destination}</p>
           <p>{data.fare}</p>
-          
+
         </div>
       </div>
-     
+
     </div>
   )
 }
