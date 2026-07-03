@@ -8,6 +8,7 @@ const asyncHandler = (func) => async (req, res, next) => {
             errors: error.errors || []
 
         })
+        console.error(error?.stack || error)
     }
 }
 export default asyncHandler 

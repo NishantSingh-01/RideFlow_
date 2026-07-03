@@ -80,7 +80,7 @@ export const confirmRide = async (rideId, status, captainId) => {
     if (!rideId) {
         throw new ApiError(400, "Ride ID is required")
     }
-    await RideRepository.updateRideStatus(rideId, status, captainId)
+    await RideRepository.confirmRide(rideId, status, captainId)
 
     const ride = await RideRepository.getRideWithUserAndCaptain(rideId)
 

@@ -30,7 +30,7 @@ export const createRide = async ({ userId, pickup, destination, vehicleType, far
     return result.rows[0]
 }
 
-export const updateRideStatus = async (rideId, status, captainId) => {
+export const confirmRide = async (rideId, status, captainId) => {
     const query = `
         UPDATE rides
         SET status = $1,
@@ -46,15 +46,18 @@ export const getRideWithUserAndCaptain = async (rideId) => { //todoto see
             r.*,
 
             u.id AS user_id,
-            u.fullname AS user_name,
-            u.phone AS user_phone,
+            u.firstname AS user_firstname,
+            u.lastname AS user_lastname,
+            u.email AS user_email,
+            u.socket_id AS user_socket_id,   
 
             c.id AS captain_id,
-            c.fullname AS captain_name,
-            c.phone AS captain_phone,
-            c.vehicle_color,
-            c.vehicle_model,
-            c.vehicle_number,
+            c.firstname AS captain_firstname,
+            c.lastname AS captain_lastname,
+            c.email AS captain_email,
+            c.capacity AS vehicle_capacity,
+            c.color AS vehicle_color,
+            c.plate AS vehicle_plate,
             c.vehicle_type
 
         FROM rides r

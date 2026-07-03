@@ -13,7 +13,7 @@ const CaptainHome = () => {
   const socket = useContext(SocketContext)
   const { captain } = useContext(CaptainContext)
   const [isOnline, setIsOnline] = useState(false)
-  const [data, setdata] = useState(false)
+  const [Ride, setRide] = useState(false)
   const [RidePopup, setRidePopup] = useState(false)
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const CaptainHome = () => {
   useEffect(() => {
     socket.on("new-ride", (ride) => {
       console.log("New Ride:", ride)
-      setdata(ride)
+      setRide(ride)
       setRidePopup(true)
     })
     return () => {
@@ -84,17 +84,31 @@ const CaptainHome = () => {
     }
   }, [])
 
-  const confirmRide = async()=>{
-    socket.emit('confirm-ride',{
-      userId:captain.id,
-      RideId:data.id 
-    })
-    setRidePopup(false) 
-    // todo confirm ride opoop
+  const confirmRide = async () => {
+    try {
+      const token = localStorage.getItem("Captaintoken")
 
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/ride/confirm-ride`, {
+        rideId: Ride.id,
+        status: "accepted",
+        captainId: captain.id
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setRidePopup(false)
+      // todo confirm ride opoop
+      toast.success("Ride confirmed successfully")
+      // navigate(`/ride/${Ride.id}`)
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to confirm ride"
+      )
+      console.error(error)
+      console.error(error.response?.data?.message)
+    }
   }
-
-
 
   return (
     <div>
@@ -119,12 +133,22 @@ const CaptainHome = () => {
               className='bg-red-500 p-3 rounded-3xl cursor-pointer'>Logout</button>
           </div>
         </div>
-        <div className='p-10 pt-23 bg-amber-300'>
-          <h1>new RIde</h1>
-          <p>{data.pickup}</p>
-          <p>{data.destination}</p>
-          <p>{data.fare}</p>
-
+        <div className='p-10 pt-23 bg-amber-200'>
+          <h1 className='text-2xl font-semibold mb-4'>Captain Dashboard</h1>
+          {RidePopup && (
+            <div className='bg-white p-5 rounded-lg shadow-md'>
+              <h2 className='text-lg font-semibold mb-2'>New Ride Request</h2>
+              <p>Pickup: {Ride.pickup}</p>
+              <p>Destination: {Ride.destination}</p>
+              <p>Fare: ${Ride.fare}</p>
+              <button
+                onClick={confirmRide}
+                className='bg-green-500 text-white px-4 py-2 rounded-full mt-2'
+              >
+                Confirm Ride
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
