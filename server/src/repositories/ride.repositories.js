@@ -14,7 +14,16 @@ export const createRide = async ({ userId, pickup, destination, vehicleType, far
         status
     )
     VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending')
-    RETURNING *
+    RETURNING
+          id ,
+        user_id,
+        pickup,
+        destination,
+        vehicle_type,
+        fare,
+        distance,
+        duration,
+          status
     `,
         [userId, pickup, destination, vehicleType, fare, distance, duration]
     )

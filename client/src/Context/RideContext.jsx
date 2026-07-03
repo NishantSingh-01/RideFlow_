@@ -8,6 +8,7 @@ export const RideProvider = ({ children }) => {
     destination: "",
     distance: null,
     duration: null,
+    // rideId=null,
     routeCoordinates: [],
     fare: {
       car: 0,
@@ -15,6 +16,7 @@ export const RideProvider = ({ children }) => {
       auto: 0,
     },
     vehicleType: null,
+  
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -28,6 +30,7 @@ export const RideProvider = ({ children }) => {
         setLoading,
         error,
         setError,
+        // rideId
       }}
     >
       {children}

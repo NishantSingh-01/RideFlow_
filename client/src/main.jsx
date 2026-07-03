@@ -9,18 +9,33 @@ import CaptainProvider from './Context/CaptainContext.jsx'
 import { RideProvider } from './Context/RideContext.jsx'
 import SocketProvider from './Context/SocketContext.jsx'
 
+// createRoot(document.getElementById('root')).render(
+//   <StrictMode>
+//     <BrowserRouter>
+//       <UserContext>
+//         <CaptainProvider>
+
+//           <SocketProvider>
+//             <RideProvider>
+//               <App />
+//             </RideProvider>
+//           </SocketProvider>
+
+//         </CaptainProvider>
+//       </UserContext>
+//     </BrowserRouter>
+//   </StrictMode>
+// )
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <BrowserRouter>
-      <UserContext>
-        <CaptainProvider>
-          <RideProvider>
-            <SocketProvider>
-              <App />
-            </SocketProvider>
-          </RideProvider>
-        </CaptainProvider>
-      </UserContext>
+        <UserContext>
+            <CaptainProvider>
+                <SocketProvider>
+                    <RideProvider>
+                        <App />
+                    </RideProvider>
+                </SocketProvider>
+            </CaptainProvider>
+        </UserContext>
     </BrowserRouter>
-  </StrictMode>
 )

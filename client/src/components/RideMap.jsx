@@ -46,11 +46,11 @@ const RideMap = ({ pickup, destination }) => {
                     routeCoordinates: routeData.geometry
                 }))
             } catch (error) {
-                toast.error(
-                    error.response?.data?.message ||
-                    "Failed to fetch route"
-                )
-                console.error(error)
+                // toast.error(
+                //     error.response?.data?.message ||
+                //     "Failed to fetch route"
+                // )
+                // console.error(  error.response?.data?.message)
             }
             finally {
                 setLoading(false)

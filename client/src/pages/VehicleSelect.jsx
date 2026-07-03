@@ -106,9 +106,7 @@ const VehicleSelect = () => {
                 toast.error(
                     error.response?.data?.message || "Something went wrong"
                 )
-                console.log(error.response?.data)
-                console.log(error.response?.status)
-                console.log(error.message)
+                navigate('/')
             } finally {
                 setLoading(false)
             }

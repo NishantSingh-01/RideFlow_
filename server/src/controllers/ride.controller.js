@@ -1,4 +1,5 @@
 import * as RideService from '..//services/ride.service.js'
+import { findUserById } from '../repositories/user.repositories.js'
 import { getNearbyCaptains } from '../services/captian.service.js'
 import { getAddressCoordinates, getDistanceTime } from '../services/map.service.js'
 import { sendMessageToSocketId } from '../socket/socket.js'
@@ -19,10 +20,12 @@ export const calculateFare = asyncHandler(async (req, res) => {
         pickup,
         destination
     )
+
     const fares = await RideService.calculateFare(
         distanceTime.distance,
         distanceTime.duration
     )
+
     return res.status(200).json(
         new ApiResponse(
             200,
@@ -38,7 +41,7 @@ export const createRide = asyncHandler(async (req, res) => {
     const { pickup, destination, vehicleType } = req.body
 
     if (!pickup || !destination || !vehicleType) {
-          new ApiError(400,'Pickup and Destination and Vehicle_Type required')
+        new ApiError(400, 'Pickup and Destination and Vehicle_Type required')
     }
     const ride = await RideService.createRide({
         userId: req.user.id,
@@ -49,21 +52,33 @@ export const createRide = asyncHandler(async (req, res) => {
 
 
     const { lat, lng } = await getAddressCoordinates(pickup)
-  
 
-    const NearbyCaptain = await getNearbyCaptains( lat, lng ,5)
-   
-    if(!NearbyCaptain || NearbyCaptain.length === 0){
-       throw new ApiError(400,'No Near by Captain are Available')
-  
+
+    const NearbyCaptain = await getNearbyCaptains(lat, lng, 5)
+
+    if (!NearbyCaptain || NearbyCaptain.length === 0) {
+        throw new ApiError(400, 'No Near by Captain are Available')
+
     }
-  
+
+    const user = await findUserById(req.user.id)
+
+    const rideWithUser = {
+        ...ride,
+        user: {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            // phone: user.phone,
+            email: user.email
+        }
+    }
 
     NearbyCaptain.map((captain) => {
         sendMessageToSocketId(
             captain.socket_id,
             "new-ride",
-            ride
+            rideWithUser
         )
     })
     return res.status(201).json(

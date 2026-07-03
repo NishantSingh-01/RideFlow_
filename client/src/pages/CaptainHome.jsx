@@ -16,11 +16,12 @@ const CaptainHome = () => {
 
   const [isOnline, setIsOnline] = useState(false)
   const [data, setdata] = useState(false)
+  
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       ({ coords }) => {
-        // console.log(coords.latitude)
-        // console.log(coords.longitude)
+        console.log(coords.latitude,coords.longitude)
+        
         socket.emit('update-captain-location', {
           captainId: captain.id,
           latitude: coords.latitude,

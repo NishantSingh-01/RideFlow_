@@ -21,6 +21,9 @@ export const getAddressCoordinates = async (address) => {
             timeout: 5000,
         }
     )
+    if (!response.data?.length) {
+        throw new ApiError(404, "Location could not be found.");
+    }
     const location = response.data[0];
     return {
         lat: Number(location.lat),
