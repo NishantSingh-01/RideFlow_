@@ -90,23 +90,23 @@ const CaptainHome = () => {
   }
   return (
 
-    <div className="  bg-gray-100 max-sm:overflow-y-hidden overflow-x-hidden">
+    <div className="   max-sm:overflow-y-hidden overflow-x-hidden">
       <CaptainNavbar />
 
       <div className="mt-6  flex flex-col md:flex-row-reverse md:mt-10 md:justify-center md:gap-15 flex-1">
-        <div className="h-[51vh]  md:mt-7 md:h-[490px] md:w-[750px] shadow-xl rounded-lg overflow-hidden relative z-0">
+        <div className="h-[51vh]  md:mt-16 md:h-[490px] md:w-[750px] shadow-xl rounded-lg overflow-hidden relative z-0">
           <Map position={position} />
-          
+
         </div>
 
-        <div className="mt-0 md:mt-10 h-[49vh] md:h-[560px] md:w-[550px] rounded-t-2xl md:rounded-none scroll-auto overflow-y-auto">
+        <div className="mt-0 md:mt-16 h-[49vh] md:h-[520px] md:w-[550px]  rounded-t-2xl md:rounded-none scroll-auto overflow-y-auto">
 
           <div className="scroll-auto  bg-white p-4 overflow-y-auto">
 
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-3xl font-bold">
               Welcome, {captain?.firstname || "Captain"} 👋
             </h1>
-            <p className="text-gray-500 text-sm mt-1 mb-6">
+            <p className="text-gray-500 text-lg mt-1 ml-1 mb-6">
               Ready to accept rides.
             </p>
 
@@ -141,7 +141,7 @@ const CaptainHome = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
+              <div className="bg-green-50 border border-green-600 rounded-xl p-4 mb-4">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Status</span>
                   <span className="font-semibold text-green-600">● Online</span>
@@ -152,12 +152,29 @@ const CaptainHome = () => {
                 </div>
               </div>
             )}
+            <div className="bg-pink-100 border border-pink-600 rounded-xl flex items-center justify-around gap-33  p-4 mb-4 shadow-sm flex items-center gap-4">
+              <div>
+                <img
+                  src="https://img.icons8.com/fluency/96/car.png"
+                  alt="Car"
+                  className="w-16 h-16 object-contain"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">Car Details</p>
+
+                <p className="text-sm text-gray-600">
+                  {captain?.plate || 'Unknown registration'}
+                </p>
+                <p className="text-sm text-gray-600">{captain?.color || 'Unknown color'}</p>
+              </div>
+            </div>
             <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="bg-blue-50 rounded-xl p-4 text-center">
+              <div className="bg-blue-50 border border-blue-600 rounded-xl p-4 text-center">
                 <p className="text-xs text-gray-500">Today's Trips</p>
                 <h2 className="text-2xl font-bold">8</h2>
               </div>
-              <div className="bg-yellow-50 rounded-xl p-4 text-center">
+              <div className="bg-yellow-50 border border-yellow-600 rounded-xl p-4 text-center">
                 <p className="text-xs text-gray-500">Earnings</p>
                 <h2 className="text-2xl font-bold">₹980</h2>
               </div>
