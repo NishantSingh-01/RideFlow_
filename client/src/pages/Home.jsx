@@ -162,8 +162,8 @@ const HOme = () => {
   const { user } = useContext(AppContext)
   const socket = useContext(SocketContext)
 
-  const [pickup, setPickup] = useState(" cantt junction,varanasi")
-  const [destination, setDestination] = useState("Mirzapur Uttar Pradesh India")
+  const [pickup, setPickup] = useState(" Badlapur ,Jaunpur India")
+  const [destination, setDestination] = useState("Jaunpur India")
   const [isExpanded, setIsExpanded] = useState(false)
   const [isSuggestion, setSuggestion] = useState(false)
 

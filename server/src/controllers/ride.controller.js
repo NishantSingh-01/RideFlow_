@@ -54,7 +54,9 @@ export const createRide = asyncHandler(async (req, res) => {
     const { lat, lng } = await getAddressCoordinates(pickup)
 
 
-    const NearbyCaptain = await getNearbyCaptains(lat, lng, 5)
+    const NearbyCaptain = await getNearbyCaptains(lat, lng, 15) 
+    // const NearbyCaptain = await getAllCaptains()
+     console.log(NearbyCaptain)
 
     if (!NearbyCaptain || NearbyCaptain.length === 0) {
         throw new ApiError(400, 'No Near by Captain are Available')

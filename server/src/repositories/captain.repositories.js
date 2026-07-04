@@ -63,5 +63,12 @@ const updateCaptainLocation = async (captainId, latitude, longitude) => {
         [latitude, longitude, captainId]
     )
 }
+const getAllCaptains = async () => {
+    return pool.query(
+        `
+        SELE
+        `
+    )
+}
 
 export { createCaptain, findCaptainByEmail, findCaptainById, findNearbyCaptains, updateCaptainLocation }
