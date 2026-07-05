@@ -35,6 +35,8 @@ const VehicleSelect = () => {
                 "https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/Regular/MotorcycleOrange-249-0.png"
         },
     ]
+
+
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
     const pickup = searchParams.get('pickup')
@@ -117,6 +119,31 @@ const VehicleSelect = () => {
 
     }, [pickup, destination, setRideData])
 
+    const [availableTypes, setAvailableTypes] = useState([])
+
+    useEffect(() => {
+        const getAvailableVehicles = async () => {
+            try {
+                const token = localStorage.getItem('token')
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/ride/available-vehicles`,
+                    {
+                        params: { pickup },
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                )
+                setAvailableTypes(response.data.data.availableVehicleTypes)
+            } catch (error) {
+                setAvailableTypes([])
+            }
+        }
+        if (pickup) {
+            getAvailableVehicles()
+        }
+    }, [pickup])
+
+
+
     if (loading) {
         return <Loader />
     }
@@ -167,42 +194,41 @@ const VehicleSelect = () => {
 
 
                         <div className="space-y-3 md:space-y-4">
-                            {vehicles.map((vehicle) => (
-                                <div
-                                    key={vehicle.id}
-                                    onClick={() => setSelectedVehicle(vehicle.fareKey)}
-                                    className={`flex mt-5 items-center gap-3 md:gap-4 p-3 md:p-4 border-2 rounded-2xl cursor-pointer transition
-                                                  ${selectedVehicle === vehicle.fareKey
-                                            ? 'border-black bg-gray-100'
-                                            : 'hover:bg-gray-50 border-gray-200'
-                                        }`}
-                                >
-                                    <img
-                                        src={vehicle.image}
-                                        alt={vehicle.type}
-                                        className="h-14 w-14 md:h-22 md:w-22 object-contain"
-                                    />
-
-                                    <div className="flex-1">
-                                        <h3 className="font-semibold text-base md:text-lg">
-                                            {vehicle.type}
-                                        </h3>
-                                        <p className="text-xs md:text-sm text-gray-500">
-                                            {vehicle.description}
+                            {vehicles.map((vehicle) => {
+                                const isAvailable = availableTypes.includes(vehicle.fareKey)
+                                return (
+                                    <div
+                                        key={vehicle.id}
+                                        onClick={() => isAvailable && setSelectedVehicle(vehicle.fareKey)}
+                                        className={`flex mt-5 items-center gap-3 md:gap-4 p-3 md:p-4 border-2 rounded-2xl transition
+                                        ${!isAvailable ? 'opacity-40 pointer-events-none cursor-not-allowed' : 'cursor-pointer'}
+                                         ${selectedVehicle === vehicle.fareKey
+                                                ? 'border-black bg-gray-100'
+                                                : 'hover:bg-gray-50 border-gray-200'
+                                            }`}
+                                    >
+                                        <img
+                                            src={vehicle.image}
+                                            alt={vehicle.type}
+                                            className="h-14 w-14 md:h-22 md:w-22 object-contain"
+                                        />
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-base md:text-lg">
+                                                {vehicle.type}
+                                            </h3>
+                                            <p className="text-xs md:text-sm text-gray-500">
+                                                {isAvailable ? vehicle.description : "Not available right now"}
+                                            </p>
+                                        </div>
+                                        <p className="text-base md:text-lg font-bold">
+                                            ₹{rideData.fare?.[vehicle.fareKey] || 0}
                                         </p>
                                     </div>
-
-                                    <p className="text-base md:text-lg font-bold">
-                                        ₹{rideData.fare?.[vehicle.fareKey] || 0}
-                                    </p>
-                                </div>
-                            ))}
+                                )
+                            })}
 
                             {selectedVehicle && (
                                 <button
-                                    onClick={() => {
-                                        setRideData(prev => ({ ...prev, vehicleType: selectedVehicle }))
-                                    }}
                                     onClick={createRide}
                                     className="w-full mt-2 py-3 bg-black text-white font-semibold rounded-2xl hover:bg-gray-800 transition"
                                 >

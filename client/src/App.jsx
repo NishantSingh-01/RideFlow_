@@ -16,6 +16,7 @@ import UserHome from './pages/UserHome'
 import About from './components/About';
 import VehicleSelect from './pages/VehicleSelect';
 import RequestRide from './pages/RequestRide';
+import Arrived from './pages/Arrived'
 
 
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/request-ride" element={<RequestRide />} />
         <Route path='/captain-home' element={<CaptainProtectedWrapper><CaptainHome />        </CaptainProtectedWrapper>} />
         <Route path="/about" element={<About />} />
+        <Route path="/captain-riding/:rideId" element={<CaptainProtectedWrapper><Arrived /></CaptainProtectedWrapper>} />
 
 
 

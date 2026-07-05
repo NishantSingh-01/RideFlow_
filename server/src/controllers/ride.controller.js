@@ -41,7 +41,7 @@ export const createRide = asyncHandler(async (req, res) => {
     const { pickup, destination, vehicleType } = req.body
 
     if (!pickup || !destination || !vehicleType) {
-        new ApiError(400, 'Pickup and Destination and Vehicle_Type required')
+        throw new ApiError(400, 'Pickup and Destination and Vehicle_Type required')
     }
     const ride = await RideService.createRide({
         userId: req.user.id,
@@ -54,13 +54,15 @@ export const createRide = asyncHandler(async (req, res) => {
     const { lat, lng } = await getAddressCoordinates(pickup)
 
 
-    const NearbyCaptain = await getNearbyCaptains(lat, lng, 15) 
-    // const NearbyCaptain = await getAllCaptains()
-     console.log(NearbyCaptain)
+    const NearbyCaptain = await getNearbyCaptains(lat, lng, 15)
+    console.log(NearbyCaptain)
 
-    if (!NearbyCaptain || NearbyCaptain.length === 0) {
-        throw new ApiError(400, 'No Near by Captain are Available')
+    const matchingCaptains = NearbyCaptain.filter(
+        (captain) => captain.vehicle_type === vehicleType
+    )
 
+    if (!matchingCaptains || matchingCaptains.length === 0) {
+        throw new ApiError(400, 'No Nearby Captains are Available')
     }
 
     const user = await findUserById(req.user.id)
@@ -71,12 +73,11 @@ export const createRide = asyncHandler(async (req, res) => {
             id: user.id,
             firstname: user.firstname,
             lastname: user.lastname,
-            // phone: user.phone,
             email: user.email
         }
     }
 
-    NearbyCaptain.map((captain) => {
+    matchingCaptains.map((captain) => {
         sendMessageToSocketId(
             captain.socket_id,
             "new-ride",
@@ -91,6 +92,26 @@ export const createRide = asyncHandler(async (req, res) => {
         )
     )
 
+})
+
+export const getAvailableVehicles = asyncHandler(async (req, res) => {
+    const { pickup } = req.query
+
+    if (!pickup) {
+        throw new ApiError(400, 'Pickup location required')
+    }
+
+    const { lat, lng } = await getAddressCoordinates(pickup)
+
+    const nearbyCaptains = await getNearbyCaptains(lat, lng, 15)
+
+    const availableVehicleTypes = [...new Set(
+        nearbyCaptains.map((captain) => captain.vehicle_type)
+    )]
+
+    return res.status(200).json(
+        new ApiResponse(200, { availableVehicleTypes }, "Available vehicles fetched")
+    )
 })
 
 export const ConfirmRide = asyncHandler(async (req, res) => {
@@ -116,3 +137,14 @@ export const ConfirmRide = asyncHandler(async (req, res) => {
         )
     )
 })
+export const ArrivedatPickup = asyncHandler(async (req, res) => {
+
+})
+export const startRide = asyncHandler(async (req, res) => {
+
+})
+
+export const endRide = asyncHandler(async (req, res) => {
+
+})
+
