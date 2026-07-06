@@ -21,6 +21,7 @@ const CaptainHome = () => {
   const [position, setPosition] = useState(null)
   const [RidePopup, setRidePopup] = useState(false)
   const [confirming, setConfirming] = useState(false)
+  const [height, setHeight] = useState(false)
 
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
@@ -54,6 +55,7 @@ const CaptainHome = () => {
   useEffect(() => {
     socket.on("new-ride", (ride) => {
       console.log("New Ride:", ride)
+      setHeight(true)
       setRide(ride)
       setRidePopup(true)
     })
@@ -88,6 +90,7 @@ const CaptainHome = () => {
   const rejectRide = () => {
     setRidePopup(false)
     setRide(null)
+    setHeight(false)
   }
   return (
 
@@ -96,12 +99,16 @@ const CaptainHome = () => {
         <CaptainNavbar />
 
         <div className="mt-6 mb-6 flex flex-col md:flex-row-reverse md:mt-10 md:justify-center md:gap-15 flex-1">
-          <div className="h-[51vh]  md:mt-16 md:h-[490px] md:w-[750px] shadow-xl rounded-lg overflow-hidden relative z-0">
+          <div className={`md:mt-16 md:w-[750px]  shadow-xl rounded-lg overflow-hidden relative z-0 ${height ? 'h-[30vh] md:h-[300px]' : 'h-[51vh] md:h-[490px]'}`}>
             <Map position={position} />
 
           </div>
 
-          <div className="mt-0 md:mt-16 h-[49vh] md:h-[520px] md:w-[550px]  rounded-t-2xl md:rounded-none scroll-auto overflow-y-auto">
+          <div className="mt-0 md:mt-17 h-[vh] md:h-[520px] md:w-[550px]  rounded-t-2xl md:rounded-none scroll-auto overflow-y-auto">
+            <div
+              onClick={() => setHeight(!height)}
+              className="w-14 h-1.5 bg-gray-400 rounded-full mx-auto mt-3 cursor-pointer lg:hidden"
+            />
 
             <div className="scroll-auto  bg-white p-4 overflow-y-auto max-sm:pb-48">
 
@@ -154,9 +161,9 @@ const CaptainHome = () => {
                   </div>
                 </div>
               )}
-              <div className="bg-pink-100 border border-pink-600 rounded-xl flex items-center justify-around gap-33  p-4 mb-4 shadow-sm flex items-center gap-4">
+              <div className="bg-pink-100 border border-pink-600 rounded-xl flex items-center justify-around gap-33 max-sm:gap-23  p-4 mb-4 shadow-sm flex items-center ">
                 <div>
-                <Car size={42} className="text-blue-600" />
+                  <Car size={42} className="text-blue-600" />
                 </div>
                 <div>
                 </div>

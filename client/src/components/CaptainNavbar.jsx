@@ -43,7 +43,7 @@ const CaptainNavbar = () => {
     }
     return (
         <div>
-            <div className="absolute top-0 left-0 w-full flex items-center justify-between px-4 py-3 bg-black shadow-md z-10">
+            <div className="fixed top-0 left-0 w-full flex items-center justify-between px-4 py-3 bg-black shadow-md z-10">
                 <div className='pl-2 md:pl-8'>
                     <div className='text-2xl max-sm:text-xl font-medium font-mono text-pink-100'> RideFlow</div>
                 

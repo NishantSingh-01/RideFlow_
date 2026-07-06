@@ -159,8 +159,15 @@ import React from 'react'
 import NormalNavbar from '../components/NormalNavbar'
 import Map from '../components/Map'
 import { MapPin } from "lucide-react";
+import { useNavigate } from 'react-router-dom'
 
 const Arrived = () => {
+    const navigate = useNavigate()
+    const HandleArrived = () => {
+        // Handle the "I'm Arrived" button click here
+        console.log("Arrived button clicked");
+        navigate('/otp-verify')
+    }
     return (
         <div className='flex flex-col h-full w-full gap-4  md:flex-row-reverse md:justify-around md:gap-10'>
             <NormalNavbar />
@@ -178,6 +185,7 @@ const Arrived = () => {
                     </div>
                     <div className='flex items-center justify-center gap-54 md:mt-8  mt-4'>
                         <button
+                        onClick={HandleArrived}
                             className="w-full mt-4 bg-green-500 hover:bg-green-600 transition text-white font-semibold py-3 rounded-xl"
                         >
                             I'm Arrived

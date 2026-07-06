@@ -17,6 +17,7 @@ import About from './components/About';
 import VehicleSelect from './pages/VehicleSelect';
 import RequestRide from './pages/RequestRide';
 import Arrived from './pages/Arrived'
+import OtpVerify from './pages/OtpVerify'
 
 
 
@@ -37,7 +38,7 @@ function App() {
         <Route path='/captain-home' element={<CaptainProtectedWrapper><CaptainHome />        </CaptainProtectedWrapper>} />
         <Route path="/about" element={<About />} />
         <Route path="/captain-riding/:rideId" element={<CaptainProtectedWrapper><Arrived /></CaptainProtectedWrapper>} />
-
+        <Route path="/otp-verify" element={<CaptainProtectedWrapper><OtpVerify /></CaptainProtectedWrapper>} />
 
 
         <Route path="/ride" element={<h1>Ride Page</h1>} />
