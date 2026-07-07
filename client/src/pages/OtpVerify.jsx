@@ -4,7 +4,16 @@ import Map from '../components/Map'
 import { MapPin, Circle } from "lucide-react";
 import { useNavigate } from 'react-router-dom'
 
+
 const OtpVerify = () => {
+    const navigate = useNavigate()
+
+    const HandleOtp = ()=>{
+          console.log("Handle opt")
+            navigate('/end-ride')
+          
+    }
+
     return (
         <div>
             <div className='flex flex-col h-full w-full gap-4  md:flex-row-reverse md:justify-around md:gap-10'>
@@ -33,7 +42,9 @@ const OtpVerify = () => {
                                 className="w-full mt-5 border border-gray-300 rounded-lg px-3.5 py-2 text-center text-2xl tracking-[0.6em] focus:outline-none focus:ring-2  focus:border-blue-900 transition"
                             />
 
-                            <button className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
+                            <button
+                            onClick={HandleOtp}
+                            className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
                                 Verify OTP and Start Ride
                             </button>
                         </div>
