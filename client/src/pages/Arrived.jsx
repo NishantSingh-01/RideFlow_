@@ -185,7 +185,7 @@ const Arrived = () => {
                     </div>
                     <div className='flex items-center justify-center gap-54 md:mt-8  mt-4'>
                         <button
-                        onClick={HandleArrived}
+                            onClick={HandleArrived}
                             className="w-full mt-4 bg-green-500 hover:bg-green-600 transition text-white font-semibold py-3 rounded-xl"
                         >
                             I'm Arrived

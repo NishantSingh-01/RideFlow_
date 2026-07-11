@@ -99,7 +99,7 @@ const CaptainHome = () => {
         <CaptainNavbar />
 
         <div className="mt-6 mb-6 flex flex-col md:flex-row-reverse md:mt-10 md:justify-center md:gap-15 flex-1">
-          <div className={`md:mt-16 md:w-[750px]  shadow-xl rounded-lg overflow-hidden relative z-0 ${height ? 'h-[30vh] md:h-[300px]' : 'h-[51vh] md:h-[490px]'}`}>
+          <div className={`md:mt-16 md:w-[750px]  shadow-xl rounded-lg overflow-hidden relative z-0 ${height ? 'h-[30vh] md:h-[490px]' : 'h-[51vh] md:h-[490px]'}`}>
             <Map position={position} />
 
           </div>
@@ -118,18 +118,19 @@ const CaptainHome = () => {
               <p className="text-gray-500 text-lg mt-1 ml-1 mb-6">
                 Ready to accept rides.
               </p>
+              
 
               {RidePopup && Ride ? (
-                <div className="bg-blue-50 border border-blue-600 rounded-xl p-4 mb-4 animate-pulse-once">
+                <div className="bg-blue-50 border md:h-[240px] border-blue-600 rounded-xl p-4 mb-4 animate-pulse-once">
                   <div className="flex justify-between items-center mb-3">
                     <span className="flex gap-2 items-center  font-semibold text-blue-700"><span><img height="23" width="24" src="https://cdn-icons-png.flaticon.com/128/1048/1048328.png" alt="" /></span> <span className="font-semibold text-lg font-mono font ">New Ride Available</span></span>
-                    <span className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-xl">Live</span>
+                    <span className="text-xs bg-blue-600 text-white px-3 py-1.5 font-mono rounded-xl">Live</span>
                   </div>
 
-                  <div className="space-y-1 text-sm text-gray-700 mb-4">
+                  <div className="space-y-1 text-sm mb-4">
                     <p className="wrap-break-word"><span className="font-medium text-[16px] text-gray-900">Pickup:</span> {Ride.pickup}</p>
                     <p className="wrap-break-word"><span className="font-medium text-[16px] text-gray-900">Destination:</span> {Ride.destination}</p>
-                    <p><span className="font-medium text-[16px] text-gray-900">Fare:</span> ₹{Ride.fare}</p>
+                    <p className='text-[19px] text-gray-800'>Fare:<span className="font-bold text-xl text-black"></span> ₹{Ride.fare}</p>
                   </div>
 
                   <div className="flex gap-2">

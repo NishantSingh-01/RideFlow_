@@ -30,7 +30,7 @@ const UserContext = ({ children }) => {
                         }
                     }
                 )
-                
+                // console.log(response)
                 setUser(response.data.data)
             } catch (error) {
                 console.log(error.message)
@@ -43,7 +43,7 @@ const UserContext = ({ children }) => {
 
         fetchUser()
     }, [])
-
+// console.log("cob",user)
 
     return (
         <AppContext.Provider value={value}>
