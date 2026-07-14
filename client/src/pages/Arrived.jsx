@@ -166,11 +166,11 @@ import { toast } from 'react-toastify';
 
 const Arrived = () => {
     const navigate = useNavigate()
-    const {captain} = useContext(CaptainContext)
-     const { rideId } = useParams()
+    const { captain } = useContext(CaptainContext)
+    const { rideId } = useParams()
 
-    const HandleArrived = async() => {
-       
+    const HandleArrived = async () => {
+
         try {
             const token = localStorage.getItem('Captaintoken')
 
@@ -181,10 +181,25 @@ const Arrived = () => {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-
-            toast.success('Captain Arrived')
-            navigate('/otp-verify') //todo to pass state if needed
+            const response = await axios.get(
+                `${import.meta.env.VITE_API_URL}/ride/${rideId}/info`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+            const ride = response.data.data
           
+            toast.success('Captain Arrived')
+            navigate("/otp-verify", {
+                state: {
+                    rideId: ride.id,
+                    pickup: ride.pickup,
+                    destination: ride.destination,
+                },
+            })
+
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to confirm ride')
         }

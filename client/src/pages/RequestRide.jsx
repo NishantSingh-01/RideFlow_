@@ -29,7 +29,6 @@ const ConfirmRide = () => {
 
     useEffect(() => {
         socket.on("ride-arrived", (data) => {
-            console.log(data)
             navigate(`/shareOtp/${data.rideId}`)
         })
         return () => {

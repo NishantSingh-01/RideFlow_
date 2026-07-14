@@ -101,6 +101,8 @@ export const getRideDetails = async (rideId) => {
         `
         SELECT
             id,
+            pickup,
+            destination,
             otp,
             status,
             captain_id,

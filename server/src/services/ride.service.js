@@ -88,11 +88,7 @@ export const changeStatus = async (rideId, status, captainId) => {
     return ride
 
 }
-export const ArrivedatPickup = async (rideId, status) => {
-    if (!rideId) {
-        throw new ApiError(400, "Ride ID is required")
-    }
-}
+
 export const startRide = async (rideId, status) => {
 
     if (!rideId) {

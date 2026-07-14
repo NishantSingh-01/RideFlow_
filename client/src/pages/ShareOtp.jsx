@@ -1,9 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NormalNav from '../components/NormalNav'
-
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
 const ShareOtp = () => {
-     const [otp,setOtp] = useState('2333') 
-     
+    const [otp, setOtp] = useState('3333')
+    const { rideId } = useParams()
+
+
+  useEffect(() => {
+    const getRideInfo = async () => {
+        try {
+            const token = localStorage.getItem("token")
+
+            const response = await axios.get(
+                `${import.meta.env.VITE_API_URL}/ride/${rideId}/info`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            const ride = response.data.data
+            setOtp(ride.otp)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    getRideInfo()
+}, [rideId])
+
 
     return (
         <div className='flex flex-col md:gap-14 bg-gradient-to-br from-blue-50 to-white  justify-center items-center md:mt-13 md:flex-row-reverse'>
@@ -20,7 +45,7 @@ const ShareOtp = () => {
                 </h1>
 
                 <p className="mt-4 text-gray-60 text-center md:mt-3 text-lg md:text-2xl">
-                    Share this pickup code with your captain to begin the ride.
+                    Share this Pickup Code with your Captain to begin the ride.
                 </p>
 
                 <div className='px-5 py-4 md:py-7 mt-6 border-1 border-gray-400 rounded-2xl w-80 md:w-120 flex flex-col justify-center items-center '>

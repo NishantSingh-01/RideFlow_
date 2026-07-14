@@ -120,7 +120,7 @@ const CaptainHome = () => {
               <p className="text-gray-500 text-lg mt-1 ml-1 mb-6">
                 Ready to accept rides.
               </p>
-              
+
 
               {RidePopup && Ride ? (
                 <div className="bg-blue-50 border md:h-[240px] border-blue-600 rounded-xl p-4 mb-4 animate-pulse-once">

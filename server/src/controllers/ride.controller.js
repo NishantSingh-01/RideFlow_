@@ -177,9 +177,7 @@ export const getRideById = asyncHandler(async (req, res) => {
     );
 });
 
-export const ArrivedatPickup = asyncHandler(async (req, res) => {
 
-})
 export const startRide = asyncHandler(async (req, res) => {
 
 })

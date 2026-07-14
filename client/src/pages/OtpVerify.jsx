@@ -2,16 +2,22 @@ import React from 'react'
 import NormalNavbar from '../components/NormalNavbar'
 import Map from '../components/Map'
 import { MapPin, Circle } from "lucide-react";
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 
 const OtpVerify = () => {
     const navigate = useNavigate()
+    const { state } = useLocation()
 
-    const HandleOtp = ()=>{
-          console.log("Handle opt")
-            navigate('/end-ride')
-          
+    const rideId = state?.rideId
+    const pickup = state?.pickup
+    const destination = state?.destination
+    console.log(pickup,destination)
+
+    const HandleOtp = () => {
+        // console.log("Handle opt")
+        //  navigate('/end-ride')  //todo capatain riding
+
     }
 
     return (
@@ -27,12 +33,12 @@ const OtpVerify = () => {
                             <Circle className="w-4 h-3 text-red-600" />  Pickup Location
                             {/* <MapPin className="w-6 h-6 text-green-600" /> */}
                         </h1>
-                        <p className='text-sm mt-1 font-sm p-2 bg-gray-100 border border-gray-300 rounded-md' >rajatalab</p>
+                        <p className='text-sm mt-1 font-sm p-2 bg-gray-100 border border-gray-300 rounded-md' >{pickup}</p>
                         <h1 className='text-lg flex mt-1 items-center gap-2 font-bold font-mono  md:pl-5 md:text-3xl'>
                             <Circle className="w-4 h-3 text-blue-600" />  Destination Location
 
                         </h1>
-                        <p className='text-sm font-sm mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md' >destination</p>
+                        <p className='text-sm font-sm mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md' >{destination}</p>
 
                         <div className=''>
                             <input
@@ -43,8 +49,8 @@ const OtpVerify = () => {
                             />
 
                             <button
-                            onClick={HandleOtp}
-                            className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
+                                onClick={HandleOtp}
+                                className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
                                 Verify OTP and Start Ride
                             </button>
                         </div>
