@@ -70,7 +70,7 @@ const CaptainHome = () => {
     try {
       const token = localStorage.getItem('Captaintoken')
 
-      await axios.post(`${import.meta.env.VITE_API_URL}/ride/confirm-ride`, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/ride/update-status`, {
         rideId: Ride.id,
         status: 'accepted',
         captainId: captain.id

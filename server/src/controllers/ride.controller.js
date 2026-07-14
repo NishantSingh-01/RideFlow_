@@ -76,7 +76,6 @@ export const createRide = asyncHandler(async (req, res) => {
             email: user.email
         }
     }
-
     matchingCaptains.map((captain) => {
         sendMessageToSocketId(
             captain.socket_id,
@@ -114,13 +113,13 @@ export const getAvailableVehicles = asyncHandler(async (req, res) => {
     )
 })
 
-export const ConfirmRide = asyncHandler(async (req, res) => {
+export const changeStatus = asyncHandler(async (req, res) => {
     const { rideId, status, captainId } = req.body
 
     if (!rideId || !status || !captainId) {
         throw new ApiError(400, "Ride ID, Status and Captain ID are required")
     }
-    const updatedRide = await RideService.confirmRide(rideId, status, captainId)
+    const updatedRide = await RideService.changeStatus(rideId, status, captainId)
 
     console.log("updatedRide:", updatedRide.user_socket_id, updatedRide)
     sendMessageToSocketId(

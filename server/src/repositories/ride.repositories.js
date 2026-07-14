@@ -30,7 +30,7 @@ export const createRide = async ({ userId, pickup, destination, vehicleType, far
     return result.rows[0]
 }
 
-export const confirmRide = async (rideId, status, captainId) => {
+export const changeStatus = async (rideId, status, captainId) => {
     const query = `
         UPDATE rides
         SET status = $1,
@@ -40,7 +40,7 @@ export const confirmRide = async (rideId, status, captainId) => {
     const result = await pool.query(query, [status, captainId, rideId])
     return result.rows[0]
 }
-export const getRideWithUserAndCaptain = async (rideId) => { //todoto see
+export const getRideWithUserAndCaptain = async (rideId) => {  //todo to see
     const query = `
         SELECT
             r.*,

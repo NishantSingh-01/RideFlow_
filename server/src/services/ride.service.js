@@ -68,19 +68,19 @@ export const createRide = async ({ userId, pickup, destination, vehicleType }) =
         destination,
         vehicleType,
         fare,
-        otp: getOtp(6),
+        otp: getOtp(4),
         distance: distanceTime.distance,
         duration: distanceTime.duration,
     })
 
 }
 
-export const confirmRide = async (rideId, status, captainId) => {
+export const changeStatus = async (rideId, status, captainId) => {
 
     if (!rideId) {
         throw new ApiError(400, "Ride ID is required")
     }
-    await RideRepository.confirmRide(rideId, status, captainId)
+    await RideRepository.changeStatus(rideId, status, captainId)
 
     const ride = await RideRepository.getRideWithUserAndCaptain(rideId)
 

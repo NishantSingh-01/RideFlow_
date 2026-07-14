@@ -31,6 +31,7 @@ const createRideTable = async () => {
                     status IN (
                         'pending',
                         'accepted',
+                        'arrived',
                         'ongoing',
                         'completed',
                         'cancelled'

@@ -15,17 +15,32 @@ CREATE TABLE rides (
     destination_latitude DECIMAL(10,8),
     destination_longitude DECIMAL(11,8),
 
-    distance INTEGER NOT NULL,        
-    duration INTEGER NOT NULL,       
+    distance INTEGER NOT NULL,
+    duration INTEGER NOT NULL,
 
     fare DECIMAL(10,2) NOT NULL,
 
     status VARCHAR(20) NOT NULL
-     DEFAULT 'pending'
-     CHECK (status IN ('pending', 'accepted','ongoing', 'completed','cancelled')),
+        DEFAULT 'pending'
+        CHECK (
+            status IN (
+                'pending',
+                'accepted',
+                'arrived',
+                'ongoing',
+                'completed',
+                'cancelled'
+            )
+        ),
 
     vehicle_type VARCHAR(10)
-    CHECK(vehicle_type IN ('bike','car','auto'))
+        CHECK (
+            vehicle_type IN (
+                'bike',
+                'car',
+                'auto'
+            )
+        ),
 
     otp VARCHAR(6),
 
@@ -39,6 +54,7 @@ CREATE TABLE rides (
                 'wallet'
             )
         ),
+
     payment_status VARCHAR(20)
         DEFAULT 'pending'
         CHECK (
