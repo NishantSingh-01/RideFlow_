@@ -155,18 +155,41 @@
 
 
 
-import React from 'react'
+import React, { useContext } from 'react'
 import NormalNavbar from '../components/NormalNavbar'
 import Map from '../components/Map'
 import { MapPin } from "lucide-react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { CaptainContext } from '../Context/CaptainContext';
+import axios from "axios"
+import { toast } from 'react-toastify';
 
 const Arrived = () => {
     const navigate = useNavigate()
-    const HandleArrived = () => {
-        // Handle the "I'm Arrived" button click here
-        console.log("Arrived button clicked");
-        navigate('/otp-verify')
+    const {captain} = useContext(CaptainContext)
+     const { rideId } = useParams()
+
+    const HandleArrived = async() => {
+       
+        try {
+            const token = localStorage.getItem('Captaintoken')
+
+            await axios.patch(`${import.meta.env.VITE_API_URL}/ride/update-status`, {
+                rideId: rideId,
+                status: 'arrived',
+                captainId: captain.id
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+            toast.success('Captain Arrived')
+            navigate('/otp-verify') //todo to pass state if needed
+          
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to confirm ride')
+        }
+
+
     }
     return (
         <div className='flex flex-col h-full w-full gap-4  md:flex-row-reverse md:justify-around md:gap-10'>

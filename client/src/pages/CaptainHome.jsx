@@ -70,7 +70,7 @@ const CaptainHome = () => {
     try {
       const token = localStorage.getItem('Captaintoken')
 
-      await axios.post(`${import.meta.env.VITE_API_URL}/ride/update-status`, {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/ride/update-status`, {
         rideId: Ride.id,
         status: 'accepted',
         captainId: captain.id
@@ -82,6 +82,8 @@ const CaptainHome = () => {
       setRidePopup(false)
       navigate(`/captain-riding/${Ride.id}`)
     } catch (error) {
+      console.log(error)
+      console.log(error.message)
       toast.error(error.response?.data?.message || 'Failed to confirm ride')
     } finally {
       setConfirming(false)

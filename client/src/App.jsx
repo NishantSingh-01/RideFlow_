@@ -42,7 +42,7 @@ function App() {
         <Route path="/captain-riding/:rideId" element={<CaptainProtectedWrapper><Arrived /></CaptainProtectedWrapper>} />
         <Route path="/otp-verify" element={<CaptainProtectedWrapper><OtpVerify /></CaptainProtectedWrapper>} />
         <Route path="/end-ride" element={<CaptainProtectedWrapper><EndRide/></CaptainProtectedWrapper>} />
-        <Route path="/shareOtp" element={<ShareOtp/>} />
+        <Route path="/shareOtp/:rideId" element={<ShareOtp />} />
 
         <Route path="/service" element={<h1>Service Page</h1>} />
         <Route path="/help" element={<h1>Help Page</h1>} />
