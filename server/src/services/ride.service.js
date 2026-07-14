@@ -68,12 +68,13 @@ export const createRide = async ({ userId, pickup, destination, vehicleType }) =
         destination,
         vehicleType,
         fare,
-        otp: getOtp(4),
         distance: distanceTime.distance,
         duration: distanceTime.duration,
+        otp: getOtp(4),
     })
 
 }
+
 
 export const changeStatus = async (rideId, status, captainId) => {
 
@@ -104,3 +105,14 @@ export const endRide = async (rideId, status) => {
         throw new ApiError(400, "Ride ID is required")
     }
 }
+
+export const getRideDetails = async (rideId) => {
+
+    const ride = await RideRepository.getRideDetails(rideId)
+
+    if (!ride) {
+        throw new ApiError(404, "Ride not found")
+    }
+
+    return ride
+};

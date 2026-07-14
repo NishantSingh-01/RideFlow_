@@ -165,6 +165,18 @@ export const changeStatus = asyncHandler(async (req, res) => {
         )
     )
 })
+
+export const getRideById = asyncHandler(async (req, res) => {
+
+    const { rideId } = req.params
+
+    const ride = await RideService.getRideDetails(rideId)
+
+    return res.status(200).json(
+        new ApiResponse(200, ride, "Ride fetched successfully")
+    );
+});
+
 export const ArrivedatPickup = asyncHandler(async (req, res) => {
 
 })

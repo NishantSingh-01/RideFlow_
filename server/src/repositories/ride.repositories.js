@@ -1,35 +1,59 @@
 import { pool } from "../config/db.js"
 
-export const createRide = async ({ userId, pickup, destination, vehicleType, fare, distance, duration }) => {
+
+export const createRide = async ({ userId, pickup, destination, vehicleType, fare, distance, duration, otp }) => {
+
     const result = await pool.query(
         `
-    INSERT INTO rides (
-        user_id,
-        pickup,
-        destination,
-        vehicle_type,
-        fare,
-        distance,
-        duration,
-        status
-    )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending')
-    RETURNING
-          id ,
-        user_id,
-        pickup,
-        destination,
-        vehicle_type,
-        fare,
-        distance,
-        duration,
-          status
-    `,
-        [userId, pickup, destination, vehicleType, fare, distance, duration]
-    )
-    return result.rows[0]
-}
+        INSERT INTO rides (
+            user_id,
+            pickup,
+            destination,
+            vehicle_type,
+            fare,
+            distance,
+            duration,
+            otp,
+            status
+        )
+        VALUES (
+            $1,
+            $2,
+            $3,
+            $4,
+            $5,
+            $6,
+            $7,
+            $8,
+            'pending'
+        )
+        RETURNING
+            id,
+            user_id,
+            pickup,
+            destination,
+            vehicle_type,
+            fare,
+            distance,
+            duration,
+            otp,
+            status,
+            created_at
+        `,
+        [
+            userId,
+            pickup,
+            destination,
+            vehicleType,
+            fare,
+            distance,
+            duration,
+            otp
+        ]
+    );
 
+    return result.rows[0];
+}
 export const changeStatus = async (rideId, status, captainId) => {
     const query = `
         UPDATE rides
@@ -70,4 +94,22 @@ export const getRideWithUserAndCaptain = async (rideId) => {  //todo to see
     const { rows } = await pool.query(query, [rideId])
 
     return rows[0]
+}
+
+export const getRideDetails = async (rideId) => {
+    const result = await pool.query(
+        `
+        SELECT
+            id,
+            otp,
+            status,
+            captain_id,
+            user_id
+        FROM rides
+        WHERE id = $1
+        `,
+        [rideId]
+    );
+
+    return result.rows[0];
 }
