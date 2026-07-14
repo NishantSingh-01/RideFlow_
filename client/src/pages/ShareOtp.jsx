@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NormalNav from '../components/NormalNav'
 
 const ShareOtp = () => {
-    const otp = "4533"
+     const [otp,setOtp] = useState('2333') 
+     
 
     return (
         <div className='flex flex-col md:gap-14 bg-gradient-to-br from-blue-50 to-white  justify-center items-center md:mt-13 md:flex-row-reverse'>

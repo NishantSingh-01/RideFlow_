@@ -8,7 +8,7 @@ import { MapPin } from "lucide-react";
 import NormalNav from '../components/NormalNav'
 
 const ConfirmRide = () => {
-    const navigate = useNavigate() ;
+    const navigate = useNavigate();
     const socket = useContext(SocketContext)
     const [searchParams] = useSearchParams()
     const pickup = searchParams.get('pickup')
@@ -27,14 +27,15 @@ const ConfirmRide = () => {
         }
     }, [socket])
 
-    useEffect(()=>{
-        socket.on('arrived',(data)=>{
+    useEffect(() => {
+        socket.on("ride-arrived", (data) => {
             console.log(data)
-            navigate(`/shareOtp/${confirmedRide.id}`)
+            navigate(`/shareOtp/${data.rideId}`)
         })
-    }
-        ,[]
-    )
+        return () => {
+            socket.off("ride-arrived")
+        }
+    }, [])
 
 
     return (
@@ -43,11 +44,11 @@ const ConfirmRide = () => {
             <div className='flex flex-col h-full w-full gap-4  md:flex-row-reverse md:justify-around md:gap-10'>
                 <div className='flex md:mt-26 mt-7 flex-col items- justify-center  md:flex-row-reverse md:justify-around md:gap-14'>
                     <div className='h-[50vh] w-full   overflow-x-hidden md:h-[470px] md:w-[800px] shadow-xl rounded-lg overflow-hidden relative z-0'>
-                        <Map /> //TODO get routes 
+                        <Map /> //TODO get routes
                     </div>
                     <div className='  w-full h-[35vh] rounded-xl md:w-[500px]  p-4 '>
                         {confirmedRide ? (
-                
+
                             <div className='flex justify-center flex-col pb-2 mt-3'>
                                 <h1 className='text-center text-2xl font-mono font-bold md:text-3xl '>Ride Accepted by Captain ...</h1>
                                 <div className='flex justify-around items-center gap-3 mt-2 md:mt-5'>
@@ -59,7 +60,7 @@ const ConfirmRide = () => {
                                         {/* <p>{confirmedRide.vehicle_color} Vehicle</p> */}
                                         <p className='font-sans font-semibold text-blue-800'>{confirmedRide.vehicle_plate}</p>
                                     </div>
-                                    
+
                                 </div>
                                 <div className='flex items-center justify-center gap-8 font-semibold text-lg mt-6 p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg'>
                                     <div className='flex items-center gap-2'>
@@ -94,9 +95,8 @@ const ConfirmRide = () => {
 
 export default ConfirmRide
 
- 
 
 
 
 
-           
+

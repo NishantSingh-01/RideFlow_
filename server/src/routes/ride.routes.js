@@ -8,7 +8,7 @@ const router = Router()
 router.get("/fare",verifyUserJWT,calculateFare)
 router.post( "/create",verifyUserJWT, createRide)
 router.get('/available-vehicles', verifyUserJWT, getAvailableVehicles)
-router.post("/update-status",verifyCaptainJWT, changeStatus)
+router.patch("/update-status",verifyCaptainJWT, changeStatus)
 
 //TODO 
 router.post("/start-ride",verifyCaptainJWT, startRide)

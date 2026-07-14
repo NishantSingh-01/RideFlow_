@@ -62,7 +62,7 @@ export const createRide = asyncHandler(async (req, res) => {
     )
 
     if (!matchingCaptains || matchingCaptains.length === 0) {
-        throw new ApiError(400, 'No Nearby Captains are Available')
+        throw new ApiError(400, "No captain available for this ride at the moment")
     }
 
     const user = await findUserById(req.user.id)
@@ -122,11 +122,40 @@ export const changeStatus = asyncHandler(async (req, res) => {
     const updatedRide = await RideService.changeStatus(rideId, status, captainId)
 
     console.log("updatedRide:", updatedRide.user_socket_id, updatedRide)
-    sendMessageToSocketId(
-        updatedRide.user_socket_id,
-        "ride-confirmed",
-        updatedRide
-    )
+
+    if (status === "accepted") {
+        sendMessageToSocketId(
+            updatedRide.user_socket_id,
+            "ride-confirmed",
+            updatedRide
+        );
+    }
+
+    if (status === "arrived") {
+        sendMessageToSocketId(
+            updatedRide.user_socket_id,
+            "ride-arrived",
+            {
+                rideId: updatedRide.id
+            }
+        );
+    }
+
+    if (status === "ongoing") {
+        sendMessageToSocketId(
+            updatedRide.user_socket_id,
+            "ride-started",
+            updatedRide
+        )
+    }
+
+    if (status === "completed") {
+        sendMessageToSocketId(
+            updatedRide.user_socket_id,
+            "ride-completed",
+            updatedRide
+        );
+    }
 
     return res.status(200).json(
         new ApiResponse(
