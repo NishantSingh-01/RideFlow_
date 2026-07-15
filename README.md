@@ -279,5 +279,3 @@ Maps/geocoding uses external services:
 - User and captain auth middleware look for JWT in cookie `token` or `Authorization` header.
 - In the provided client code, some flows store tokens in `localStorage` (e.g. `token`, `Captaintoken`).
 - There is a likely bug in `CaptainRegister.jsx`: it posts to `/auth/register` (user auth) instead of the captain route.
-
-

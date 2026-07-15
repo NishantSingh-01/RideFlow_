@@ -6,7 +6,7 @@ import Loader from '../components/Loader'
 const UserProtectedWrapper = ({ children }) => {
 
     const { user, loading } = useContext(AppContext)
-    //  console.log("usrbklwb" ,user)
+   
     if (loading) {
         return <Loader />
     }
