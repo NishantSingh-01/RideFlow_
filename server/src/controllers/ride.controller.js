@@ -170,7 +170,7 @@ export const startRide = asyncHandler(async (req, res) => {
         otp
     )
 
-     sendMessageToSocketId(
+    sendMessageToSocketId(
         updatedRide.user_socket_id,
         "ride-started",
         {
@@ -189,19 +189,30 @@ export const endRide = asyncHandler(async (req, res) => {
         rideId,
         captainId
     )
-    console.log("2",updatedRide)
+
+    const rideCompletedPayload = {
+        rideId: updatedRide.id,
+        fare: updatedRide.fare,
+        duration: updatedRide.duration,
+        payment_method: updatedRide.payment_method,
+        payment_status: updatedRide.payment_status,
+        payment_id: updatedRide.payment_id,
+        order_id: updatedRide.order_id,
+        signature: updatedRide.signature
+    }
 
     sendMessageToSocketId(
         updatedRide.user_socket_id,
         "ride-completed",
-        updatedRide
-    )
-    new ApiResponse(
-        200,
-        updatedRide,
-        "Ride ended successfully"
+        rideCompletedPayload
     )
 
-
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "",
+            "Ride ended successfully"
+        )
+    )
 })
 
