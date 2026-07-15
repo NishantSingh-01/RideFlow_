@@ -1,22 +1,51 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import NormalNavbar from '../components/NormalNavbar'
 import Map from '../components/Map'
 import { MapPin, Circle } from "lucide-react";
 import { useLocation, useNavigate } from 'react-router-dom'
+import { CaptainContext } from '../Context/CaptainContext';
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 
 const OtpVerify = () => {
     const navigate = useNavigate()
+    const { captain } = useContext(CaptainContext)
     const { state } = useLocation()
 
     const rideId = state?.rideId
     const pickup = state?.pickup
     const destination = state?.destination
-    console.log(pickup,destination)
 
-    const HandleOtp = () => {
-        // console.log("Handle opt")
-        //  navigate('/end-ride')  //todo capatain riding
+    const [otp, setOtp] = useState('')
+
+    const HandleOtp = async() => {
+        console.log("Handle opt")
+
+        try {
+            const token = localStorage.getItem('Captaintoken')
+
+            await axios.post(`${import.meta.env.VITE_API_URL}/ride/start-ride`, {
+                rideId: rideId,
+                captainId: captain.id,
+                otp: otp,
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+
+            toast.success('Ride Started')
+            navigate(`/ride/${rideId}`, {
+                state: {
+                    rideId: rideId,
+                    pickup: pickup,
+                    destination:destination,
+                },
+            })
+
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to confirm ride')
+        }
 
     }
 
@@ -44,6 +73,8 @@ const OtpVerify = () => {
                             <input
                                 type="text"
                                 maxLength={6}
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
                                 placeholder="Enter OTP"
                                 className="w-full mt-5 border border-gray-300 rounded-lg px-3.5 py-2 text-center text-2xl tracking-[0.6em] focus:outline-none focus:ring-2  focus:border-blue-900 transition"
                             />

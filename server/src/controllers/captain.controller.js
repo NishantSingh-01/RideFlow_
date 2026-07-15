@@ -1,5 +1,5 @@
 import asyncHandler from "../utils/asyncHandler.js"
-import * as CaptainService from '../services/captian.service.js'
+import * as CaptainService from '../services/captain.service.js'
 import ApiResponse from "../utils/apiresponse.js"
 
 const register = asyncHandler(async (req, res) => {

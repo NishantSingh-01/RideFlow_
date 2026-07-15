@@ -1,33 +1,54 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import NormalNav from '../components/NormalNav'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { SocketContext } from '../Context/SocketContext'
 const ShareOtp = () => {
+    const socket = useContext(SocketContext)
     const [otp, setOtp] = useState('3333')
+    const [ride, setRide] = useState(null)
     const { rideId } = useParams()
+    const navigate = useNavigate()
 
 
-  useEffect(() => {
-    const getRideInfo = async () => {
-        try {
-            const token = localStorage.getItem("token")
+    useEffect(() => {
+        const getRideInfo = async () => {
+            try {
+                const token = localStorage.getItem("token")
 
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_URL}/ride/${rideId}/info`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-            const ride = response.data.data
-            setOtp(ride.otp)
-        } catch (error) {
-            console.log(error)
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/ride/${rideId}/info`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                )
+                const ride = response.data.data
+                setOtp(ride.otp)
+                setRide(ride)
+            } catch (error) {
+                console.log(error)
+            }
         }
-    }
-    getRideInfo()
-}, [rideId])
+        getRideInfo()
+    }, [rideId])
+
+    useEffect(() => {
+        socket.on("ride-started", (data) => {
+            navigate(`/ride/${data.rideId}`, {
+                state: {
+                    rideId: data.rideId,
+                    pickup: ride?.pickup,
+                    destination: ride?.destination,
+                },
+            })
+        })
+
+        return () => {
+            socket.off("ride-started");
+        };
+    }, [socket, navigate, ride]);
 
 
     return (

@@ -74,7 +74,7 @@ const CaptainLogin = () => {
           id="email" required
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e .target.value)}
           placeholder="example@gmail.com"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
         />

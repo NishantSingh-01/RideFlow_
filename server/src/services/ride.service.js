@@ -1,6 +1,7 @@
 import * as MapServices from '..//services/map.service.js'
 import * as RideRepository from '../repositories/ride.repositories.js'
 import crypto from 'crypto'
+import ApiError from '../utils/apierror.js';
 
 function getOtp(num) {
     function generateOtp(num) {
@@ -89,17 +90,25 @@ export const changeStatus = async (rideId, status, captainId) => {
 
 }
 
-export const startRide = async (rideId, status) => {
-
-    if (!rideId) {
-        throw new ApiError(400, "Ride ID is required")
+export const startRide = async (rideId, captainId, otp) => {
+    if (!otp) {
+        throw new ApiError(400, "OTP are required")
     }
-}
+    const ride = await RideRepository.getRideDetails(rideId)
 
-export const endRide = async (rideId, status) => {
-    if (!rideId) {
-        throw new ApiError(400, "Ride ID is required")
+    if (!ride) {
+        throw new ApiError(404, "Ride not found");
     }
+
+    if (ride.captain_id !== captainId) {
+        throw new ApiError(403, "You are not assigned to this ride");
+    }
+
+    if (ride.otp !== otp) {
+        throw new ApiError(400, "Invalid OTP");
+    }
+    const rideStatusChange = await changeStatus(rideId, "ongoing", captainId)
+    return rideStatusChange
 }
 
 export const getRideDetails = async (rideId) => {
@@ -109,6 +118,24 @@ export const getRideDetails = async (rideId) => {
     if (!ride) {
         throw new ApiError(404, "Ride not found")
     }
-
     return ride
-};
+}
+export const endRide = async (rideId, captainId) => {
+    if (!rideId || !captainId) {
+        throw new ApiError(400, "Ride ID and Captain ID are required")
+    }
+    const ride = await RideRepository.getRideDetails(rideId)
+    console.log("1",ride)
+    if (!ride) {
+        throw new ApiError(404, "Ride not found");
+    }
+    if (ride.captain_id !== captainId) {
+        throw new ApiError(403, "Unauthorized");
+    }
+
+    if (ride.status !== "ongoing") {
+        throw new ApiError(400, "Ride is not ongoing");
+    }
+    const rideStatusChange = await changeStatus(rideId, "completed", captainId)
+    return rideStatusChange
+}

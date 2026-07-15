@@ -85,7 +85,7 @@ export const getCaptain = async (captainId) => {
 
 export const getNearbyCaptains = async (latitude, longitude, radiusInKm = 3) => {
     if (!latitude || !longitude) {
-        throw new ApiError(400, "latitude and logitude required")
+        throw new ApiError(400, "latitude and longitude required")
     }
     const captain = captainRepository.findNearbyCaptains(latitude, longitude, radiusInKm)
     return captain

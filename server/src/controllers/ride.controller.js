@@ -1,6 +1,6 @@
 import * as RideService from '..//services/ride.service.js'
 import { findUserById } from '../repositories/user.repositories.js'
-import { getNearbyCaptains } from '../services/captian.service.js'
+import { getNearbyCaptains } from '../services/captain.service.js'
 import { getAddressCoordinates, getDistanceTime } from '../services/map.service.js'
 import { sendMessageToSocketId } from '../socket/socket.js'
 import ApiError from '../utils/apierror.js'
@@ -128,7 +128,7 @@ export const changeStatus = asyncHandler(async (req, res) => {
             updatedRide.user_socket_id,
             "ride-confirmed",
             updatedRide
-        );
+        )
     }
 
     if (status === "arrived") {
@@ -138,25 +138,8 @@ export const changeStatus = asyncHandler(async (req, res) => {
             {
                 rideId: updatedRide.id
             }
-        );
-    }
-
-    if (status === "ongoing") {
-        sendMessageToSocketId(
-            updatedRide.user_socket_id,
-            "ride-started",
-            updatedRide
         )
     }
-
-    if (status === "completed") {
-        sendMessageToSocketId(
-            updatedRide.user_socket_id,
-            "ride-completed",
-            updatedRide
-        );
-    }
-
     return res.status(200).json(
         new ApiResponse(
             200,
@@ -179,10 +162,46 @@ export const getRideById = asyncHandler(async (req, res) => {
 
 
 export const startRide = asyncHandler(async (req, res) => {
+    const { rideId, captainId, otp } = req.body
 
+    const updatedRide = await RideService.startRide(
+        rideId,
+        captainId,
+        otp
+    )
+
+     sendMessageToSocketId(
+        updatedRide.user_socket_id,
+        "ride-started",
+        {
+            rideId: updatedRide.id
+        }
+    )
+    return res.status(200).json(
+        new ApiResponse(200, updatedRide, "Ride started successfully")
+    )
 })
 
 export const endRide = asyncHandler(async (req, res) => {
+    const { rideId, captainId } = req.body
+
+    const updatedRide = await RideService.endRide(
+        rideId,
+        captainId
+    )
+    console.log("2",updatedRide)
+
+    sendMessageToSocketId(
+        updatedRide.user_socket_id,
+        "ride-completed",
+        updatedRide
+    )
+    new ApiResponse(
+        200,
+        updatedRide,
+        "Ride ended successfully"
+    )
+
 
 })
 

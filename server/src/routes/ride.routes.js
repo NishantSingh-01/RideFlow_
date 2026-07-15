@@ -10,9 +10,8 @@ router.post( "/create",verifyUserJWT, createRide)
 router.get('/available-vehicles', verifyUserJWT, getAvailableVehicles)
 router.patch("/update-status",verifyCaptainJWT, changeStatus)
 router.get("/:rideId/info",verifyUserJWT,getRideById)
-
-//TODO 
 router.post("/start-ride",verifyCaptainJWT, startRide)
 router.post("/end-ride",verifyCaptainJWT, endRide)
+
 
 export default router

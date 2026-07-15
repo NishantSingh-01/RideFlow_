@@ -1,7 +1,7 @@
 // socket.js
 import { Server } from "socket.io"
 import { pool } from "../config/db.js"
-import { getNearbyCaptains, updateCaptainLocation } from "../services/captian.service.js"
+import { getNearbyCaptains, updateCaptainLocation } from "../services/captain.service.js"
 let io
 
 export function initSocket(server) {
