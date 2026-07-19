@@ -1,5 +1,5 @@
 import { Router } from "express"
-import {calculateFare, createRide ,changeStatus ,getAvailableVehicles,endRide,startRide, getRideById } from "../controllers/ride.controller.js"
+import {calculateFare, createRide ,changeStatus ,getAvailableVehicles,endRide,startRide, getRideById, cancelRide } from "../controllers/ride.controller.js"
 import verifyUserJWT from "../middleware/userAuth.middleware.js"
 import verifyCaptainJWT from '../middleware/captainAuth.middleware.js'
 
@@ -12,6 +12,7 @@ router.patch("/update-status",verifyCaptainJWT, changeStatus)
 router.get("/:rideId/info",verifyUserJWT,getRideById)
 router.post("/start-ride",verifyCaptainJWT, startRide)
 router.post("/end-ride",verifyCaptainJWT, endRide)
+router.patch("/cancel-ride", cancelRide)
 
 
 export default router

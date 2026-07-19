@@ -139,3 +139,25 @@ export const endRide = async (rideId, captainId) => {
     const rideStatusChange = await changeStatus(rideId, "completed", captainId)
     return rideStatusChange
 }
+
+export const cancelRide = async (rideId, userId) => {
+    if (!rideId || !userId) {
+        throw new ApiError(400, "Ride ID and User ID are required")
+    }
+
+    const ride = await RideRepository.getRideDetails(rideId)
+    if (!ride) {
+        throw new ApiError(404, "Ride not found")
+    }
+
+    if (ride.user_id !== userId) {
+        throw new ApiError(403, "Unauthorized")
+    }
+
+    if (ride.status !== "pending") {
+        throw new ApiError(400, "Only pending rides can be cancelled")
+    }
+
+    const cancelledRide = await changeStatus(rideId, "cancelled", ride.captain_id)
+    return cancelledRide
+}

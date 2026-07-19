@@ -216,3 +216,39 @@ export const endRide = asyncHandler(async (req, res) => {
     )
 })
 
+export const cancelRide = asyncHandler(async (req, res) => {
+    const { rideId, cancelledBy } = req.body
+
+    if (!rideId || !cancelledBy) {
+        throw new ApiError(400, "Ride ID and cancelledBy are required")
+    }
+    const ride = await RideService.cancelRide(
+        rideId,
+        cancelledBy
+    )
+    if (cancelledBy === "user") {
+        if (ride.captain_socket_id) {
+            sendMessageToSocketId(
+                ride.captain_socket_id,
+                "ride-cancelled",
+                ride
+            )
+        }
+    }
+    if (cancelledBy === "captain") {
+        if (ride.user_socket_id) {
+            sendMessageToSocketId(
+                ride.user_socket_id,
+                "ride-cancelled",
+                ride
+            )
+        }
+    }
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            ride,
+            "Ride cancelled successfully"
+        )
+    )
+})
