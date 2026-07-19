@@ -125,7 +125,7 @@ export const endRide = async (rideId, captainId) => {
         throw new ApiError(400, "Ride ID and Captain ID are required")
     }
     const ride = await RideRepository.getRideDetails(rideId)
-    console.log("1",ride)
+    console.log("1", ride)
     if (!ride) {
         throw new ApiError(404, "Ride not found");
     }
@@ -140,24 +140,36 @@ export const endRide = async (rideId, captainId) => {
     return rideStatusChange
 }
 
-export const cancelRide = async (rideId, userId) => {
-    if (!rideId || !userId) {
-        throw new ApiError(400, "Ride ID and User ID are required")
+export const cancelRide = async (rideId, cancelledBy) => {
+    if (!rideId || !cancelledBy) {
+        throw new ApiError(400, "Ride ID and cancelledBy are required")
     }
-
-    const ride = await RideRepository.getRideDetails(rideId)
+    const ride = await RideRepository.getRideById(rideId);
     if (!ride) {
-        throw new ApiError(404, "Ride not found")
+        throw new ApiError(404, "Ride not found");
     }
 
-    if (ride.user_id !== userId) {
-        throw new ApiError(403, "Unauthorized")
+    if (ride.status === "completed") {
+        throw new ApiError(
+            400,
+            "Completed ride cannot be cancelled"
+        )
     }
 
-    if (ride.status !== "pending") {
-        throw new ApiError(400, "Only pending rides can be cancelled")
+    if (ride.status === "cancelled") {
+        throw new ApiError(
+            400,
+            "Ride already cancelled"
+        );
     }
 
-    const cancelledRide = await changeStatus(rideId, "cancelled", ride.captain_id)
-    return cancelledRide
+    await RideRepository.cancelRide(
+        rideId,
+        cancelledBy
+    )
+
+    return await RideRepository.getRideWithUserAndCaptain(
+        rideId
+    )
+
 }

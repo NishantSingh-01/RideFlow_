@@ -115,3 +115,22 @@ export const getRideDetails = async (rideId) => {
 
     return result.rows[0];
 }
+export const cancelRide = async (
+    rideId,
+    cancelledBy
+) => {
+
+    const query = `
+        UPDATE rides
+        SET
+            status='cancelled',
+            cancelled_by=$1,
+            cancelled_at=NOW()
+        WHERE id=$2
+    `;
+
+    await pool.query(query, [
+        cancelledBy,
+        rideId
+    ])
+}
