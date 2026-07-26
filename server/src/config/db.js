@@ -24,7 +24,8 @@ const connectDB = async () => {
 
         client.release();
     } catch (error) {
-        console.error("PostgreSQL Connection Error:", error.message);
+        console.error("PostgreSQL Connection Error:", error.message || error);
+        console.error("Full error details:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
         process.exit(1);
     }
 }
@@ -38,4 +39,3 @@ const connectDB = async () => {
 //         process.exit(1)
 //     }
 // }
-export  {pool , connectDB}
