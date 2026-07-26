@@ -1,7 +1,7 @@
 import { findUserByEmail } from "../repositories/user.repositories.js"
 import ApiError from "../utils/apierror.js"
 import bcrypt from 'bcrypt'
-import { generateToken } from "../utils/JWT.js"
+import { generateToken } from "../utils/jwt.js"
 import * as repo from '../repositories/user.repositories.js'
 import { pool } from "../config/db.js"
 

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import ApiError from "../utils/apierror.js"
-import { generateToken } from "../utils/JWT.js"
+import { generateToken } from "../utils/jwt.js"
 import { pool } from "../config/db.js"
 import { createCaptain, findCaptainByEmail, findCaptainById } from "../repositories/captain.repositories.js"
 import * as captainRepository from '../repositories/captain.repositories.js'
