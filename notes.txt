@@ -1,0 +1,435 @@
+================================================================================
+                    RIDEFLOW - DEPLOYMENT GUIDE
+        Full-Stack Ride Booking App (React + Express + PostgreSQL)
+================================================================================
+
+TABLE OF CONTENTS
+-----------------
+1. PREREQUISITES
+2. ENVIRONMENT VARIABLES
+3. LOCAL DEVELOPMENT SETUP
+4. DEPLOYMENT OPTIONS
+5. DEPLOY TO RENDER (SERVER - RECOMMENDED)
+6. DEPLOY TO VERCEL (CLIENT - RECOMMENDED)
+7. DEPLOY TO AWS EC2 (ALTERNATIVE)
+8. DEPLOY TO HEROKU (ALTERNATIVE)
+9. POSTGRESQL DATABASE SETUP
+10. POST-DEPLOYMENT CHECKS
+
+================================================================================
+1. PREREQUISITES
+================================================================================
+
+- Node.js >= 18 (prefer LTS)
+- npm or yarn
+- PostgreSQL database (local or cloud like Neon, Supabase, AWS RDS)
+- Git
+- A GitHub account
+- (Optional) Accounts for: Render, Vercel, or AWS
+
+================================================================================
+2. ENVIRONMENT VARIABLES
+================================================================================
+
+Create a .env file in the /server/ folder:
+
+--- server/.env (copy this) ---
+PORT=7000
+CORS=http://localhost:5173
+
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=rideflow
+DB_PASSWORD=your_db_password
+DB_PORT=5432
+
+JWT_SECRET=your_super_secret_jwt_key_here
+JWT_EXPIRY=7d
+
+NOMINATIM_USER_AGENT=RideFlowApp/1.0 (your-email@example.com)
+NOMINATIM_LANGUAGE=en
+---
+
+IMPORTANT: Use a strong random JWT_SECRET. Generate one with:
+> node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+================================================================================
+3. LOCAL DEVELOPMENT SETUP
+================================================================================
+
+Step 1: Install PostgreSQL
+  - Download from https://www.postgresql.org/download/
+  - During installation, set a password for the 'postgres' user
+  - Note the port (default: 5432)
+
+Step 2: Create the Database
+  Open pgAdmin or psql and run:
+  > CREATE DATABASE rideflow;
+
+Step 3: Setup Server
+  > cd server
+  > npm install
+  > npm run dev    # Starts on http://localhost:7000
+
+Step 4: Setup Client
+  > cd client
+  > npm install
+  > npm run dev    # Starts on http://localhost:5173
+
+Step 5: Open http://localhost:5173 in your browser
+
+================================================================================
+4. DEPLOYMENT OPTIONS
+================================================================================
+
+Option A (Recommended): 
+  - Server: Render (Free tier available)
+  - Client: Vercel (Free tier)
+  - Database: Neon (Free PostgreSQL) or Supabase (Free tier)
+
+Option B (Self-hosted):
+  - Server + Client: AWS EC2 / DigitalOcean Droplet
+  - Database: Same machine or AWS RDS
+
+Option C:
+  - Server: Railway.app
+  - Client: Vercel
+  - Database: Supabase
+
+================================================================================
+5. DEPLOY TO RENDER (Server - RECOMMENDED) >>>>DONE
+================================================================================
+
+Step 1: Push your code to GitHub >>>DONE
+  > git init
+  > git add .
+  > git commit -m "Initial commit"
+  > git remote add origin https://github.com/yourusername/rideflow.git
+  > git push -u origin main
+
+Step 2: Go to https://dashboard.render.com  >>>DONE
+  - Click "New +" > "Web Service"
+  - Connect your GitHub repository
+
+Step 3: Configure the service: DONE
+  - Name: rideflow-server
+  - Root Directory: server
+  - Environment: Node
+  - Build Command: npm install
+  - Start Command: npm start
+  - Add this to package.json scripts: "start": "node src/index.js"
+  - Plan: Free
+
+Step 4: Add Environment Variables (in Render dashboard):  >>>DONE
+  PORT=7000
+  CORS=https://your-client.vercel.app   (update after client deploy)
+  DB_USER=your_db_user
+  DB_HOST=your_db_host
+  DB_NAME=your_db_name
+  DB_PASSWORD=your_db_password
+  DB_PORT=5432
+  JWT_SECRET=<generate a strong secret>
+  JWT_EXPIRY=7d
+  NOMINATIM_USER_AGENT=RideFlowApp/1.0
+  NOMINATIM_LANGUAGE=en
+
+Step 5: Click "Create Web Service" 
+
+Important for Render Free Tier:
+  - Free services spin down after 15 min of inactivity
+  - First request after idle takes ~30-60 sec to respond
+  - Consider upgrading to paid for production
+
+================================================================================
+6. DEPLOY TO VERCEL (Client - RECOMMENDED)
+================================================================================
+
+Step 1: Update client/src/socket/socket.js
+  Change the connection URL to your deployed server URL:
+  
+  export const socket = io("https://rideflow-server.onrender.com", {
+      withCredentials: true,
+      autoConnect: true
+  })
+
+Step 2: Update client/vite.config.js
+  Add server proxy configuration (if deployed on same domain):
+  
+  export default defineConfig({
+    plugins: [react(), tailwindcss()],
+    server: { host: true }
+  })
+
+Step 3: Deploy to Vercel
+  Option A: Via Vercel CLI
+    > npm i -g vercel
+    > cd client
+    > vercel
+    > Follow prompts, log in with GitHub
+
+  Option B: Via Vercel Dashboard
+    - Go to https://vercel.com
+    - Click "Add New" > "Project"
+    - Import your GitHub repo
+    - Root Directory: client
+    - Framework Preset: Vite
+    - Build Command: npm run build
+    - Output Directory: dist
+    - Click "Deploy"
+
+Step 4: Update CORS env variable on Render
+  After Vercel gives you a URL (e.g., https://rideflow.vercel.app):
+  - Go back to Render dashboard
+  - Update CORS = https://rideflow.vercel.app
+  - Click "Manual Deploy" > "Deploy latest commit"
+
+================================================================================
+7. DEPLOY TO AWS EC2 (Alternative - Production Grade)
+================================================================================
+
+Step 1: Launch an EC2 Instance
+  - AWS Console > EC2 > Launch Instance
+  - Ubuntu 22.04 LTS (Free tier eligible)
+  - Create a key pair (.pem file)
+  - Allow ports: 22 (SSH), 80 (HTTP), 443 (HTTPS), 7000 (if needed)
+
+Step 2: SSH into the server
+  > ssh -i your-key.pem ubuntu@your-ec2-public-ip
+
+Step 3: Install dependencies
+  > sudo apt update && sudo apt upgrade -y
+  > curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+  > sudo apt install nodejs git nginx postgresql postgresql-contrib -y
+
+Step 4: Setup PostgreSQL
+  > sudo -u postgres psql
+  > CREATE DATABASE rideflow;
+  > CREATE USER rideflow_user WITH PASSWORD 'your_secure_password';
+  > GRANT ALL PRIVILEGES ON DATABASE rideflow TO rideflow_user;
+  > \q
+
+Step 5: Clone and setup server
+  > git clone https://github.com/yourusername/rideflow.git
+  > cd rideflow/server
+  > npm install
+  > nano .env   # Add all environment variables
+  > sudo npm i -g pm2
+  > pm2 start src/index.js --name rideflow-server
+  > pm2 save
+  > pm2 startup
+
+Step 6: Setup Nginx reverse proxy
+  > sudo nano /etc/nginx/sites-available/rideflow
+  
+  server {
+      listen 80;
+      server_name your-domain.com;
+      
+      location / {
+          proxy_pass http://localhost:7000;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+          proxy_cache_bypass $http_upgrade;
+      }
+  }
+
+  > sudo ln -s /etc/nginx/sites-available/rideflow /etc/nginx/sites-enabled/
+  > sudo nginx -t
+  > sudo systemctl restart nginx
+
+Step 7: Build and serve client
+  > cd ../client
+  > npm install
+  > npm run build
+  > sudo mkdir -p /var/www/rideflow
+  > sudo cp -r dist/* /var/www/rideflow/
+  
+  Update Nginx:
+  server {
+      listen 80;
+      server_name your-domain.com;
+      
+      # Serve client
+      location / {
+          root /var/www/rideflow;
+          index index.html;
+          try_files $uri $uri/ /index.html;
+      }
+      
+      # API Proxy
+      location /api/ {
+          proxy_pass http://localhost:7000;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+      }
+      
+      # Socket.IO (WebSocket)
+      location /socket.io/ {
+          proxy_pass http://localhost:7000;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+      }
+  }
+
+Step 8: Install SSL (HTTPS) - Recommended
+  > sudo snap install core; sudo snap refresh core
+  > sudo snap install --classic certbot
+  > sudo ln -s /snap/bin/certbot /usr/bin/certbot
+  > sudo certbot --nginx -d your-domain.com
+
+================================================================================
+8. POSTGRESQL DATABASE SETUP (Cloud Options)
+================================================================================
+
+Option A: Neon (Free Serverless PostgreSQL)
+  1. Go to https://neon.tech
+  2. Sign up and create a project
+  3. Copy the connection string
+  4. Extract values:
+     - DB_HOST = <host>.neon.tech
+     - DB_NAME = rideflow (or your db name)
+     - DB_USER = <user>
+     - DB_PASSWORD = <password>
+     - DB_PORT = 5432
+
+Option B: Supabase (Free PostgreSQL)
+  1. Go to https://supabase.com
+  2. Create a project
+  3. Go to Project Settings > Database
+  4. Copy connection string (use URI mode)
+  5. Note: You may need to update pg config to use SSL
+
+Option C: AWS RDS (Paid, Production)
+  1. AWS Console > RDS > Create Database
+  2. Choose PostgreSQL
+  3. Free tier eligible (t2.micro, 20GB storage)
+  4. Set master username and password
+  5. Make sure "Public accessibility" = Yes
+  6. Update Security Group to allow inbound on port 5432
+
+IMPORTANT for cloud databases:
+  - The server's db.js uses pg Pool with SSL disabled by default
+  - For Neon/Supabase/AWS RDS, you MUST add SSL config.
+  - Update server/src/config/db.js:
+
+    const pool = new Pool({
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST,
+        database: process.env.DB_NAME,
+        password: String(process.env.DB_PASSWORD),
+        port: Number(process.env.DB_PORT),
+        ssl: {
+            rejectUnauthorized: false   // Required for Neon, Supabase
+        }
+    })
+
+================================================================================
+9. POST-DEPLOYMENT CHECKS
+================================================================================
+
+After deployment, verify everything works:
+
+[ ] Server health check: https://your-server.com/api/v1
+    Expected: "Welcome to the RideFlow"
+
+[ ] Database check: https://your-server.com/check
+    Expected: "The Database name is :: rideflow"
+    If this fails, check DB connection variables.
+
+[ ] Socket.IO connection: Check browser console
+    Expected: "User connected: <socket-id>"
+    If not, check socket URL in client/src/socket/socket.js
+
+[ ] User Registration: POST /api/v1/auth/register
+    Test using Postman or curl
+
+[ ] Captain Registration: POST /api/v1/captain/register
+
+[ ] Map APIs: 
+    - POST /api/v1/maps/coordinates (with { address: "New York" })
+    - GET /api/v1/maps/distance-time?origin=...&destination=...
+
+[ ] Ride Creation Flow:
+    1. Register a user → get token
+    2. Get fare: GET /api/v1/ride/fare?pickup=...&destination=...
+    3. Create ride: POST /api/v1/ride/create
+
+================================================================================
+10. TROUBLESHOOTING
+================================================================================
+
+Issue: Server crashes on startup
+  Solution: Check .env file for missing or incorrect variables
+
+Issue: Database connection refused
+  Solution: 
+    - For local: Check PostgreSQL is running
+    - For cloud: Check IP whitelist, SSL settings, credentials
+
+Issue: "CORS policy" error in browser
+  Solution: Update CORS environment variable to match client URL exactly
+
+Issue: Socket.IO not connecting
+  Solution: 
+    - Check socket URL in client/src/socket/socket.js
+    - Ensure WebSocket proxy is configured in Nginx (if using reverse proxy)
+    - Render free tier: use a WebSocket pinger or upgrade plan
+
+Issue: Blank page after Vercel deploy
+  Solution:
+    - Check build logs for errors
+    - Ensure vite.config.js is correct
+    - Try clearing Vercel cache: Vercel Dashboard > More > Trigger Deploy
+
+Issue: Maps APIs not working
+  Solution:
+    - Nominatim has usage limits. Add a delay between requests or upgrade.
+    - Set NOMINATIM_USER_AGENT to a valid email for better rate limits.
+
+================================================================================
+11. ADDITIONAL TIPS
+================================================================================
+
+1. Server Start Command:
+   Add to server/package.json scripts:
+   "start": "node src/index.js"
+   "dev": "nodemon src/index.js"
+
+2. For Render Free Tier (WebSocket):
+   Since Render free tier spins down, WebSocket may disconnect.
+   Implement reconnection logic in client:
+   
+   export const socket = io(SERVER_URL, {
+       withCredentials: true,
+       autoConnect: true,
+       reconnection: true,
+       reconnectionAttempts: Infinity,
+       reconnectionDelay: 1000
+   })
+
+3. Security:
+   - Use strong JWT_SECRET (at least 32 bytes hex)
+   - Enable HTTPS in production
+   - Never commit .env files to GitHub
+   - Keep PostgreSQL behind firewall for production
+   - Add rate limiting for API endpoints
+
+4. Monitoring:
+   - Add uptime monitoring with UptimeRobot (free tier)
+   - Check Render/Vercel logs for errors
+   - Set up error tracking with Sentry (optional)
+
+5. CI/CD (Optional):
+   - Connect GitHub to Render/Vercel for auto-deploy on push
+   - Add GitHub Actions for testing before deployment
+
+================================================================================
+                    END OF DEPLOYMENT GUIDE
+================================================================================
+

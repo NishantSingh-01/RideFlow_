@@ -12,8 +12,8 @@ const EndRide = () => {
                         <Map />
                     </div>
                     <div className='  w-full h-[39vh] flex flex-col items-center  rounded-xl md:w-[500px]  p-4 rounded-lg '>
-                         <h1 className='font-medium text-gray-600 text-2xl '>Ride Completed</h1>
-                         <button className= ' rounded-xl px-8 py-3 text-lg bg-green-500 '>End Ride</button>
+                        <h1 className='font-medium text-gray-600 text-2xl '>Ride Completed</h1>
+                        <button className=' rounded-xl px-8 py-3 text-lg bg-green-500 '>End Ride</button>
                     </div>
                 </div>
             </div>

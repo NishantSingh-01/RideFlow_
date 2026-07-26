@@ -144,7 +144,7 @@ export const cancelRide = async (rideId, cancelledBy) => {
     if (!rideId || !cancelledBy) {
         throw new ApiError(400, "Ride ID and cancelledBy are required")
     }
-    const ride = await RideRepository.getRideById(rideId);
+    const ride = await RideRepository.getRideById(rideId);//todo get ride by id
     if (!ride) {
         throw new ApiError(404, "Ride not found");
     }

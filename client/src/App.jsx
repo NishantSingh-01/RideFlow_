@@ -21,6 +21,7 @@ import OtpVerify from './pages/OtpVerify'
 import EndRide from './pages/EndRide';
 import ShareOtp from './pages/ShareOtp';
 import Ride from './pages/Ride';
+import TripPayment from './pages/Payment';
 
 
 
@@ -45,6 +46,8 @@ function App() {
         <Route path="/end-ride" element={<CaptainProtectedWrapper><EndRide/></CaptainProtectedWrapper>} />
         <Route path="/shareOtp/:rideId" element={<UserProtectedWrapper><ShareOtp /></UserProtectedWrapper>} />
         <Route path="/Ride/:rideId" element={<Ride/>} />
+        <Route path="/payment" element={<TripPayment/>} />
+
 
         <Route path="/help" element={<h1>Help Page</h1>} />
 
