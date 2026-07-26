@@ -11,9 +11,6 @@ const pool = new Pool({
     port: Number(process.env.DB_PORT)
 })
 
-// pool.on("connect", () => {
-//     console.log("Connection pool established with Database")
-// })
 const connectDB = async () => {
     try {
         const client = await pool.connect();
@@ -24,7 +21,7 @@ const connectDB = async () => {
 
         client.release();
     } catch (error) {
-        console.error("PostgreSQL Connection Error:", error.message || error);
+        console.error("PostgreSQL Connection Error:", error.message);
         console.error("Full error details:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
         process.exit(1);
     }
@@ -39,3 +36,4 @@ const connectDB = async () => {
 //         process.exit(1)
 //     }
 // }
+export  {pool , connectDB}
