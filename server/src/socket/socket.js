@@ -5,10 +5,10 @@ import { getNearbyCaptains, updateCaptainLocation } from "../services/captain.se
 let io
 
 export function initSocket(server) {
+    const allowedOrigins = process.env.CORS.split(",");
     io = new Server(server, {
         cors: {
-            // origin: "http://localhost:5173",
-            origin: "https://ride-flow-1nbx8v495-nishantsingh-01s-projects.vercel.app",
+            origin: allowedOrigins,
             credentials: true
         }
     })
@@ -35,12 +35,12 @@ export function initSocket(server) {
             if (!captainId || latitude == null || longitude == null) return
             try {
                 await updateCaptainLocation(captainId, latitude, longitude)
-                console.log("Location Updated",captainId)
+                console.log("Location Updated", captainId)
             } catch (err) {
                 console.error('Failed to update captain location', err)
             }
         })
-     
+
         socket.on("disconnect", () => {
             console.log("Disconnected:", socket.id)
         })
