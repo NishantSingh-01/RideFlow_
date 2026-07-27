@@ -16,20 +16,20 @@ const LocationSearch = ({
       return
     }
 
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/maps/get-suggestions`,
-        {
-          params: { input: query },
-          withCredentials: true, // remove if you don't use cookie-based auth
-        }
-      )
+    // try {
+    //   const res = await axios.get(
+    //     `${import.meta.env.VITE_API_URL}/maps/get-suggestions`,
+    //     {
+    //       params: { input: query },
+    //       withCredentials: true, // remove if you don't use cookie-based auth
+    //     }
+    //   )
 
-      setSuggestions(res.data.data) // adjust based on your ApiResponse shape
-    } catch (err) {
-      console.error("Failed to fetch suggestions", err)
-      setSuggestions([])
-    }
+    //   setSuggestions(res.data.data) // adjust based on your ApiResponse shape
+    // } catch (err) {
+    //   console.error("Failed to fetch suggestions", err)
+    //   setSuggestions([])
+    // }
   }
 
   useEffect(() => {

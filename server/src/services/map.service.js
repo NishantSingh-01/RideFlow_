@@ -127,3 +127,4 @@ export const getSuggestions = async (query) => {
         // longitude: place.geometry.coordinates[0],
     }))
 } 
+ //issue for multiple nomination calls there

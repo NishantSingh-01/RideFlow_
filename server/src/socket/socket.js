@@ -7,7 +7,8 @@ let io
 export function initSocket(server) {
     io = new Server(server, {
         cors: {
-            origin: "http://localhost:5173",
+            // origin: "http://localhost:5173",
+            origin: "https://ride-flow-1nbx8v495-nishantsingh-01s-projects.vercel.app",
             credentials: true
         }
     })
