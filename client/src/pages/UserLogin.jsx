@@ -89,7 +89,7 @@ const UserLogin = () => {
         </button>
         <p className='pl-2'>Create Account as User <Link to='/register' className='underline text-blue-400'>Sign up</Link></p>
 
-        <div className="mt-auto mb-3">
+        <div className="mt-auto mb-8">
           <button
             type="button"
             onClick={() => { navigate('/captain-login') }}

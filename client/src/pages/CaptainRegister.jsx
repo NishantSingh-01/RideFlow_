@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from "axios"
 
-
 const CaptainRegister = () => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [color, setColor] = useState("")
+  const [plate, setPlate] = useState("")
+  const [capacity, setCapacity] = useState("")
+  const [vehicleType, setVehicleType] = useState("car")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
@@ -20,11 +23,16 @@ const CaptainRegister = () => {
       lastname: lastName,
       email,
       password,
+      color,
+      plate,
+      capacity: Number(capacity),
+      vehicle_type: vehicleType,
     }
     try {
-
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, data)
-      // console.log(response.data)
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/captain/register`,
+        data
+      )
 
       localStorage.setItem("Captaintoken", response.data.data.token)
       toast.success('Registration successful!')
@@ -32,6 +40,10 @@ const CaptainRegister = () => {
       setLastName("")
       setEmail("")
       setPassword("")
+      setColor("")
+      setPlate("")
+      setCapacity("")
+      setVehicleType("car")
 
       navigate('/')
     } catch (error) {
@@ -43,11 +55,12 @@ const CaptainRegister = () => {
       setLoading(false)
     }
   }
+
   return (
-    <div className="h-screen w-screen scroll-auto flex justify-center mt-3">
+    <div className="h-screen w-screen scroll-auto flex justify-center mt-3 overflow-y-auto pb-24">
       <form
         onSubmit={submitHandler}
-        className="p-8 rounded-lg shadow-md flex flex-col gap-4 w-[450px]"
+        className="p-4 rounded-lg shadow-md flex flex-col gap-4 w-[450px]"
       >
         <div className="font-mono text-lg font-bold">
           RideFlow
@@ -65,6 +78,7 @@ const CaptainRegister = () => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="p-3 border rounded-md outline-none focus:border-blue-500 w-1/2"
+              required
             />
 
             <input
@@ -73,6 +87,7 @@ const CaptainRegister = () => {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="p-3 border rounded-md outline-none focus:border-blue-500 w-1/2"
+              required
             />
           </div>
         </div>
@@ -105,27 +120,64 @@ const CaptainRegister = () => {
           className="p-3 border rounded-md outline-none focus:border-blue-500"
         />
 
+        <div className="font-medium mt-2">Vehicle Details</div>
+
+        <div className="flex gap-2">
+          <input
+            required
+            type="text"
+            placeholder="Vehicle Color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="p-3 border rounded-md outline-none focus:border-blue-500 w-1/2"
+          />
+          <input
+            required
+            type="text"
+            placeholder="Vehicle Plate"
+            value={plate}
+            onChange={(e) => setPlate(e.target.value)}
+            className="p-3 border rounded-md outline-none focus:border-blue-500 w-1/2"
+          />
+        </div>
+
+        <div className="flex gap-2">
+          <input
+            required
+            type="number"
+            min="1"
+            placeholder="Capacity"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)}
+            className="p-3 border rounded-md outline-none focus:border-blue-500 w-1/2"
+          />
+
+          <select
+            value={vehicleType}
+            onChange={(e) => setVehicleType(e.target.value.toLowerCase())}
+            className="p-3 border rounded-md outline-none focus:border-blue-500 w-1/2"
+          >
+            <option value="car">Car</option>
+            <option value="bike">Bike</option>
+            <option value="auto">Auto</option>
+          </select>
+        </div>
+
         <button
           type="submit"
-          className="bg-black mt-4 text-white p-3 rounded-md hover:bg-gray-900"
+          disabled={loading}
+          className="bg-black mt-4 text-white p-3 rounded-md hover:bg-gray-900 disabled:opacity-60"
         >
           {loading ? "Registering..." : "Register"}
         </button>
 
         <p className="text-center">
           Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-blue-500 underline"
-          >
+          <Link to="/login" className="text-blue-500 underline">
             Login
           </Link>
         </p>
-        <div className="fixed bottom-0 left-0 w-full bg-black text-white p-4 text-center">
-          <p className="text-sm">
-            By proceeding, you agree to RideFlow's Terms of Service and Privacy Policy.
-          </p>
-        </div>
+
       </form>
     </div>
   )
