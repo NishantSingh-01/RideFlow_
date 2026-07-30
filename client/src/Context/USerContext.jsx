@@ -43,7 +43,7 @@ const UserContext = ({ children }) => {
 
         fetchUser()
     }, [])
-// console.log("cob",user)
+
 
     return (
         <AppContext.Provider value={value}>

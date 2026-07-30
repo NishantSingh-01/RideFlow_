@@ -37,9 +37,9 @@ const CaptainRegister = () => {
         `${import.meta.env.VITE_API_URL}/captain/register`,
         data
       )
-      if (response.status === 200) {
+      if (response.status === 201) {
         localStorage.setItem("Captaintoken", response.data.data.token)
-        setCaptain(response.data.data.user)
+        setCaptain(response.data.data.captain)
         navigate('/captain-home')
       }
 

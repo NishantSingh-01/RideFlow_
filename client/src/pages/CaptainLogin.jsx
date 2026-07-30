@@ -26,10 +26,10 @@ const CaptainLogin = () => {
 
       if (response.status === 200) {
         localStorage.setItem("Captaintoken", response.data.data.token)
-        setCaptain(response.data.data.user)
+        setCaptain(response.data.data.captain)
 
         navigate("/captain-home")
-        console.log("check login")
+        // console.log("check login")
         toast.success('Captain Login successful!')
         setEmail("")
         setPassword("")
