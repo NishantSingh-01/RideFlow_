@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from "axios"
+import { useContext } from 'react'
+import { CaptainContext } from '../Context/CaptainContext'
 
 const CaptainRegister = () => {
+  const {captain,setCaptain}  = useContext(CaptainContext)
+        
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -33,8 +37,12 @@ const CaptainRegister = () => {
         `${import.meta.env.VITE_API_URL}/captain/register`,
         data
       )
+      if (response.status === 200) {
+        localStorage.setItem("Captaintoken", response.data.data.token)
+        setCaptain(response.data.data.user)
+        navigate('/captain-home')
+      }
 
-      localStorage.setItem("Captaintoken", response.data.data.token)
       toast.success('Registration successful!')
       setFirstName("")
       setLastName("")
@@ -45,7 +53,8 @@ const CaptainRegister = () => {
       setCapacity("")
       setVehicleType("car")
 
-      navigate('/')
+
+
     } catch (error) {
       console.error(error)
       toast.error(

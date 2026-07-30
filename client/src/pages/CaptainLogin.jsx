@@ -3,9 +3,10 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { SocketContext } from '../Context/SocketContext'
+import { CaptainContext } from '../Context/CaptainContext'
 
 const CaptainLogin = () => {
-
+  const { captain, setCaptain } = useContext(CaptainContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -22,15 +23,13 @@ const CaptainLogin = () => {
     }
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/captain/login`, data)
-      if (response.status == 200) {
 
+      if (response.status === 200) {
         localStorage.setItem("Captaintoken", response.data.data.token)
-        // console.log(response.data.data.captain.id)
-     
+        setCaptain(response.data.data.user)
+
         navigate("/captain-home")
-
         toast.success('Captain Login successful!')
-
         setEmail("")
         setPassword("")
       }
@@ -74,7 +73,7 @@ const CaptainLogin = () => {
           id="email" required
           type="email"
           value={email}
-          onChange={(e) => setEmail(e .target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="example@gmail.com"
           className="p-3 border rounded-md outline-none focus:border-blue-500"
         />
