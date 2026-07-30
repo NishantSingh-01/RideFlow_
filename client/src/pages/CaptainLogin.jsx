@@ -29,6 +29,7 @@ const CaptainLogin = () => {
         setCaptain(response.data.data.user)
 
         navigate("/captain-home")
+        console.log("check login")
         toast.success('Captain Login successful!')
         setEmail("")
         setPassword("")
@@ -93,9 +94,10 @@ const CaptainLogin = () => {
 
         <button
           type="submit"
-          className="bg-black mt-6 text-white p-3 rounded-md hover:bg-gray-900"
+          disabled={loading}
+          className={`bg-black mt-6 text-white p-3 rounded-md hover:bg-gray-900 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          Login
+          {loading ? 'Logging in...' : 'Login'}
         </button>
         <p className='pl-2'>Create Account as Captain's <Link to='/captain-register' className='underline text-blue-400'>Sign up</Link></p>
 
