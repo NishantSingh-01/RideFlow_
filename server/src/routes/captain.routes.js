@@ -18,6 +18,6 @@ router.post(
 )
 router.get('/getcaptain',verifyCaptainJWT,getCaptain)
 router.post('/logout',logout)
-router.post('/status-captain',verifyCaptainJWT,updateStatus)
+router.put('/status-captain',verifyCaptainJWT,updateStatus)
 
 export default router

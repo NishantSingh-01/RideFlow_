@@ -37,21 +37,40 @@ const CaptainNavbar = () => {
             )
         }
     }
-    const setAvailabilty = () => {
-        setIsOnline(prev => !prev)
-        toast.success("Toggled")
+
+    const handleToggle = async () => {
+        const newStatus = !isOnline
+        setIsOnline(newStatus)
+        try {
+            const response = await axios.put(
+                `${import.meta.env.VITE_API_URL}/captain/status`,
+                {
+                    status: newStatus ? "active" : "inactive",
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("Captaintoken")}`,
+                    },
+                }
+            )
+            if (response.status === 200) {
+                toast.success('Status updated')
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to update status')
+        }
     }
     return (
         <div>
             <div className="fixed top-0 left-0 w-full flex items-center justify-between px-4 py-3 bg-black shadow-md z-10">
                 <div className='pl-2 md:pl-8'>
                     <div className='text-2xl max-sm:text-xl font-medium font-mono text-pink-100'> RideFlow</div>
-                
+
                 </div>
 
                 <div className='gap-1 md:gap-5 flex'>
                     <button
-                        onClick={setAvailabilty}
+                        onClick={handleToggle}
                         className={` max-sm:rounded-2xl  px-3 py-2 rounded-full text-sm font-medium transition ${isOnline ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'
                             }`}
                     >
