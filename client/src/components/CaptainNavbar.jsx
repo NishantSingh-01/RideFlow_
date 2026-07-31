@@ -71,10 +71,13 @@ const CaptainNavbar = () => {
                 <div className='gap-1 md:gap-5 flex'>
                     <button
                         onClick={handleToggle}
-                        className={` max-sm:rounded-2xl  px-3 py-2 rounded-full text-sm font-medium transition ${isOnline ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'
+                        className={`px-5 py-3 cursor-pointer rounded-full font-semibold shadow-md transition-all duration-300 active:scale-95
+                              ${isOnline
+                                ? "bg-emerald-500 hover:bg-emerald-600 text-white"
+                                : "bg-slate-500 hover:bg-slate-600 text-white"
                             }`}
                     >
-                        {isOnline ? 'Online' : 'Offline'}
+                        {isOnline ? "🟢 Online" : "⚫ Offline"}
                     </button>
                     <button
                         onClick={handleLogout}

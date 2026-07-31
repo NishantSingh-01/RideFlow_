@@ -96,6 +96,6 @@ export const updateCaptainLocation = async (captainId, latitude, longitude) => {
     return captainRepository.updateCaptainLocation(captainId, latitude, longitude)
 }
 
-const updateStatus = async (captainId, status) => {
+export const updateStatus = async (captainId, status) => {
     return await captainRepository.updateCaptainStatus(captainId, status)
 }
