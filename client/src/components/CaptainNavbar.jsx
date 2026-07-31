@@ -43,7 +43,7 @@ const CaptainNavbar = () => {
         setIsOnline(newStatus)
         try {
             const response = await axios.put(
-                `${import.meta.env.VITE_API_URL}/captain/status`,
+                `${import.meta.env.VITE_API_URL}/captain/status-captain`,
                 {
                     status: newStatus ? "active" : "inactive",
                 },
