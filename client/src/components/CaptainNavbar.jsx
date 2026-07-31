@@ -41,6 +41,9 @@ const CaptainNavbar = () => {
     const handleToggle = async () => {
         const newStatus = !isOnline
         setIsOnline(newStatus)
+        if (!newStatus) {
+        setRide(null)
+    }
         try {
             const response = await axios.put(
                 `${import.meta.env.VITE_API_URL}/captain/status-captain`,
@@ -77,7 +80,7 @@ const CaptainNavbar = () => {
                                 : "bg-slate-500 hover:bg-slate-600 text-white"
                             }`}
                     >
-                        {isOnline ? "🟢 Online" : "⚫ Offline"}
+                        {isOnline ? "Online" : " Offline"}
                     </button>
                     <button
                         onClick={handleLogout}
