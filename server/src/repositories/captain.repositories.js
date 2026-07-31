@@ -70,5 +70,16 @@ const getAllCaptains = async () => {
         `
     )
 }
+const updateCaptainStatus = async (captainId, status) => {
+    const query = `
+        UPDATE captains
+        SET status = $1
+        WHERE id = $2
+        RETURNING id, firstname, lastname, status;
+    `;
 
-export { createCaptain, findCaptainByEmail, findCaptainById, findNearbyCaptains, updateCaptainLocation }
+    const { rows } = await pool.query(query, [status, captainId])
+
+    return rows[0]
+}
+export { createCaptain,updateCaptainStatus, findCaptainByEmail, findCaptainById, findNearbyCaptains, updateCaptainLocation }

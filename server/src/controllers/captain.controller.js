@@ -1,6 +1,7 @@
 import asyncHandler from "../utils/asyncHandler.js"
 import * as CaptainService from '../services/captain.service.js'
 import ApiResponse from "../utils/apiresponse.js"
+import ApiError from "../utils/apierror.js"
 
 const register = asyncHandler(async (req, res) => {
     const result = await CaptainService.register(req.body)
@@ -57,4 +58,22 @@ const logout = asyncHandler(async (req, res) => {
         )
     )
 })
-export { register, login, getCaptain,logout }
+
+const updateStatus = asyncHandler(async (req, res) => {
+    const { captainId, status } = req.body
+
+    if (!['active', 'inactive'].includes(status)) {
+       throw new ApiError(400,'Invalid status')
+    }
+
+    const captain = await CaptainService.updateStatus(captainId, status)
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            captain,
+            "Captain status updated "
+        )
+    )
+})
+export { register, login, getCaptain, logout, updateStatus }

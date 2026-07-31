@@ -95,3 +95,7 @@ export const getNearbyCaptains = async (latitude, longitude, radiusInKm = 3) => 
 export const updateCaptainLocation = async (captainId, latitude, longitude) => {
     return captainRepository.updateCaptainLocation(captainId, latitude, longitude)
 }
+
+const updateStatus = async (captainId, status) => {
+    return await captainRepository.updateCaptainStatus(captainId, status)
+}

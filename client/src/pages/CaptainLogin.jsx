@@ -29,7 +29,6 @@ const CaptainLogin = () => {
         setCaptain(response.data.data.captain)
 
         navigate("/captain-home")
-        // console.log("check login")
         toast.success('Captain Login successful!')
         setEmail("")
         setPassword("")
